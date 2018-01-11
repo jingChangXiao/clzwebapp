@@ -1,0 +1,156 @@
+/*全局样式*/
+.mui-content{
+  background-color: #fcfcfc;
+}
+body{
+  background-color: #F7F8FA;
+}
+.mui-scroll-body{
+  overflow: hidden;
+}
+/* 页签部分样式 */
+.label-div{
+  text-align: center;
+  padding: 10px 0px;
+}
+.label-div-item{
+  padding: 8px 14px;
+  border-radius: 16px;
+  font-size: 14px;
+  color: #868686;
+  letter-spacing: 0;
+}
+.label-div.active .label-div-item{
+  background-image: -webkit-linear-gradient(to right, #ff7626, #ffab68);
+  background-image: linear-gradient(to right,#ff7626,#ffab68);
+  box-shadow: 0 8px 25px 0 rgba(255,160,112,0.37);
+  color: white;
+}
+/*修改mui的一些默认样式*/
+._mui-scroll-wrapper{
+  overflow: auto;
+  top: 45px;
+}
+/*审批详情中 底部按钮样式*/
+.bottom-45{
+  bottom: 50px;
+}
+.div-flex {
+  margin: auto;
+  margin: 0px 10px;
+  display: flex;
+}
+.div-flex .btn-action {
+  width: 50%;
+}
+.div-flex .btn-action:last-child {
+  margin-left: 20px;
+}
+
+/*审批详情 基本信息*/
+.list-base-information {
+  position: relative;
+  display: flex;
+  font-size: 14px;
+  border-bottom: 1px solid #e3e3e3;
+  height: 30px;
+  line-height: 30px;
+}
+.list-base-information .list-item-left {
+  display: inline-block;
+  width: 100px;
+  color: #666;
+  padding-left: 10px;
+}
+.list-base-information .list-item-right {
+  width: 100%;
+}
+
+.list-title {
+  height: 35px;
+  line-height: 35px;
+  padding-left: 10px;
+  background-color: #ddd;
+}
+/*审批详情 审批记录*/
+.list {
+  margin: 0 4px 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.listItem {
+  position: relative;
+  padding-left: 40px;
+  padding-top: 4px;
+}
+
+.listItem:before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  border-right: 1px solid #f3f3f3;
+  left: 19px;
+  z-index: 1;
+}
+
+.listItem-first:before {
+  height: 50%;
+  top: 50%;
+}
+
+.listItem-last:before {
+  height: 50%;
+}
+
+.listItem:after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  left: 16px;
+  top: 50%;
+  margin-top: -2px;
+  z-index: 1;
+}
+
+.listItem.highlight:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  background-color: #3d93fd;
+  border: 4px solid #88bdfe;
+  border-radius: 8px;
+  left: 12px;
+  -webkit-box-shadow: 0 0 0 3px #d8e9ff;
+  box-shadow: 0 0 0 3px #d8e9ff;
+  z-index: 2;
+}
+
+.listItem.highlight > .listItemContent {
+  background-color: #3d93fd;
+  color: #fff;
+}
+
+.listItem.highlight .listItemContent-date {
+  color: #fff;
+}
+
+.listItemContent {
+  padding: 10px;
+  border: 1px solid #f3f3f3;
+  border-radius: 4px;
+}
+
+.listItemContent-date {
+  color: #cacaca;
+}
