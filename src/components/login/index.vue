@@ -63,7 +63,7 @@
     width: 100%;
     border: none;
     border-bottom: 1px solid #dbdbdb;
-    background-color: #fcfcfc;
+    background-color: #F7F8FA;
     font-size: 14px;
   }
 

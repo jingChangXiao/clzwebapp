@@ -64,6 +64,8 @@
     margin: auto;
     margin: 0px 14px;
     background-color: white;
+    box-shadow: 0 8px 10px 0 rgba(0,0,0,0.05);
+    border-radius: 8px;
   }
 
   .workbench-title {
@@ -84,7 +86,9 @@
             icon: '',
             children: [
               {title: '门店管理', color: '#00c582', boxShadow: '0 8px 24px 0 rgba(0,197,130,0.20)', icon: 'icon-store', route: '/storeManageList'},
-              {title: '班别管理', color: '#fc8a5b', boxShadow: '0 8px 24px 0 rgba(252,138,91,0.20)', icon: 'icon-class', route: '/searchClassManageList'}]
+              {title: '班别管理', color: '#fc8a5b', boxShadow: '0 8px 24px 0 rgba(252,138,91,0.20)', icon: 'icon-class', route: '/searchClassManageList'},
+              {title: '商品管理', color: '#4ca0ff', boxShadow: '0 8px 24px 0 rgba(76,160,255,0.30)', icon: 'icon-commodity', route: '/productManageList'}
+            ]
           },
           {
             title: '教务',

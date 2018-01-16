@@ -24,17 +24,25 @@
       <!--</div>-->
       <refresh-scroll-cm top="86px" bottom="50px" @pullRefreshReady="pullRefreshReady" @pulldown="pulldown"
                          @pullup="pullup">
-        <div style="margin: 0px 15px;">
-          <div class="content-list-item" style="" v-for="(item, index) in list.data" @tap="goDetail(index)">
-            <div class="mui-navigate-right" href="javascript:;">
-              <span class="mui-media-object mui-pull-left mui-pull-left-flag"
-                    :class="'mui-pull-left-flag' + item.state"></span>
-              <div class="mui-media-body" style="padding-left: 58px;">
-                <span v-text="item.businessName + '-' + item.applyUserName || '测试title'" style="color:#3A444A;"></span>
-                <p class='mui-ellipsis' style="font-size: 12px;margin: 0px;">
-                  <span v-text="item.actName || '审批人'"></span>
-                  <span v-text="formatFn(item.startTime)" style="float:right;margin-right: 20px;"></span>
-                </p>
+        <div style="margin: 0px 12px;">
+          <div class="content-list-item" v-for="(item, index) in list.data" @tap="goDetail(index)">
+            <span class="list-left-flag">
+            </span>
+            <div class="mui-navigate-right" style="position: relative">
+              <div class="mui-media-body" style="padding-left: 7px;">
+                <span style="display: flex;justify-content:space-between;">
+                  <span style="color:#3A444A;font-size:16px;"
+                        v-text="item.businessName + '-' + item.applyUserName || '测试title'"></span>
+                  <span :class="'item-teachingTypeName' + item.state" v-text="getTypeName('approval_state', item.state)"
+                        style="float:right;margin-right:10px;"></span>
+                </span>
+                <div class='mui-ellipsis' style="font-size: 12px;margin-top: 8px;color: #7F7F7F;">
+                  <div>
+                    <span class="iconfont icon-user" style="font-size: 12px;"></span>
+                    <span v-text="item.actName || '审批人'"></span>
+                    <span v-text="formatFn(item.startTime)" style="margin-left: 20px;"></span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -44,26 +52,82 @@
   </div>
 </template>
 <style lang="less" rel="stylesheet/less" scoped>
-  .content-list-item {
-    margin-top: 10px;
-    box-shadow: 0 4px 10px 0 rgba(39, 52, 56, 0.17);
-    border-radius: 8px;
-    padding: 10px 14px 12px 13px;
+  .list-left-flag {
+    background-image: linear-gradient(-221deg, #FF8F2B 0%, #FF7C25 100%);
+    display: inline-block;
+    height: 100%;
+    width: 7px;
+    position:absolute;
+    left:0px;
+    top:0px;
+    border-radius: 9px 0px 0px 9px;
   }
 
-  ._mui-segmented-control-inverted {
-    border-bottom: 1px solid #e3e3e3;
+  .mui-navigate-right::after {
+    right: -10px;
+  }
+
+  .content-list-item {
+    position: relative;
+    margin-top: 12px;
+    box-shadow: 0 4px 12px 0 rgba(39, 52, 56, 0.08);
+    border-radius: 9.02px;
+    padding: 15px 20px 15px 18px;
+    background-color: white;
   }
 
   .mui-pull-left-flag {
     display: inline-block;
-    height: 42px;
-    width: 42px;
-    border: 1px solid #666;
+    height: 60px;
+    width: 60px;
     border-radius: 50%;
+  }
+
+  .item-teachingTypeName {
+    background-image: linear-gradient(-450deg, #FFAB68 0%, #FF7626 100%);
+    box-shadow: 0 4px 8px 0 rgba(255, 118, 38, 0.08);
     font-size: 12px;
-    text-align: center;
-    color: #666;
+    color: white;
+    padding: 0px 5px;
+    border-radius: 5px;
+    margin-left: 15px;
+  }
+  .item-teachingTypeName0 {
+    background-image: linear-gradient(-450deg, #FFAB68 0%, #FF7626 100%);
+    box-shadow: 0 4px 8px 0 rgba(255, 118, 38, 0.08);
+    font-size: 12px;
+    color: white;
+    padding: 0px 5px;
+    border-radius: 5px;
+    margin-left: 15px;
+  }
+  .item-teachingTypeName1 {
+    background-image: linear-gradient(-450deg, #FFAB68 0%, #FF7626 100%);
+    box-shadow: 0 4px 8px 0 rgba(255, 118, 38, 0.08);
+    font-size: 12px;
+    color: white;
+    padding: 0px 5px;
+    border-radius: 5px;
+    margin-left: 15px;
+  }
+  .item-teachingTypeName2 {
+    background-image: linear-gradient(-450deg, #FFAB68 0%, #FF7626 100%);
+    box-shadow: 0 4px 8px 0 rgba(255, 118, 38, 0.08);
+    font-size: 12px;
+    color: white;
+    padding: 0px 5px;
+    border-radius: 5px;
+    margin-left: 15px;
+  }
+
+  .item-teachingCarName {
+    background-image: linear-gradient(-450deg, #A3A3A3 0%, #515151 100%);
+    box-shadow: 0 5px 10px 0 rgba(255, 118, 38, 0.08);
+    border-radius: 5px;
+    font-size: 12px;
+    margin-left: 10px;
+    padding: 0px 5px;
+    color: white;
   }
 
   .mui-pull-left-flag0 {
@@ -124,10 +188,11 @@
           CertRefundApply: true
         },
         list: this.$store.state.process.processData,
+        getTypeNameData: this.$store.state.base.dictCacheData,
         sliderData: [
           {name: '未审批', flag: '1'},
           {name: '已审批', flag: '2'},
-          {name: '我的', flag: '3'}
+          {name: '我的流程', flag: '3'}
         ]
       }
     },
@@ -159,13 +224,20 @@
       },
       formatFn (val) {
         var date = new Date(val)
-        return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2)
+        return date.getFullYear() + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + ('0' + date.getDate()).slice(-2) + ' ' + date.getHours() + ':' + ('0' + date.getMinutes()).slice(-2)
       },
       goDetail (index) {
         if (this.routeData[this.list.data[index].type]) {
           this.$router.push('/' + this.list.data[index].type + '/' + this.list.data[index].businessKey + '/' + this.list.data[index].procInstId + '/' + this.list.data[index].taskId)
         } else {
           alert('未支持类型')
+        }
+      },
+      getTypeName (name, value) {
+        if (this.getTypeNameData.data && this.getTypeNameData.data[name]) {
+          return this.getTypeNameData.data[name][value]
+        } else {
+          return ''
         }
       }
     },

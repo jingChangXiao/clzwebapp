@@ -8,10 +8,23 @@ body{
 .mui-scroll-body{
   overflow: hidden;
 }
+/* 页签中包括下拉框部分样式 */
+.label-div-select{
+  text-align: center;
+  padding: 10px 0px;
+  font-size: 14px;
+}
+.label-div-select-item{
+  color: #868686;
+}
+.label-div-select.active .label-div-select-item{
+  color: #FF7623;
+}
+
 /* 页签部分样式 */
 .label-div{
   text-align: center;
-  padding: 10px 0px;
+  padding: 12px 0px;
 }
 .label-div-item{
   padding: 8px 14px;
@@ -48,29 +61,45 @@ body{
 }
 
 /*审批详情 基本信息*/
+.detail-content{
+  padding: 10px 10px 5px 10px;
+}
+.list-base-information-chunk{
+  box-shadow: 0 4px 12px 0 rgba(39,52,56,0.08);
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: white;
+}
 .list-base-information {
   position: relative;
   display: flex;
   font-size: 14px;
-  border-bottom: 1px solid #e3e3e3;
-  height: 30px;
-  line-height: 30px;
+  height: 50px;
+  line-height: 50px;
+  background-color:white;
+  padding: 0px 10px;
+  justify-content: space-between;
+}
+.list-base-information:not(:last-child) {
+  border-bottom: 1px solid #eee;
 }
 .list-base-information .list-item-left {
   display: inline-block;
-  width: 100px;
-  color: #666;
-  padding-left: 10px;
+  color: #333;
 }
 .list-base-information .list-item-right {
-  width: 100%;
+  text-align: right;
+  color: #666;
 }
 
 .list-title {
-  height: 35px;
-  line-height: 35px;
-  padding-left: 10px;
-  background-color: #ddd;
+  height: 30px;
+  line-height: 25px;
+  color:#666;
+  background-color: #f7f8fa;
+  font-size: 14px;
+
 }
 /*审批详情 审批记录*/
 .list {

@@ -6,6 +6,10 @@ import login from '../components/login/index.vue'
 import userDetail from '../components/home/user-detail.vue'
 import version from '../components/home/version.vue'
 import editPassword from '../components/home/edit-password.vue'
+// 商品管理 productManageList
+import productManageList from '../components/product-manage/index.vue'
+import productManageListSearch from '../components/product-manage/search.vue'
+import productManageDetail from '../components/product-manage/detail.vue'
 // 门店管理
 import storeManageList from '../components/store-Manage/index.vue'
 import storeManageListSearch from '../components/store-Manage/search.vue'
@@ -98,6 +102,18 @@ export default new Router({
     {
       path: '/storeManageListSearch',
       component: storeManageListSearch
+    },
+    {
+      path: '/productManageList',
+      component: productManageList
+    },
+    {
+      path: '/productManageDetail/:id',
+      component: productManageDetail
+    },
+    {
+      path: '/productManageListSearch',
+      component: productManageListSearch
     },
     {
       path: '/coachManageList',

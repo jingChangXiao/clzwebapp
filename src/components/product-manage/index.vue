@@ -1,5 +1,5 @@
 /**
-* @file 门店管理
+* @file 商品管理
 * @author Leo
 * @date 2017/12/19
 */
@@ -7,7 +7,7 @@
   <div>
     <header class="mui-bar mui-bar-nav">
       <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-      <h1 class="mui-title">学员管理</h1>
+      <h1 class="mui-title">商品管理</h1>
       <a class="mui-icon mui-icon-search mui-pull-right" @tap="goSearch"></a>
     </header>
     <div class="mui-content">
@@ -16,14 +16,14 @@
           <div class="mui-col-sm-4 mui-col-xs-4 label-div-select" :class="selectFlag === 'selectArea' ? 'active' : ''"
                @tap="selectArea('selectArea')">
             <span class="label-div-select-item">
-              <span>学车进度</span>
+              <span>商品属性</span>
               <span class="mui-icon mui-icon-arrowdown" style="font-size:12px;"></span>
             </span>
           </div>
           <div class="mui-col-sm-4 mui-col-xs-4 label-div-select" :class="selectFlag === 'selectState' ? 'active' : ''"
                @tap="selectState('selectState')">
             <span class="label-div-select-item">
-              <span>门店</span>
+              <span>状态</span>
               <span class="mui-icon mui-icon-arrowdown" style="font-size:12px;"></span>
             </span>
           </div>
@@ -39,33 +39,22 @@
         <div style="margin: 0px 12px;">
           <div class="content-list-item" v-for="(item, index) in list.data" @tap="goDetail(index)">
             <div class="mui-navigate-right" style="position: relative">
-              <div class="mui-media-body" style="padding-left: 0px;">
+              <div class="content-list-right">
+                <div class="price" v-text="'¥ ' + item.price"></div>
+                <div class="specs" v-text="item.goodsUnitName"></div>
+              </div>
+              <div class="mui-media-body" style="padding-left: 22px;">
                 <span style="display: flex;">
-                  <span style="color:#3A444A;font-size:16px;" v-text="item.userName"></span>
-                  <span class="item-teachingTypeName" v-text="getTypeName('learn_driver_progress', item.learnDriverProgress)"></span>
-                  <span class="item-teachingCarName" v-text="item.modelCar"></span>
+                  <span style="color:#3A444A;font-size:16px;" v-text="item.goodsName"></span>
                 </span>
                 <div class='mui-ellipsis' style="font-size: 12px;margin-top: 8px;color: #7F7F7F;">
-                  <div class="mui-row">
-                    <div class="mui-col-sm-7 mui-col-xs-7">
-                      <div>
-                        受理编号：<span v-text="item.acceptNum"></span>
-                      </div>
-                      <div>
-                        所在片区：<span v-text="getMapName(item.areaId)"></span>
-                      </div>
-                    </div>
-                    <div class="mui-col-sm-5 mui-col-xs-5">
-                      <div>
-                        客服：<span v-text="item.customerServiceName"></span>
-                      </div>
-                      <div>
-                        教练：<span v-text="item.coachName"></span>
-                      </div>
-                    </div>
+                  <div>
+                    商品编号：<span v-text="item.goodsCode"></span>
+                  </div>
+                  <div>
+                    商品属性：<span v-text="getTypeName('market_goods_attribute', item.attribute)"></span>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -75,6 +64,25 @@
   </div>
 </template>
 <style lang="less" rel="stylesheet/less" scoped>
+  .content-list-right{
+    position: absolute;
+    right:0px;
+    height:100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction:column;
+    justify-content: center;
+    margin-right: 10px;
+    .price{
+      color:#FF7323;
+      font-size: 18px;
+    }
+    .specs{
+      font-size: 12px;
+      color: #7F7F7F;
+    }
+  }
   .mui-navigate-right::after {
     right: -10px;
   }
@@ -120,11 +128,9 @@
   export default{
     data () {
       return {
-        imgSrc: './static/img/user_img_m.png',
         selectFlag: 'selectArea',
-        list: this.$store.state.workList.classList,
         getTypeNameData: this.$store.state.base.dictCacheData,
-        loadOrgCache: this.$store.state.base.loadOrgCache
+        list: this.$store.state.workList.productList
       }
     },
     computed: {},
@@ -146,10 +152,10 @@
         refreshScroll.listLoadMore(this.list)
       },
       goSearch () {
-        this.$router.push('./carManageListSearch')
+        this.$router.push('./productManageListSearch')
       },
       goDetail (index) {
-        this.$router.push('/classManageDetail/' + this.list.data[index].id)
+        this.$router.push('/productManageDetail/' + this.list.data[index].id)
       },
       selectArea (flag) {
         this.selectFlag = flag
@@ -163,13 +169,6 @@
       getTypeName (name, value) {
         if (this.getTypeNameData.data && this.getTypeNameData.data[name]) {
           return this.getTypeNameData.data[name][value]
-        } else {
-          return ''
-        }
-      },
-      getMapName (value) {
-        if (this.loadOrgCache.data.orgMap) {
-          return this.loadOrgCache.data.orgMap[value]
         } else {
           return ''
         }

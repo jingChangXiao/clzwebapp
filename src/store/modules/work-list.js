@@ -74,6 +74,21 @@ const state = {
     hasmore: true,
     scroll: {},
     type: 'POST'
+  },
+  // 商品管理
+  productList: {
+    data: [],
+    searchObject: {
+      p: 1,
+      s: 10,
+      areaId: '',
+      areaIdName: ''
+    },
+    url: APIS.productManage.searchGoodsList,
+    isEmpty: false,
+    hasmore: true,
+    scroll: {},
+    type: 'POST'
   }
 }
 const getters = {}

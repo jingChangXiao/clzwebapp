@@ -10,6 +10,7 @@ import {carManage} from './api-config/car-manage'
 import {findCertServiceInfoPageList} from './api-config/class-manage'
 import {searchClassManage} from './api-config/search-class-manage'
 import {processCenter} from './api-config/process-center'
+import {productManage} from './api-config/product-manage'
 let APIS = {
   /**
    * @author Leo
@@ -39,6 +40,11 @@ let APIS = {
    * @name 车辆功能的所有接口配置
    **/
   carManage,
+  /**
+   * @author Leo
+   * @name 商品功能的所有接口配置
+   **/
+  productManage,
   /**
    * @author Leo
    * @name 学员功能的所有接口配置

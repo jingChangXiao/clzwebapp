@@ -9,7 +9,7 @@
       <img :src="url" style="width: 100%">
       <div class="user-header">
         <span class="user-setting mui-icon mui-icon-gear"></span>
-        <img :src="getPhoto(userDetail.data.photo)" @error="imgOnerror($event)" @tap="goRoueter('/userDetail')">
+        <img :src="getPhoto(userDetail.data.photo)" @error="imgOnerror($event)" @tap="goRoueter('/userDetail')" class="photo-img">
         <p>
           <span v-text="userDetail.data.name"></span>
           <span v-text="userDetail.data.positionName"></span>
@@ -49,6 +49,10 @@
   </div>
 </template>
 <style lang="less" rel="stylesheet/less" scoped>
+  .photo-img{
+    box-shadow: 0 8px 22px 0 rgba(48,57,61,0.05);
+    border: 1px solid #F8833D;
+  }
   .demo-flat-button {
     height: 45px;
     line-height:45px;
