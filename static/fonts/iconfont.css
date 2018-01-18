@@ -1,8 +1,6 @@
 
 @font-face {font-family: "iconfont";
-  /*src: url('iconfont.eot?t=1515551510678'); !* IE9*!*/
-  src: url('iconfont.ttf?t=1515551510678') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  /*url('iconfont.svg?t=1515551510678#iconfont') format('svg'); !* iOS 4.1- *!*/
+  src: url('iconfont.ttf?t=1516238150513') format('truetype') /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
 }
 
 .iconfont {
@@ -74,4 +72,18 @@
 .icon-training_course:before { content: "\e6b9"; }
 
 .icon-version:before { content: "\e6ba"; }
+
+.icon-home_f:before { content: "\e6bb"; }
+
+.icon-check_box-f:before { content: "\e6bc"; }
+
+.icon-check_box:before { content: "\e6bd"; }
+
+.icon-stop:before { content: "\e6be"; }
+
+.icon-tick:before { content: "\e6bf"; }
+
+.icon-arrow_right:before { content: "\e6c0"; }
+
+.icon-tick_outline:before { content: "\e6c1"; }
 

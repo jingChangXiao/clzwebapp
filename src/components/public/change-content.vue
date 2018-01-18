@@ -4,16 +4,16 @@
 * @date 2017/03/02
 */
 <template>
-  <div>
-    <div class="change-flex">
-      <div class="change-flex-item">变更名称</div>
-      <div class="change-flex-item">变更前</div>
-      <div class="change-flex-item">变更后</div>
+  <div class="list-base-information-chunk">
+    <div class="change-flex mui-row-list table-font-title">
+      <div class="change-flex-item table-font">变更名称</div>
+      <div class="change-flex-item table-font">变更前</div>
+      <div class="change-flex-item table-font">变更后</div>
     </div>
-    <div class="change-flex" v-for="item in list">
-      <div class="change-flex-item" v-text="item.name"></div>
-      <div class="change-flex-item" v-text="item.oldContent"></div>
-      <div class="change-flex-item" v-text="item.newContent"></div>
+    <div class="change-flex mui-row-list table-font-content" v-for="item in list">
+      <div class="change-flex-item table-font" v-text="item.name"></div>
+      <div class="change-flex-item table-font" v-text="item.oldContent"></div>
+      <div class="change-flex-item table-font" v-text="item.newContent"></div>
     </div>
   </div>
 </template>

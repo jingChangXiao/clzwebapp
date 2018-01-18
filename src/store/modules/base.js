@@ -2,6 +2,11 @@ import {api} from '@/assets/js/api'
 import {APIS} from '@/assets/js/config'
 import * as types from '../mutation-types'
 const state = {
+  appName: '喱喱驾校',
+  loading: {
+    isClose: true,
+    flag: false
+  },
   menu: {
     selectHomeMenu: '/home/message'
   },
@@ -15,6 +20,9 @@ const state = {
 const getters = {
 }
 const mutations = {
+  [types.SET_LOADING_FLAG] (state, data) {
+    state.loading.flag = data
+  },
   [types.SET_HOME_MENU_FLAG] (state, data) {
     state.menu.selectHomeMenu = data
   },

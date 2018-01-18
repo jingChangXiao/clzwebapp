@@ -1,17 +1,29 @@
 <template>
+  <div>
     <router-view/>
+    <loading v-show="loading.flag"></loading>
+  </div>
 </template>
 
 <script>
   import {mapActions} from 'vuex'
+  import loading from '@/components/public/loading.vue'
   export default {
     name: 'app',
+    data () {
+      return {
+        loading: this.$store.state.base.loading
+      }
+    },
     methods: {
       ...mapActions([
         'ACTION_LOGIN',
         'ACTION_GET_LOAD_DICT_CACHE',
         'ACTION_GET_LOAD_ORG_CACHE'
       ])
+    },
+    components: {
+      loading
     },
     mounted () {
 //      this.ACTION_GET_LOAD_DICT_CACHE()

@@ -7090,6 +7090,7 @@ Function.prototype.bind = Function.prototype.bind || function (to) {
   var CLASS_POPUP_TITLE = 'mui-popup-title';
   var CLASS_POPUP_TEXT = 'mui-popup-text';
   var CLASS_POPUP_INPUT = 'mui-popup-input';
+  var CLASS_POPUP_TEXT_AREA = 'mui-popup-input-textarea'
   var CLASS_POPUP_BUTTONS = 'mui-popup-buttons';
   var CLASS_POPUP_BUTTON = 'mui-popup-button';
   var CLASS_POPUP_BUTTON_BOLD = 'mui-popup-button-bold';
@@ -7111,6 +7112,9 @@ Function.prototype.bind = Function.prototype.bind || function (to) {
 
   var createInput = function (placeholder) {
     return '<div class="' + CLASS_POPUP_INPUT + '"><input type="text" autofocus placeholder="' + (placeholder || '') + '"/></div>';
+  };
+  var createTextArea = function (placeholder) {
+    return '<div class="' + CLASS_POPUP_TEXT_AREA + '"><textarea type="text" autofocus placeholder="' + (placeholder || '') + '"></textarea></div>';
   };
   var createInner = function (message, title, extra) {
     return '<div class="' + CLASS_POPUP_INNER + '"><div class="' + CLASS_POPUP_TITLE + '">' + title + '</div><div class="' + CLASS_POPUP_TEXT + '">' + message.replace(/\r\n/g, "<br/>").replace(/\n/g, "<br/>") + '</div>' + (extra || '') + '</div>';
@@ -7256,6 +7260,10 @@ Function.prototype.bind = Function.prototype.bind || function (to) {
         callback = btnArray;
         btnArray = null;
       }
+    }
+    // 刘勇 拓展确认意见框 textArea
+    if (type === 'textArea') {
+      return createPopup(createInner(message, title || '提示', createTextArea(placeholder)) + createButtons(btnArray || ['取消', '确认']), callback);
     }
     if (!$.os.plus || type === 'div') {
       return createPopup(createInner(message, title || '提示', createInput(placeholder)) + createButtons(btnArray || ['取消', '确认']), callback);

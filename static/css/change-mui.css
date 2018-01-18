@@ -1,3 +1,30 @@
 .mui-bar-tab .mui-tab-item.mui-active {
   color: #FF7626;
 }
+
+.mui-action-back{
+  color: gray;
+}
+
+/*修改弹出框样式*/
+.mui-popup{
+  border-radius: 10px;
+  background-color:white;
+  top: 40%;
+}
+.mui-popup-inner{
+  background: none;
+  border-radius: inherit;
+}
+.mui-popup-input-textarea textarea{
+  border: none;
+  font-size: 14px;
+  color: #999;
+}
+.mui-popup-button:first-child{
+  border-right: 1px solid #e5e5e5;
+  color: #666;
+}
+.mui-popup-button:last-child{
+  color: #FF7323;
+}

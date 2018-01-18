@@ -85,13 +85,14 @@
 </style>
 <script>
   import {mapActions} from 'vuex'
+  import * as types from '@/store/mutation-types'
   export default{
     data () {
       return {
         checkFlag: true,
         loginLogo: './static/img/logo.png',
         loginParam: {
-          username: '13510142956',
+          username: '13600407213',
           password: '123456'
         }
       }
@@ -107,12 +108,16 @@
         this.checkFlag = !this.checkFlag
       },
       login () {
+        this.$store.commit(types.SET_LOADING_FLAG, true)
         this.ACTION_LOGIN(this.loginParam).then((data) => {
           if (data && data.access_token) {
-            this.ACTION_GET_LOAD_DICT_CACHE()
-            this.ACTION_GET_LOAD_ORG_CACHE()
             window.localStorage.setItem('__ACCESS_TOKEN', data.access_token)
-            this.$router.push('/home/message')
+            Promise.all([this.ACTION_GET_LOAD_DICT_CACHE(), this.ACTION_GET_LOAD_ORG_CACHE()]).then((a, b, c) => {
+              this.$router.push('/home/message')
+              this.$store.commit(types.SET_LOADING_FLAG, false)
+            })
+          } else {
+            this.$store.commit(types.SET_LOADING_FLAG, false)
           }
         })
       },

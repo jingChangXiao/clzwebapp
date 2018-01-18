@@ -12,15 +12,21 @@
     <div class="mui-content">
       <div class="mui-scroll-wrapper _mui-scroll-wrapper">
         <div class="mui-scroll">
-          <div>
-            <div>
-              <div v-text="'车牌号' + detail.data.plateNumber"></div>
-              <div v-text="'原车牌号' + detail.data.oldPlateNumber"></div>
-            </div>
-            <div class="list-title">
-              基本信息
-            </div>
-            <div>
+          <div class="detail-content">
+            <div class="list-base-information-chunk">
+              <div class="mui-media-body" style="padding:15px 20px;border-bottom: 1px dashed #ccc">
+                <span style="display: flex;">
+                  <span style="color:#3A444A;font-size:16px;font-weight: 600" v-text="detail.data.plateNumber"></span>
+                  <span class="item-teachingTypeName" v-text="detail.data.usePropertiesName"></span>
+                  <span class="item-teachingCarName" v-text="detail.data.carStyle"></span>
+                </span>
+                <div class='mui-ellipsis' style="font-size: 12px;margin-top: 8px;color: #7F7F7F;">
+                  <div>
+                    <span v-text="'原车牌号：' + detail.data.oldPlateNumber"></span>
+                  </div>
+                </div>
+              </div>
+
               <div class="list-base-information" v-for="item in tableItemsBase">
                 <div class="list-item-left" v-text="item.label"></div>
                 <div class="list-item-right" v-text="detail.data[item.name]"></div>
@@ -37,7 +43,7 @@
             <div class="list-title">
               使用信息
             </div>
-            <div>
+            <div class="list-base-information-chunk">
               <div class="list-base-information" v-for="item in tableItemsUse">
                 <div class="list-item-left" v-text="item.label"></div>
                 <div class="list-item-right" v-text="detail.data[item.name]"></div>
@@ -58,7 +64,7 @@
             <div class="list-title">
               其他信息
             </div>
-            <div>
+            <div class="list-base-information-chunk">
               <div class="list-base-information" v-for="item in tableItemsOther">
                 <div class="list-item-left" v-text="item.label"></div>
                 <div class="list-item-right" v-text="detail.data[item.name]"></div>
@@ -103,6 +109,25 @@
   </div>
 </template>
 <style lang='less' rel='stylesheet.less' scoped>
+  .item-teachingTypeName {
+    background-image: linear-gradient(-450deg, #FFAB68 0%, #FF7626 100%);
+    box-shadow: 0 4px 8px 0 rgba(255, 118, 38, 0.08);
+    font-size: 12px;
+    color: white;
+    padding: 0px 5px;
+    border-radius: 5px;
+    margin-left: 15px;
+  }
+
+  .item-teachingCarName {
+    background-image: linear-gradient(-450deg, #A3A3A3 0%, #515151 100%);
+    box-shadow: 0 5px 10px 0 rgba(255, 118, 38, 0.08);
+    border-radius: 5px;
+    font-size: 12px;
+    margin-left: 10px;
+    padding: 0px 5px;
+    color: white;
+  }
 </style>
 <script>
   import {api} from '@/assets/js/api'

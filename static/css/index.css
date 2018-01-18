@@ -49,15 +49,24 @@ body{
   bottom: 50px;
 }
 .div-flex {
-  margin: auto;
-  margin: 0px 10px;
   display: flex;
+  justify-items: center;
+  margin: 10px auto;
 }
 .div-flex .btn-action {
   width: 50%;
+  text-align: center;
+  line-height: 30px;
 }
+.div-flex .btn-action:first-child {
+  font-size: 16px;
+  color: #41BDC7;
+  border-right: 1px dashed #dbdbdb;
+}
+
 .div-flex .btn-action:last-child {
-  margin-left: 20px;
+  ont-size: 16px;
+  color: #FF7323;
 }
 
 /*审批详情 基本信息*/
@@ -75,9 +84,7 @@ body{
   position: relative;
   display: flex;
   font-size: 14px;
-  height: 50px;
   line-height: 50px;
-  background-color:white;
   padding: 0px 10px;
   justify-content: space-between;
 }
@@ -92,6 +99,10 @@ body{
   text-align: right;
   color: #666;
 }
+.list-base-information .list-item-right div{
+  max-width: 200px;
+  overflow: hidden;
+}
 
 .list-title {
   height: 30px;
@@ -99,87 +110,27 @@ body{
   color:#666;
   background-color: #f7f8fa;
   font-size: 14px;
-
-}
-/*审批详情 审批记录*/
-.list {
-  margin: 0 4px 0;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 
-.listItem {
-  position: relative;
-  padding-left: 40px;
-  padding-top: 4px;
+/* 表格样式 */
+.table-font{
+  padding: 14px 05px;
+  text-align: center;
+  word-wrap:break-word ;
+}
+.table-font-title{
+  color: #333;
+  font-size: 14px;
+  background-color:#F9EADE;
+}
+.table-font-content{
+  color: #666;
+  font-size: 12px;
+}
+.table-font-content:nth-child(odd){
+  background-color:#F9F9F9;
 }
 
-.listItem:before {
-  content: "";
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 1px;
-  height: 100%;
-  border-right: 1px solid #f3f3f3;
-  left: 19px;
-  z-index: 1;
-}
-
-.listItem-first:before {
-  height: 50%;
-  top: 50%;
-}
-
-.listItem-last:before {
-  height: 50%;
-}
-
-.listItem:after {
-  content: "";
-  display: inline-block;
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background-color: #e0e0e0;
-  border-radius: 4px;
-  left: 16px;
-  top: 50%;
-  margin-top: -2px;
-  z-index: 1;
-}
-
-.listItem.highlight:after {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  width: 16px;
-  height: 16px;
-  background-color: #3d93fd;
-  border: 4px solid #88bdfe;
-  border-radius: 8px;
-  left: 12px;
-  -webkit-box-shadow: 0 0 0 3px #d8e9ff;
-  box-shadow: 0 0 0 3px #d8e9ff;
-  z-index: 2;
-}
-
-.listItem.highlight > .listItemContent {
-  background-color: #3d93fd;
-  color: #fff;
-}
-
-.listItem.highlight .listItemContent-date {
-  color: #fff;
-}
-
-.listItemContent {
-  padding: 10px;
-  border: 1px solid #f3f3f3;
-  border-radius: 4px;
-}
-
-.listItemContent-date {
-  color: #cacaca;
+.mui-row-list{
+  /*border-bottom: 1px solid #eee;*/
 }

@@ -6,15 +6,15 @@
 <template>
   <div>
     <header class="mui-bar mui-bar-nav">
-      <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+      <a class="mui-action-back mui-icon mui-pull-left iconfont icon-arrow_left"></a>
       <h1 class="mui-title">考试成绩变更</h1>
     </header>
     <div class="mui-content">
       <div class="mui-scroll-wrapper _mui-scroll-wrapper" :class="detail.processState ? 'bottom-45' : ''">
         <div class="mui-scroll">
-          <div>
+          <div class="detail-content">
             <div class="list-title">基本信息</div>
-            <div>
+            <div class="list-base-information-chunk">
               <div class="list-base-information" v-for="item in tableItems">
                 <div class="list-item-left" v-text="item.label"></div>
                 <div class="list-item-right" v-text="detail.info[item.name]"></div>
@@ -27,41 +27,14 @@
             <div class="list-title">变更内容</div>
             <change-content :list="changeList"></change-content>
             <div class="list-title">审批记录</div>
-            <div>
-              <div class="list">
-                <div class="listItem listItem-first highlight"
-                     v-for="item in detail.processList">
-                  <template v-if="item.action !== null">
-                    <div class="listItemContent">
-                      <div class="listItemContent-date">
-                        <span v-text="item.action === '1' ? '同意' : '拒绝'"></span>
-                        <span v-text="item.assigneeName"></span>
-                        <span v-text="formatFn(item.endTime)" style="float:right;"></span>
-                      </div>
-                      <div class="listItemContent-content" v-text="item.message || '暂无意见'"></div>
-                    </div>
-                  </template>
-                  <template v-if="item.action === null">
-                    <div class="listItemContent">
-                      <div class="listItemContent-date">
-                        <span v-text="'待审核'"></span>
-                        <span v-text="item.assigneeName"></span>
-                      </div>
-                    </div>
-                  </template>
-                </div>
-              </div>
+            <div class="list-base-information-chunk">
+              <process-record-list :list="detail.processList"></process-record-list>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <nav class="mui-bar mui-bar-tab" v-show="detail.processState">
-      <div style="display: flex" class="div-flex">
-        <button type="button" class="mui-btn mui-btn-primary btn-action" @tap="save(1)">同意</button>
-        <button type="button" class="mui-btn mui-btn-danger btn-action" @tap="save(0)">拒绝</button>
-      </div>
-    </nav>
+    <process-action @action="save" v-show="detail.processState"></process-action>
   </div>
 </template>
 <style lang="less" rel="stylesheet/less" scoped>
@@ -71,6 +44,8 @@
   import {api} from '@/assets/js/api'
   import {APIS} from '@/assets/js/config'
   import changeContent from '@/components/public/change-content.vue'
+  import processAction from '@/components/public/process/action.vue'
+  import processRecordList from '@/components/public/process/process-record-list.vue'
   export default{
     data () {
       return {
@@ -89,7 +64,9 @@
       }
     },
     components: {
-      changeContent
+      changeContent,
+      processAction,
+      processRecordList
     },
     computed: {
       changeList () {
@@ -117,7 +94,7 @@
         let self = this
         let btnArray = ['取消', '确定']
         let titleMsg = flag ? '请输入同意审批意见：' : '请输入拒绝审批意见：'
-        mui.prompt(titleMsg, '审批意见', '云驾培', btnArray, e => {
+        mui.prompt('', titleMsg, this.$store.state.base.appName, btnArray, e => {
           console.log(e)
           if (e.index === 1) {
             let param = {
@@ -139,8 +116,7 @@
           } else {
             console.log('---取消')
           }
-        })
-        console.log(flag)
+        }, 'textArea')
       },
       formatFn (val) {
         var date = new Date(val)
@@ -191,7 +167,6 @@
     },
     mounted: function () {
       this.getDetail()
-      console.log(this.getTypeNameData)
     }
   }
 </script>

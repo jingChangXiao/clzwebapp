@@ -34,7 +34,7 @@
                   <span style="color:#3A444A;font-size:16px;"
                         v-text="item.businessName + '-' + item.applyUserName || '测试title'"></span>
                   <span :class="'item-teachingTypeName' + item.state" v-text="getTypeName('approval_state', item.state)"
-                        style="float:right;margin-right:10px;"></span>
+                        style="float:right;margin-right:10px;min-width:48px;text-align: center;height:20px;"></span>
                 </span>
                 <div class='mui-ellipsis' style="font-size: 12px;margin-top: 8px;color: #7F7F7F;">
                   <div>
@@ -102,7 +102,7 @@
     margin-left: 15px;
   }
   .item-teachingTypeName1 {
-    background-image: linear-gradient(-450deg, #FFAB68 0%, #FF7626 100%);
+    background-image: linear-gradient(-450deg, #86CE78 0%, #86CE78 100%);
     box-shadow: 0 4px 8px 0 rgba(255, 118, 38, 0.08);
     font-size: 12px;
     color: white;
@@ -111,7 +111,16 @@
     margin-left: 15px;
   }
   .item-teachingTypeName2 {
-    background-image: linear-gradient(-450deg, #FFAB68 0%, #FF7626 100%);
+    background-image: linear-gradient(-450deg, #F7776A 0%, #EC2D1A 100%);
+    box-shadow: 0 4px 8px 0 rgba(255, 118, 38, 0.08);
+    font-size: 12px;
+    color: white;
+    padding: 0px 5px;
+    border-radius: 5px;
+    margin-left: 15px;
+  }
+  .item-teachingTypeName3 {
+    background-image: linear-gradient(-450deg, #C5C5C5 0%, #686868 100%);
     box-shadow: 0 4px 8px 0 rgba(255, 118, 38, 0.08);
     font-size: 12px;
     color: white;

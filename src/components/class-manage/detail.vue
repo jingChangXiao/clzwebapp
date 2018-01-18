@@ -12,14 +12,26 @@
     <div class="mui-content">
       <div class="mui-scroll-wrapper _mui-scroll-wrapper">
         <div class="mui-scroll">
-          <div>
-            <div>
-              <div v-text="detail.data.userName"></div>
-            </div>
-            <div class="list-title">
-              基本信息
-            </div>
-            <div>
+          <div class="detail-content">
+            <div class="list-base-information-chunk">
+              <div class="base-top-user" style="position: relative">
+                <span class="mui-media-object mui-pull-left mui-pull-left-flag">
+                  <img :src="imgSrc" width="100%">
+                </span>
+                <div class="mui-media-body" style="padding-left: 60px;">
+                <span style="display: flex;">
+                  <span style="color:#3A444A;font-size:16px;" v-text="detail.data.className"></span>
+                  <span class="item-teachingTypeName" v-text="getTypeName('learn_driver_progress', detail.data.learnDriverProgress)"></span>
+                  <span class="item-teachingCarName" v-text="detail.data.modelCar"></span>
+                </span>
+                  <div class='mui-ellipsis' style="font-size: 12px;margin-top: 8px;color: #7F7F7F;">
+                    <div>
+                      电话：<span v-text="detail.data.phone"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div class="list-base-information" v-for="item in tableItemsBase">
                 <div class="list-item-left" v-text="item.label"></div>
                 <div class="list-item-right" v-text="detail.data[item.name]"></div>
@@ -34,95 +46,98 @@
               </div>
             </div>
 
-            <div>
+            <div class="list-base-information-chunk">
               <div class="mui-row">
-                <div class="mui-col-sm-4 mui-col-xs-4" style="text-align: center" @tap="changeFlag(0)">
-                  办证记录
+                <div class="mui-col-sm-4 mui-col-xs-4 label-div" :class="showFlag === 0 ? 'active' : ''" style="text-align: center" @tap="changeFlag(0)">
+                  <span class="label-div-item">办证记录</span>
+
                 </div>
-                <div class="mui-col-sm-4 mui-col-xs-4" style="text-align: center" @tap="changeFlag(1)">
-                  订单记录
+                <div class="mui-col-sm-4 mui-col-xs-4 label-div" :class="showFlag === 1 ? 'active' : ''" style="text-align: center" @tap="changeFlag(1)">
+                  <span class="label-div-item">订单记录</span>
+
                 </div>
-                <div class="mui-col-sm-4 mui-col-xs-4" style="text-align: center" @tap="changeFlag(2)">
-                  商品及核销记录
-                </div>
-              </div>
-            </div>
-            <div>
-              <div v-show="showFlag === 0">
-                <div class="mui-row">
-                  <div class="mui-col-sm-4 mui-col-xs-4">
-                    批次号
-                  </div>
-                  <div class="mui-col-sm-3 mui-col-xs-3">
-                    科目
-                  </div>
-                  <div class="mui-col-sm-2 mui-col-xs-2">
-                    状态
-                  </div>
-                  <div class="mui-col-sm-3 mui-col-xs-3">
-                    日期
-                  </div>
-                </div>
-                <div class="mui-row" v-for="item in certStudentAllProjectDetail.data">
-                  <div class="mui-col-sm-4 mui-col-xs-4" v-text="item.batchNum">
-                  </div>
-                  <div class="mui-col-sm-3 mui-col-xs-3" v-text="item.certProjectName">
-                  </div>
-                  <div class="mui-col-sm-2 mui-col-xs-2" v-text="item.stateDescribe">
-                  </div>
-                  <div class="mui-col-sm-3 mui-col-xs-3" v-text="formatFn(item.createdAt)">
-                  </div>
+                <div class="mui-col-sm-4 mui-col-xs-4 label-div" :class="showFlag === 2 ? 'active' : ''" style="text-align: center" @tap="changeFlag(2)">
+                  <span class="label-div-item">核销记录</span>
+
                 </div>
               </div>
-              <div v-show="showFlag === 1">
-                <div class="mui-row">
-                  <div class="mui-col-sm-4 mui-col-xs-4">
-                    订单号
+              <div>
+                <div v-show="showFlag === 0">
+                  <div class="mui-row mui-row-list table-font-title">
+                    <div class="mui-col-sm-4 mui-col-xs-4 table-font">
+                      批次号
+                    </div>
+                    <div class="mui-col-sm-3 mui-col-xs-3 table-font">
+                      科目
+                    </div>
+                    <div class="mui-col-sm-2 mui-col-xs-2 table-font">
+                      状态
+                    </div>
+                    <div class="mui-col-sm-3 mui-col-xs-3 table-font">
+                      日期
+                    </div>
                   </div>
-                  <div class="mui-col-sm-3 mui-col-xs-3">
-                    金额
-                  </div>
-                  <div class="mui-col-sm-2 mui-col-xs-2">
-                    订单状态
-                  </div>
-                  <div class="mui-col-sm-3 mui-col-xs-3">
-                    下单日期
-                  </div>
-                </div>
-                <div class="mui-row" v-for="item in searchMarketOrderList.data">
-                  <div class="mui-col-sm-4 mui-col-xs-4" v-text="item.orderNo">
-                  </div>
-                  <div class="mui-col-sm-3 mui-col-xs-3" v-text="item.orderAmount">
-                  </div>
-                  <div class="mui-col-sm-2 mui-col-xs-2" v-text="getTypeName('order_status', item.orderStatus)">
-                  </div>
-                  <div class="mui-col-sm-3 mui-col-xs-3" v-text="formatFn(item.orderTime)">
-                  </div>
-                </div>
-              </div>
-              <div v-show="showFlag === 2">
-                <div class="mui-row">
-                  <div class="mui-col-sm-4 mui-col-xs-4">
-                    商品名称
-                  </div>
-                  <div class="mui-col-sm-3 mui-col-xs-3">
-                    单价
-                  </div>
-                  <div class="mui-col-sm-2 mui-col-xs-2">
-                    使用状态
-                  </div>
-                  <div class="mui-col-sm-3 mui-col-xs-3">
-                    使用日期
+                  <div class="mui-row mui-row-list table-font-content" v-for="item in certStudentAllProjectDetail.data">
+                    <div class="mui-col-sm-4 mui-col-xs-4 table-font" v-text="item.batchNum">
+                    </div>
+                    <div class="mui-col-sm-3 mui-col-xs-3 table-font" v-text="item.certProjectName">
+                    </div>
+                    <div class="mui-col-sm-2 mui-col-xs-2 table-font" v-text="item.stateDescribe">
+                    </div>
+                    <div class="mui-col-sm-3 mui-col-xs-3 table-font" v-text="formatFn(item.createdAt)">
+                    </div>
                   </div>
                 </div>
-                <div class="mui-row" v-for="item in certServiceDetail.data">
-                  <div class="mui-col-sm-4 mui-col-xs-4" v-text="item.goodsName">
+                <div v-show="showFlag === 1">
+                  <div class="mui-row mui-row-list table-font-title">
+                    <div class="mui-col-sm-4 mui-col-xs-4 table-font">
+                      订单号
+                    </div>
+                    <div class="mui-col-sm-3 mui-col-xs-3 table-font">
+                      金额
+                    </div>
+                    <div class="mui-col-sm-2 mui-col-xs-2 table-font">
+                      状态
+                    </div>
+                    <div class="mui-col-sm-3 mui-col-xs-3 table-font">
+                      下单日期
+                    </div>
                   </div>
-                  <div class="mui-col-sm-3 mui-col-xs-3" v-text="item.price">
+                  <div class="mui-row mui-row-list table-font-content" v-for="item in searchMarketOrderList.data">
+                    <div class="mui-col-sm-4 mui-col-xs-4 table-font" v-text="item.orderNo">
+                    </div>
+                    <div class="mui-col-sm-3 mui-col-xs-3 table-font" v-text="item.orderAmount">
+                    </div>
+                    <div class="mui-col-sm-2 mui-col-xs-2 table-font" v-text="getTypeName('order_status', item.orderStatus)">
+                    </div>
+                    <div class="mui-col-sm-3 mui-col-xs-3 table-font" v-text="formatFn(item.orderTime)">
+                    </div>
                   </div>
-                  <div class="mui-col-sm-2 mui-col-xs-2" v-text="item.state === '0' ? '待使用' : '已使用'">
+                </div>
+                <div v-show="showFlag === 2">
+                  <div class="mui-row mui-row-list table-font-title">
+                    <div class="mui-col-sm-4 mui-col-xs-4 table-font">
+                      商品名称
+                    </div>
+                    <div class="mui-col-sm-3 mui-col-xs-3 table-font">
+                      单价
+                    </div>
+                    <div class="mui-col-sm-2 mui-col-xs-2 table-font">
+                      状态
+                    </div>
+                    <div class="mui-col-sm-3 mui-col-xs-3 table-font">
+                      使用日期
+                    </div>
                   </div>
-                  <div class="mui-col-sm-3 mui-col-xs-3" v-text="formatFn(item.verificationDate)">
+                  <div class="mui-row mui-row-list table-font-content" v-for="item in certServiceDetail.data">
+                    <div class="mui-col-sm-4 mui-col-xs-4 table-font" v-text="item.goodsName">
+                    </div>
+                    <div class="mui-col-sm-3 mui-col-xs-3 table-font" v-text="item.price">
+                    </div>
+                    <div class="mui-col-sm-2 mui-col-xs-2 table-font" v-text="item.state === '0' ? '待使用' : '已使用'">
+                    </div>
+                    <div class="mui-col-sm-3 mui-col-xs-3 table-font" v-text="formatFn(item.verificationDate)">
+                    </div>
                   </div>
                 </div>
               </div>
@@ -134,6 +149,46 @@
   </div>
 </template>
 <style lang='less' rel='stylesheet.less' scoped>
+
+  .base-top-user {
+    padding: 10px;
+    border-bottom: 1px dashed #eee;
+  }
+
+  .content-list-item {
+    margin-top: 12px;
+    box-shadow: 0 4px 12px 0 rgba(39, 52, 56, 0.08);
+    border-radius: 9.02px;
+    padding: 15px 20px 15px 18px;
+    background-color: white;
+  }
+
+  .mui-pull-left-flag {
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+  }
+
+  .item-teachingTypeName {
+    background-image: linear-gradient(-450deg, #FFAB68 0%, #FF7626 100%);
+    box-shadow: 0 4px 8px 0 rgba(255, 118, 38, 0.08);
+    font-size: 12px;
+    color: white;
+    padding: 0px 5px;
+    border-radius: 5px;
+    margin-left: 15px;
+  }
+
+  .item-teachingCarName {
+    background-image: linear-gradient(-450deg, #A3A3A3 0%, #515151 100%);
+    box-shadow: 0 5px 10px 0 rgba(255, 118, 38, 0.08);
+    border-radius: 5px;
+    font-size: 12px;
+    margin-left: 10px;
+    padding: 0px 5px;
+    color: white;
+  }
 </style>
 <script>
   import {api} from '@/assets/js/api'
@@ -141,6 +196,7 @@
   export default {
     data () {
       return {
+        imgSrc: './static/img/user_img_m.png',
         getTypeNameData: this.$store.state.base.dictCacheData,
         base: this.$store.state.base,
         showFlag: 0,
@@ -184,7 +240,7 @@
       },
       formatFn (val) {
         var date = new Date(val)
-        return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2)
+        return date.getFullYear() + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + ('0' + date.getDate()).slice(-2)
       },
       getData () {
         let postData = {
