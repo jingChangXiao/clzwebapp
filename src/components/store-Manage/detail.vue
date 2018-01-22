@@ -5,10 +5,7 @@
 */
 <template>
   <div>
-    <header id="header" class="mui-bar mui-bar-nav">
-      <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-      <h1 class="mui-title">门店管理</h1>
-    </header>
+    <content-title :titleData="{title: '门店管理'}"></content-title>
     <div class="mui-content">
       <div class="mui-scroll-wrapper _mui-scroll-wrapper">
         <div class="mui-scroll">

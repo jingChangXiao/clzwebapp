@@ -5,9 +5,7 @@
 */
 <template>
   <div>
-    <header class="mui-bar mui-bar-nav">
-      <h1 class="mui-title">个人中心</h1>
-    </header>
+    <content-title :titleData="{title: '个人中心',left: true}"></content-title>
     <div class="mui-content div-user-center">
       <div class="mui-scroll-wrapper" style="top:45px;">
         <div class="mui-scroll">

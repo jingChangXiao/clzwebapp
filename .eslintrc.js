@@ -13,7 +13,9 @@ module.exports = {
   extends: 'standard',
   globals: {
     'mui': true,
-    '$': true
+    '$': true,
+    'define': true,
+    'Vue': true
   },
   // required to lint *.vue files
   plugins: [

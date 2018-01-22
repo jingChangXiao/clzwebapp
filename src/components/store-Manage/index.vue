@@ -5,11 +5,7 @@
 */
 <template>
   <div>
-    <header class="mui-bar mui-bar-nav">
-      <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-      <h1 class="mui-title">门店管理</h1>
-      <a class="mui-icon mui-icon-search mui-pull-right" @tap="goSearch"></a>
-    </header>
+    <content-title :titleData="{title: '门店管理'}"></content-title>
     <div class="mui-content">
       <div>
         <div class="mui-row">
@@ -102,18 +98,19 @@
 <script>
   import refreshScroll from '@/assets/js/refresh-scroll'
   import refreshScrollCm from '@/components/public/scroll-refresh.vue'
+  import contentTitle from '@/components/public/title.vue'
   export default{
     data () {
       return {
         imgSrc: './static/img/default_img.png',
         selectFlag: 'selectArea',
-        gutter: 10,
         list: this.$store.state.workList.searchMStoreByCondition
       }
     },
     computed: {},
     components: {
-      refreshScrollCm
+      refreshScrollCm,
+      contentTitle
     },
     methods: {
       // 分页刷新列表组件ready事件
@@ -134,11 +131,18 @@
       },
       goDetail (index) {
         this.$router.push('/storeManageDetail/' + this.list.data[index].id)
-        console.log(this.list.data[index])
+      },
+      selectArea (flag) {
+        this.selectFlag = flag
+      },
+      selectState (flag) {
+        this.selectFlag = flag
+      },
+      selectMore (flag) {
+        this.selectFlag = flag
       }
     },
     mounted: function () {
-      console.log('store mounted')
       this.list.searchObject.p = 1
       refreshScroll.listReq(this.list)
     }

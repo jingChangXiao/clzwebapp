@@ -5,10 +5,7 @@
 */
 <template>
   <div>
-    <header class="mui-bar mui-bar-nav">
-      <a class="mui-action-back mui-icon mui-pull-left iconfont icon-arrow_left"></a>
-      <h1 class="mui-title">减免申请</h1>
-    </header>
+    <content-title :titleData="{title: '减免申请'}"></content-title>
     <div class="mui-content">
       <div class="mui-scroll-wrapper _mui-scroll-wrapper" :class="detail.processState ? 'bottom-45' : ''">
         <div class="mui-scroll">
@@ -70,13 +67,6 @@
     computed: {
     },
     methods: {
-      getTypeName (name, value) {
-        if (this.getTypeNameData.data && this.getTypeNameData.data[name]) {
-          return this.getTypeNameData.data[name][value]
-        } else {
-          return ''
-        }
-      },
       save (flag) {
         let self = this
         let btnArray = ['取消', '确定']
@@ -105,10 +95,6 @@
           }
         })
         console.log(flag)
-      },
-      formatFn (val) {
-        var date = new Date(val)
-        return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2)
       },
       getDetail () {
         if (!this.$route.params.id) {

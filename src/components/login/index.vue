@@ -113,15 +113,17 @@
           if (data && data.access_token) {
             window.localStorage.setItem('__ACCESS_TOKEN', data.access_token)
             Promise.all([this.ACTION_GET_LOAD_DICT_CACHE(), this.ACTION_GET_LOAD_ORG_CACHE()]).then((a, b, c) => {
+              this.$store.commit(types.SET_HOME_MENU_FLAG, '/home/message')
               this.$router.push('/home/message')
               this.$store.commit(types.SET_LOADING_FLAG, false)
             })
           } else {
             this.$store.commit(types.SET_LOADING_FLAG, false)
           }
+        }, (data) => {
+          this.$store.commit(types.SET_LOADING_FLAG, false)
+          console.log('失败', data)
         })
-      },
-      pop () {
       }
     },
     mounted: function () {

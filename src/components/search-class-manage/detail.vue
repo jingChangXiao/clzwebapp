@@ -5,10 +5,7 @@
 */
 <template>
   <div>
-    <header id="header" class="mui-bar mui-bar-nav">
-      <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-      <h1 class="mui-title">班别管理</h1>
-    </header>
+    <content-title :titleData="{title: '班别管理'}"></content-title>
     <div class="mui-content">
       <div class="mui-scroll-wrapper _mui-scroll-wrapper">
         <div class="mui-scroll">
@@ -173,13 +170,6 @@
       }
     },
     methods: {
-      getTypeName (name, value) {
-        if (this.getTypeNameData.data && this.getTypeNameData.data[name]) {
-          return this.getTypeNameData.data[name][value]
-        } else {
-          return ''
-        }
-      },
       changeFlag (flag) {
         this.showFlag = flag
       },

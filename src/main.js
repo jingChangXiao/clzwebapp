@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store/index'
+import {myPlugin} from './plugin'
 // import MintUI from 'mint-ui'
 // import MuseUI from 'muse-ui'
 // import 'muse-ui/dist/muse-ui.css'
@@ -11,6 +12,7 @@ import store from './store/index'
 // Vue.config.productionTip = false
 // Vue.use(MintUI)
 // Vue.use(MuseUI)
+Vue.use(myPlugin)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

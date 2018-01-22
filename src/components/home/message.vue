@@ -5,16 +5,16 @@
 */
 <template>
   <div>
-    <header class="mui-bar mui-bar-nav">
-      <h1 class="mui-title">消息中心</h1>
-    </header>
+    <content-title :titleData="{title: '消息中心', left: true}"></content-title>
     <div class="mui-content">
       <div class="mui-row">
-        <div class="mui-col-sm-6 mui-col-xs-6 label-div" :class="showFlag === 0 ? 'active' : ''" style="text-align: center" @tap="changeFlag(0)">
+        <div class="mui-col-sm-6 mui-col-xs-6 label-div" :class="showFlag === 0 ? 'active' : ''"
+             style="text-align: center" @tap="changeFlag(0)">
           <span class="label-div-item">聊天消息</span>
 
         </div>
-        <div class="mui-col-sm-6 mui-col-xs-6 label-div" :class="showFlag === 1 ? 'active' : ''" style="text-align: center" @tap="changeFlag(1)">
+        <div class="mui-col-sm-6 mui-col-xs-6 label-div" :class="showFlag === 1 ? 'active' : ''"
+             style="text-align: center" @tap="changeFlag(1)">
           <span class="label-div-item">通知消息</span>
 
         </div>
@@ -60,6 +60,7 @@
     border-bottom: 1px dashed #ddd;
     background-color: #ffe0b2;
   }
+
   .base-top-user {
     padding: 10px;
     border-bottom: 1px dashed #ddd;

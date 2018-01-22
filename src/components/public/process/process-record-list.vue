@@ -19,7 +19,7 @@
               <span class="list-item-name" v-text="item.assigneeName"></span>
               <span class="list-item-action" v-text="item.action === '1' ? '同意' : '拒绝'"></span>
               <span class="list-item-time" style=""
-                    v-text="formatFn(item.endTime)"></span>
+                    v-text="formatFn(item.endTime, 'yyyy-MM-dd hh:mm')"></span>
             </span>
               <div class="list-item-opinion">
                 <div>
@@ -147,10 +147,6 @@
       }
     },
     methods: {
-      formatFn (val) {
-        let date = new Date(val)
-        return `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getMilliseconds()).slice(-2)}`
-      }
     }
   }
 </script>

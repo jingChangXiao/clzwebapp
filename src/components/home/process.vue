@@ -5,9 +5,7 @@
 */
 <template>
   <div>
-    <header class="mui-bar mui-bar-nav">
-      <h1 class="mui-title">流程中心</h1>
-    </header>
+    <content-title :titleData="{title: '流程中心', left: true}"></content-title>
     <div class="mui-content">
       <div class="mui-row">
         <div class="mui-col-sm-4 mui-col-xs-4 label-div"
@@ -17,11 +15,6 @@
           <span class="label-div-item" v-text="item.name"></span>
         </div>
       </div>
-      <!--<div class="mui-segmented-control mui-segmented-control-inverted _mui-segmented-control-inverted">-->
-      <!--<a class="mui-control-item" href="#item1mobile" v-for="(item, index) in sliderData" v-text="item.name"-->
-      <!--:class="item.flag === list.searchObject.flag ? 'mui-active' : ''" @tap="select(index)">-->
-      <!--</a>-->
-      <!--</div>-->
       <refresh-scroll-cm top="86px" bottom="50px" @pullRefreshReady="pullRefreshReady" @pulldown="pulldown"
                          @pullup="pullup">
         <div style="margin: 0px 12px;">
@@ -40,7 +33,7 @@
                   <div>
                     <span class="iconfont icon-user" style="font-size: 12px;"></span>
                     <span v-text="item.actName || '审批人'"></span>
-                    <span v-text="formatFn(item.startTime)" style="margin-left: 20px;"></span>
+                    <span v-text="formatFn(item.startTime, 'yyyy/MM/dd hh:mm')" style="margin-left: 20px;"></span>
                   </div>
                 </div>
               </div>
@@ -231,22 +224,11 @@
         this.list.searchObject.flag = this.sliderData[index].flag
         this.getInitData()
       },
-      formatFn (val) {
-        var date = new Date(val)
-        return date.getFullYear() + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + ('0' + date.getDate()).slice(-2) + ' ' + date.getHours() + ':' + ('0' + date.getMinutes()).slice(-2)
-      },
       goDetail (index) {
         if (this.routeData[this.list.data[index].type]) {
           this.$router.push('/' + this.list.data[index].type + '/' + this.list.data[index].businessKey + '/' + this.list.data[index].procInstId + '/' + this.list.data[index].taskId)
         } else {
           alert('未支持类型')
-        }
-      },
-      getTypeName (name, value) {
-        if (this.getTypeNameData.data && this.getTypeNameData.data[name]) {
-          return this.getTypeNameData.data[name][value]
-        } else {
-          return ''
         }
       }
     },

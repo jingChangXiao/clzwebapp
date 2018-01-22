@@ -26,18 +26,17 @@ function initAjax (option, loginFlag) {
     option.param.__FLAG__ = true
     option.param.grant_type = 'password'
     if (!loginFlag) {
-      // Vue.$router.push('/login')
-      option.param.access_token = window.localStorage.getItem('__ACCESS_TOKEN')
-      // if (option.url.indexOf('?') >= 0) {
-      //   option.url += '&access_token=' + window.localStorage.getItem('__ACCESS_TOKEN')
-      // } else {
-      //   option.url += '?access_token=' + window.localStorage.getItem('__ACCESS_TOKEN')
-      // }
+      option.headers = {
+        Authorization: `bearer${window.localStorage.getItem('__ACCESS_TOKEN')}`
+      }
+    } else {
+      option.headers = {
+        Authorization: 'Basic ' + btoa('clientapp' + ':' + '123456')
+      }
     }
     option.headers = {
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-      'X-Requested-With': 'XMLHttpRequest',
-      Authorization: 'Basic ' + btoa('clientapp' + ':' + '123456')
+      ...option.headers,
+      'X-Requested-With': 'XMLHttpRequest'
     }
     // loading.show('努力加载中...');
     // Leo 匹配  GET POST x-www-form 类型请求
@@ -75,8 +74,12 @@ function initAjax (option, loginFlag) {
         option.success && option.success(retDataObj)
       }
     }, function (retData) {
+      if (retData.status !== 200) {
+        resolve({status: false, message: '后台服务异常，请稍后再试'})
+      } else {
+        reject(retData)
+      }
       option.error && option.error(retData)
-      reject(retData)
     })
   })
 }

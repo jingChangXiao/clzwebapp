@@ -5,9 +5,7 @@
 */
 <template>
   <div>
-    <header class="mui-bar mui-bar-nav">
-      <h1 class="mui-title">工作台</h1>
-    </header>
+    <content-title :titleData="{title: '工作台', left: true}"></content-title>
     <div class="mui-content">
       <div style="padding-bottom: 50px;">
         <div class="mui-slider-item" v-for="item in menuList">

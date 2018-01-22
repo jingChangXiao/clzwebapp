@@ -5,11 +5,7 @@
 */
 <template>
   <div>
-    <header class="mui-bar mui-bar-nav">
-      <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-      <h1 class="mui-title">教练管理</h1>
-      <a class="mui-icon mui-icon-search mui-pull-right" @tap="goSearch"></a>
-    </header>
+    <content-title :titleData="{title: '教练管理'}"></content-title>
     <div class="mui-content">
       <div>
         <div class="mui-row">
