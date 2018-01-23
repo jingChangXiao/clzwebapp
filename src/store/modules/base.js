@@ -68,6 +68,11 @@ function handleCacheSelectData (data) {
   list.unshift({value: '', text: '全部'})
   return list
 }
+function getChildren (data) {
+  return data.map(item => {
+    return {value: item.areaId, text: item.areaName}
+  })
+}
 const getters = {
 }
 const mutations = {
@@ -140,6 +145,11 @@ const actions = {
       api.initAjax(findAreaAndStoreNamesCascade).then((rtData) => {
         if (rtData.status) {
           console.log('ACTION_FIND_AREA_STORE_NAMES', rtData.data)
+          let list = []
+          list = rtData.data.map(item => {
+            return {value: item.areaId, text: item.areaName, children: getChildren(item.childrenStore)}
+          })
+          console.log(list)
           resolve(rtData)
         } else {
           reject(rtData.message)
