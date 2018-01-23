@@ -19,6 +19,13 @@ let searchClassManage = {
    * @api  /marketing/marketClass/getClassDetail/
    * @method GET
    **/
-  getClassDetail: service.service + '/marketing/marketClass/getClassDetail/'
+  getClassDetail: service.service + '/marketing/marketClass/getClassDetail/',
+  /**
+   * @author Leo
+   * @name  获取车型信息
+   * @api  /teaching/eduTeachingCar/getCarTypeListMes
+   * @method POST
+   **/
+  getCarTypeListMes: service.service + '/teaching/eduTeachingCar/getCarTypeListMes'
 }
 export {searchClassManage}

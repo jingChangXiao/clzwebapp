@@ -101,6 +101,8 @@
   }
 </style>
 <script>
+//  import {api} from '@/assets/js/api'
+//  import {APIS} from '@/assets/js/config'
   import refreshScroll from '@/assets/js/refresh-scroll'
   import refreshScrollCm from '@/components/public/scroll-refresh.vue'
   export default{
@@ -108,7 +110,8 @@
       return {
         imgSrc: './static/img/user_img_m.png',
         selectFlag: 'selectArea',
-        list: this.$store.state.workList.getCoachList
+        list: this.$store.state.workList.getCoachList,
+        findAreaAndStoreNamesCascade: this.$store.state.base.ajaxCacheData.findAreaAndStoreNamesCascade
       }
     },
     computed: {},
@@ -135,17 +138,36 @@
       goDetail (index) {
         this.$router.push('/coachManageDetail/' + this.list.data[index].id)
       },
+      getFindAreaAndStoreNamesCascade () {
+        this.$store.dispatch('ACTION_FIND_AREA_STORE_NAMES')
+      },
       selectArea (flag) {
         this.selectFlag = flag
+        let self = this
+        let userPicker = new mui.PopPicker()
+        userPicker.setData(this.$store.state.base.searchSelectData.area)
+        userPicker.show(items => {
+          self.list.searchObject.areaIdName = items[0].text
+          self.list.searchObject.areaId = items[0].value
+          self.list.searchObject.p = 1
+          refreshScroll.listReq(this.list)
+        })
       },
       selectState (flag) {
         this.selectFlag = flag
-      },
-      selectMore (flag) {
-        this.selectFlag = flag
+        let self = this
+        let userPicker = new mui.PopPicker()
+        userPicker.setData(this.$store.state.base.searchSelectData.teaching_status)
+        userPicker.show(items => {
+          self.list.searchObject.teachingStatusName = items[0].text
+          self.list.searchObject.teachingStatus = items[0].value
+          self.list.searchObject.p = 1
+          refreshScroll.listReq(this.list)
+        })
       }
     },
     mounted: function () {
+      this.getFindAreaAndStoreNamesCascade()
       this.list.searchObject.p = 1
       refreshScroll.listReq(this.list)
     }

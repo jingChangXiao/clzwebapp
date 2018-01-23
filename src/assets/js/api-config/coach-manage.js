@@ -13,6 +13,13 @@ let coachManage = {
    * @method POST
    **/
   getCoachList: service.service + '/teaching/eduCoach/getCoachList',
-  getEduCoachDetail: service.service + '/teaching/eduCoach/getEduCoachDetail/'
+  getEduCoachDetail: service.service + '/teaching/eduCoach/getEduCoachDetail/',
+  /**
+   * @author Leo
+   * @name 获取关联门店
+   * @api   /system/sysOrg/findAreaAndStoreNamesCascade
+   * @method POST
+   **/
+  findAreaAndStoreNamesCascade: service.service + '/system/sysOrg/findAreaAndStoreNamesCascade'
 }
 export {coachManage}

@@ -7,7 +7,9 @@ const state = {
       p: 1,
       s: 10,
       areaId: '',
-      areaIdName: ''
+      areaIdName: '',
+      name: '',
+      code: ''
     },
     url: APIS.storeManage.searchMStoreByCondition,
     isEmpty: false,
@@ -22,7 +24,9 @@ const state = {
       p: 1,
       s: 10,
       areaId: '',
-      areaIdName: ''
+      areaIdName: '',
+      teachingStatus: '',
+      teachingStatusName: ''
     },
     url: APIS.coachManage.getCoachList,
     isEmpty: false,
@@ -66,8 +70,10 @@ const state = {
     searchObject: {
       p: 1,
       s: 10,
-      areaId: '',
-      areaIdName: ''
+      driveType: '',
+      driveTypeName: '',
+      studyType: '',
+      studyTypeName: ''
     },
     url: APIS.searchClassManage.searchClassList,
     isEmpty: false,
@@ -81,8 +87,17 @@ const state = {
     searchObject: {
       p: 1,
       s: 10,
-      areaId: '',
-      areaIdName: ''
+      goodsName: '',
+      attribute: '',
+      attributeName: '',
+      disable: '',
+      disableName: '',
+      describeGoods: '',
+      describeGoodsName: '',
+      refund: '',
+      refundName: '',
+      checkWay: '',
+      checkWayName: ''
     },
     url: APIS.productManage.searchGoodsList,
     isEmpty: false,

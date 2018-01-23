@@ -12,14 +12,14 @@
           <div class="mui-col-sm-4 mui-col-xs-4 label-div-select" :class="selectFlag === 'selectArea' ? 'active' : ''"
                @tap="selectArea('selectArea')">
             <span class="label-div-select-item">
-              <span>片区</span>
+              <span v-text="list.searchObject.areaIdName || '片区'"></span>
               <span class="mui-icon mui-icon-arrowdown" style="font-size:12px;"></span>
             </span>
           </div>
           <div class="mui-col-sm-4 mui-col-xs-4 label-div-select" :class="selectFlag === 'selectState' ? 'active' : ''"
                @tap="selectState('selectState')">
             <span class="label-div-select-item">
-              <span>营业状态</span>
+              <span v-text="list.searchObject.statusName || '营业状态'"></span>
               <span class="mui-icon mui-icon-arrowdown" style="font-size:12px;"></span>
             </span>
           </div>
@@ -62,10 +62,10 @@
 
   .content-list-item {
     margin-top: 12px;
-    box-shadow: 0 4px 12px 0 rgba(39,52,56,0.08);
+    box-shadow: 0 4px 12px 0 rgba(39, 52, 56, 0.08);
     border-radius: 9.02px;
     padding: 15px 20px 15px 18px;
-    background-color:white;
+    background-color: white;
   }
 
   .mui-pull-left-flag {
@@ -126,20 +126,32 @@
       pullup () {
         refreshScroll.listLoadMore(this.list)
       },
-      goSearch () {
-        this.$router.push('/storeManageListSearch')
-      },
       goDetail (index) {
         this.$router.push('/storeManageDetail/' + this.list.data[index].id)
       },
       selectArea (flag) {
         this.selectFlag = flag
+        let self = this
+        let userPicker = new mui.PopPicker()
+        userPicker.setData(this.$store.state.base.searchSelectData.area)
+        userPicker.show(items => {
+          self.list.searchObject.areaIdName = items[0].text
+          self.list.searchObject.areaId = items[0].value
+          self.list.searchObject.p = 1
+          refreshScroll.listReq(this.list)
+        })
       },
       selectState (flag) {
         this.selectFlag = flag
-      },
-      selectMore (flag) {
-        this.selectFlag = flag
+        let self = this
+        let userPicker = new mui.PopPicker()
+        userPicker.setData(this.$store.state.base.searchSelectData.store_operating_status)
+        userPicker.show(items => {
+          self.list.searchObject.statusName = items[0].text
+          self.list.searchObject.status = items[0].value
+          self.list.searchObject.p = 1
+          refreshScroll.listReq(this.list)
+        })
       }
     },
     mounted: function () {

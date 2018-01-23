@@ -9,7 +9,7 @@ myPlugin.config = {}
 
 myPlugin.install = (Vue) => {
   // 1. 添加全局方法或属性
-  Vue.myGlobalMethod = function () {
+  Vue.myGlobalMethod = () => {
     // 逻辑...
   }
 
@@ -26,6 +26,10 @@ myPlugin.install = (Vue) => {
       contentTitle
     },
     methods: {
+      selectMore (flag) {
+        this.selectFlag = flag
+        this.$router.push(`${this.$router.history.current.path}Search`)
+      },
       getTypeName (name, value) {
         if (this.getTypeNameData.data && this.getTypeNameData.data[name]) {
           return this.getTypeNameData.data[name][value]

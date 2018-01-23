@@ -6,7 +6,11 @@ const state = {
     searchObject: {
       p: 1,
       s: 10,
-      flag: '1'
+      flag: '1',
+      areaIdName: '',
+      areaId: '',
+      status: '',
+      statusName: ''
     },
     url: APIS.processCenter.findApplyListByState,
     isEmpty: false,

@@ -12,14 +12,14 @@
           <div class="mui-col-sm-4 mui-col-xs-4 label-div-select" :class="selectFlag === 'selectArea' ? 'active' : ''"
                @tap="selectArea('selectArea')">
             <span class="label-div-select-item">
-              <span>商品属性</span>
+              <span v-text="list.searchObject.attributeName || '商品属性'"></span>
               <span class="mui-icon mui-icon-arrowdown" style="font-size:12px;"></span>
             </span>
           </div>
           <div class="mui-col-sm-4 mui-col-xs-4 label-div-select" :class="selectFlag === 'selectState' ? 'active' : ''"
                @tap="selectState('selectState')">
             <span class="label-div-select-item">
-              <span>状态</span>
+              <span v-text="list.searchObject.disableName || '状态'"></span>
               <span class="mui-icon mui-icon-arrowdown" style="font-size:12px;"></span>
             </span>
           </div>
@@ -155,12 +155,27 @@
       },
       selectArea (flag) {
         this.selectFlag = flag
+        let self = this
+        let userPicker = new mui.PopPicker()
+        userPicker.setData(this.$store.state.base.searchSelectData.market_goods_attribute)
+        userPicker.show(items => {
+          self.list.searchObject.attributeName = items[0].text
+          self.list.searchObject.attribute = items[0].value
+          self.list.searchObject.p = 1
+          refreshScroll.listReq(this.list)
+        })
       },
       selectState (flag) {
         this.selectFlag = flag
-      },
-      selectMore (flag) {
-        this.selectFlag = flag
+        let self = this
+        let userPicker = new mui.PopPicker()
+        userPicker.setData(this.$store.state.base.searchSelectData.disable)
+        userPicker.show(items => {
+          self.list.searchObject.disableName = items[0].text
+          self.list.searchObject.disable = items[0].value
+          self.list.searchObject.p = 1
+          refreshScroll.listReq(this.list)
+        })
       }
     },
     mounted: function () {

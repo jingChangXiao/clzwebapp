@@ -19,7 +19,7 @@
 </style>
 <script>
   export default{
-    data: function () {
+    data: () => {
       return {}
     },
     methods: {

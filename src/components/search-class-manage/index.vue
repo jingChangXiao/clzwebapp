@@ -12,14 +12,14 @@
           <div class="mui-col-sm-4 mui-col-xs-4 label-div-select" :class="selectFlag === 'selectArea' ? 'active' : ''"
                @tap="selectArea('selectArea')">
             <span class="label-div-select-item">
-              <span>车型</span>
+              <span v-text="list.searchObject.driveTypeName || '车型'"></span>
               <span class="mui-icon mui-icon-arrowdown" style="font-size:12px;"></span>
             </span>
           </div>
           <div class="mui-col-sm-4 mui-col-xs-4 label-div-select" :class="selectFlag === 'selectState' ? 'active' : ''"
                @tap="selectState('selectState')">
             <span class="label-div-select-item">
-              <span>学车形式</span>
+              <span v-text="list.searchObject.studyTypeName || '学车形式'"></span>
               <span class="mui-icon mui-icon-arrowdown" style="font-size:12px;"></span>
             </span>
           </div>
@@ -102,12 +102,15 @@
 <script>
   import refreshScroll from '@/assets/js/refresh-scroll'
   import refreshScrollCm from '@/components/public/scroll-refresh.vue'
+  import {api} from '@/assets/js/api'
+  import {APIS} from '@/assets/js/config'
   export default{
     data () {
       return {
         selectFlag: 'selectArea',
         getTypeNameData: this.$store.state.base.dictCacheData,
-        list: this.$store.state.workList.searchClassList
+        list: this.$store.state.workList.searchClassList,
+        getCarTypeListMesList: []
       }
     },
     computed: {},
@@ -133,11 +136,53 @@
       },
       goDetail (index) {
         this.$router.push('/searchClassManageDetail/' + this.list.data[index].id)
+      },
+      getCarTypeListMes () {
+        let postData = {url: APIS.searchClassManage.getCarTypeListMes, method: 'POST'}
+        api.initAjax(postData).then((rtData) => {
+          if (rtData.status) {
+            let list = []
+            rtData.data.forEach(item => {
+              list.push({text: item.carVal, value: item.carId})
+            })
+            list.unshift({text: '全部', value: ''})
+            this.getCarTypeListMesList = list
+          } else {
+            mui.alert(rtData.message)
+          }
+        }, (rtData) => {
+          mui.alert(rtData.message)
+        })
+      },
+      selectArea (flag) {
+        this.selectFlag = flag
+        let self = this
+        let userPicker = new mui.PopPicker()
+        userPicker.setData(this.getCarTypeListMesList)
+        userPicker.show(items => {
+          self.list.searchObject.driveTypeName = items[0].text
+          self.list.searchObject.driveType = items[0].value
+          self.list.searchObject.p = 1
+          refreshScroll.listReq(this.list)
+        })
+      },
+      selectState (flag) {
+        this.selectFlag = flag
+        let self = this
+        let userPicker = new mui.PopPicker()
+        userPicker.setData(this.$store.state.base.searchSelectData.market_class_study_type)
+        userPicker.show(items => {
+          self.list.searchObject.studyTypeName = items[0].text
+          self.list.searchObject.studyType = items[0].value
+          self.list.searchObject.p = 1
+          refreshScroll.listReq(this.list)
+        })
       }
     },
     mounted: function () {
       this.list.searchObject.p = 1
       refreshScroll.listReq(this.list)
+      this.getCarTypeListMes()
     }
   }
 </script>

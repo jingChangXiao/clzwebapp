@@ -103,6 +103,11 @@ body{
   max-width: 200px;
   overflow: hidden;
 }
+.list-base-information .list-item-right input{
+  font-size: 12px;
+  color: #a3a3a3;
+  min-width: 160px;
+}
 
 .list-title {
   height: 30px;
