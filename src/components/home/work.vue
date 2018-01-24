@@ -114,7 +114,7 @@
     },
     created: function () {
     },
-    mounted: function () {
+    mounted () {
     }
   }
 </script>

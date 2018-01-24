@@ -128,7 +128,7 @@
         })
       }
     },
-    mounted: function () {
+    mounted () {
     }
   }
 </script>

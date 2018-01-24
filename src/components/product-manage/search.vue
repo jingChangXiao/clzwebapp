@@ -76,7 +76,6 @@
   export default {
     data () {
       return {
-        inputData1: '----111',
         list: this.$store.state.workList.productList,
         inputData: {
           goodsName: '',

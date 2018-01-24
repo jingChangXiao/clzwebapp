@@ -185,7 +185,7 @@
     },
     created: function () {
     },
-    mounted: function () {
+    mounted () {
       this.ACTION_GET_USER_DETAIL().then(item => {
         console.log(this.userDetail)
       })

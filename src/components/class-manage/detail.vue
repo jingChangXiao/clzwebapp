@@ -293,7 +293,7 @@
     },
     created: function () {
     },
-    mounted: function () {
+    mounted () {
       this.getData()
     }
   }

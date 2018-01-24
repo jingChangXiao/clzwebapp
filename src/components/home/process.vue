@@ -234,7 +234,7 @@
     },
     created: function () {
     },
-    mounted: function () {
+    mounted () {
       this.getInitData()
     }
   }

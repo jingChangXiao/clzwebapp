@@ -144,7 +144,7 @@
         })
       }
     },
-    mounted: function () {
+    mounted () {
       this.getDetail()
     }
   }

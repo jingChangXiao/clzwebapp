@@ -84,7 +84,7 @@
     },
     created: function () {
     },
-    mounted: function () {
+    mounted () {
       Object.keys(this.inputData).forEach(item => {
         this.inputData[item] = this.list.searchObject[item]
       })

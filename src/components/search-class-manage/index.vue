@@ -179,7 +179,7 @@
         })
       }
     },
-    mounted: function () {
+    mounted () {
       this.list.searchObject.p = 1
       refreshScroll.listReq(this.list)
       this.getCarTypeListMes()

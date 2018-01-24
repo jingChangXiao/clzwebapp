@@ -34,7 +34,7 @@
         this.$emit('rightClick')
       }
     },
-    mounted: function () {
+    mounted () {
     }
   }
 </script>

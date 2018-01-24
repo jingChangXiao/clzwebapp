@@ -166,7 +166,7 @@
         })
       }
     },
-    mounted: function () {
+    mounted () {
       this.getFindAreaAndStoreNamesCascade()
       this.list.searchObject.p = 1
       refreshScroll.listReq(this.list)

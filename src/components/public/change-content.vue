@@ -44,7 +44,7 @@
     methods: {
 
     },
-    mounted: function () {
+    mounted () {
     }
   }
 </script>

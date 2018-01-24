@@ -65,7 +65,7 @@
         mui(this.$el).pullRefresh().enablePullupToRefresh()
       }
     },
-    mounted: function () {
+    mounted () {
       this.scroll = mui(this.$el).pullRefresh({
         container: this.$el,
         down: {
