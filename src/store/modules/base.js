@@ -144,9 +144,7 @@ const actions = {
       let findAreaAndStoreNamesCascade = {url: state.ajaxCacheData.findAreaAndStoreNamesCascade.url, method: 'POST'}
       api.initAjax(findAreaAndStoreNamesCascade).then((rtData) => {
         if (rtData.status) {
-          console.log('ACTION_FIND_AREA_STORE_NAMES', rtData.data)
-          let list = []
-          list = rtData.data.map(item => {
+          let list = rtData.data.map(item => {
             return {value: item.areaId, text: item.areaName, children: getChildren(item.childrenStore)}
           })
           console.log(list)

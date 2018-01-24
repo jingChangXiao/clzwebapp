@@ -228,7 +228,7 @@
         if (this.routeData[this.list.data[index].type]) {
           this.$router.push('/' + this.list.data[index].type + '/' + this.list.data[index].businessKey + '/' + this.list.data[index].procInstId + '/' + this.list.data[index].taskId)
         } else {
-          alert('未支持类型')
+          mui.alert('未支持的审批类型')
         }
       }
     },

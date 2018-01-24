@@ -16,12 +16,17 @@ let serviceList = [
     description: '测试环境'
   },
   {
+    loginService: 'http://192.168.87.48:10019',
+    service: 'http://192.168.87.48:10020',
+    description: 'UAT环境'
+  },
+  {
     loginService: 'http://192.168.185.223:10019',
     service: 'http://192.168.185.223:10020',
     description: '吴帧威'
   }
 ]
-let serviceIndex = 1
+let serviceIndex = 2
 let service = serviceList[serviceIndex]
 
 export {service}

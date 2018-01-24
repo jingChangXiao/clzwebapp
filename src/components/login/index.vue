@@ -116,6 +116,8 @@
               this.$store.commit(types.SET_HOME_MENU_FLAG, '/home/message')
               this.$router.push('/home/message')
               this.$store.commit(types.SET_LOADING_FLAG, false)
+            }, () => {
+              this.$store.commit(types.SET_LOADING_FLAG, false)
             })
           } else {
             this.$store.commit(types.SET_LOADING_FLAG, false)
