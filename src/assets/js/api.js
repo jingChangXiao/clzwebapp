@@ -10,7 +10,7 @@ Vue.use(resource)
  * */
 let consoleLog = {
   logFlag: true,
-  log: function () {
+  log () {
     this.logFlag && console.log(arguments)
   }
 }

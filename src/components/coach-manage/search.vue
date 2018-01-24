@@ -77,6 +77,9 @@
     data () {
       return {
         list: this.$store.state.workList.getCoachList,
+        inputData1: {
+          test: '1'
+        },
         inputData: {
           goodsName: '',
           describeGoodsName: '',
@@ -135,14 +138,19 @@
           self.inputData.refundName = items[0].text
           self.inputData.refund = items[0].value
         })
+      },
+      test () {
+        Object.keys(this.inputData).forEach(item => {
+          this.inputData[item] = this.list.searchObject[item]
+        })
       }
     },
-    created: () => {
+    created () {
+      console.log(this.inputData1, '-------')
     },
-    mounted: () => {
-      Object.keys(this.inputData).forEach(item => {
-        this.inputData[item] = this.list.searchObject[item]
-      })
+    mounted () {
+      console.log(this.inputData1, '-------')
+//      this.test()
     }
   }
 </script>

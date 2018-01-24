@@ -50,7 +50,7 @@
         this.$router.push(val)
       }
     },
-    mounted: function () {
+    mounted () {
       console.log(this.$store.state.base.menu)
     }
   }

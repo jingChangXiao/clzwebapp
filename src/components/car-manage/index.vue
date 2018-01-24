@@ -145,7 +145,7 @@
         this.selectFlag = flag
       }
     },
-    mounted: function () {
+    mounted () {
       this.list.searchObject.p = 1
       refreshScroll.listReq(this.list)
     }

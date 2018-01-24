@@ -261,9 +261,9 @@
         mui.back()
       }
     },
-    created: () => {
+    created () {
     },
-    mounted: () => {
+    mounted () {
     }
   }
 </script>

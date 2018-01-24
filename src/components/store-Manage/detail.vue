@@ -128,9 +128,9 @@
         })
       }
     },
-    created: function () {
+    created () {
     },
-    mounted: function () {
+    mounted () {
       this.getData()
     }
   }

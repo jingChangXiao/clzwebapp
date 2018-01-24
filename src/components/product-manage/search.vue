@@ -76,6 +76,7 @@
   export default {
     data () {
       return {
+        inputData1: '----111',
         list: this.$store.state.workList.productList,
         inputData: {
           goodsName: '',
@@ -137,9 +138,9 @@
         })
       }
     },
-    created: () => {
+    created () {
     },
-    mounted: () => {
+    mounted () {
       Object.keys(this.inputData).forEach(item => {
         this.inputData[item] = this.list.searchObject[item]
       })

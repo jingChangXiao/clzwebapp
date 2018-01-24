@@ -139,9 +139,8 @@
         })
       }
     },
-    mounted: function () {
+    mounted () {
       this.getDetail()
-      console.log(this.getTypeNameData)
     }
   }
 </script>

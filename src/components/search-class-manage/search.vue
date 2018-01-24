@@ -119,9 +119,9 @@
         })
       }
     },
-    created: () => {
+    created () {
     },
-    mounted: () => {
+    mounted () {
       Object.keys(this.inputData).forEach(item => {
         this.inputData[item] = this.list.searchObject[item]
       })
