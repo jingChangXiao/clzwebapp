@@ -82,7 +82,7 @@
         this.inputData.code = ''
       }
     },
-    created: function () {
+    created () {
     },
     mounted () {
       Object.keys(this.inputData).forEach(item => {

@@ -112,7 +112,7 @@
         this.$router.push(route)
       }
     },
-    created: function () {
+    created () {
     },
     mounted () {
     }

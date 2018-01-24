@@ -187,7 +187,7 @@
         })
       }
     },
-    created: function () {
+    created () {
     },
     mounted () {
       this.getData()

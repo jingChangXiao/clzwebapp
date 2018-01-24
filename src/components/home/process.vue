@@ -232,7 +232,7 @@
         }
       }
     },
-    created: function () {
+    created () {
     },
     mounted () {
       this.getInitData()

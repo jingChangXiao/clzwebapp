@@ -261,7 +261,7 @@
         mui.back()
       }
     },
-    created: function () {
+    created () {
     },
     mounted () {
     }

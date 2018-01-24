@@ -183,7 +183,7 @@
         this.$router.push(index)
       }
     },
-    created: function () {
+    created () {
     },
     mounted () {
       this.ACTION_GET_USER_DETAIL().then(item => {

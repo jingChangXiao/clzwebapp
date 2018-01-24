@@ -116,7 +116,7 @@
         this.showFlag = flag
       }
     },
-    created: function () {
+    created () {
     },
     mounted () {
     }
