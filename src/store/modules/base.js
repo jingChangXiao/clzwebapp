@@ -18,7 +18,7 @@ const state = {
   },
   // 解析字典数据
   searchSelectData: {
-    // 门店管理 教练管理 片区选择
+    // 门店管理 教练管理 车辆管理 片区选择
     area: [],
     // 门店管理 营业状态
     store_operating_status: [],
@@ -39,7 +39,17 @@ const state = {
     // 商品管理 退费规则
     refund: [{text: '全部', value: ''}, {text: '不可退费', value: false}, {text: '可退费', value: true}],
     // 教练管理 带教状态
-    teaching_status: []
+    teaching_status: [],
+    // 车辆管理 使用状态
+    vehicle_status: [],
+    // 车辆管理 车龄
+    vehicle_age: [],
+    // 车辆管理 是否备案
+    isFile: [{text: '全部', value: ''}, {text: '是', value: '1'}, {text: '否', value: '0'}],
+    // 学员管理 学车进度
+    learn_driver_progress: [],
+    // 学员管理 学员状态
+    student_status: []
   },
   searchSelectCacheName: [
     'store_operating_status',
@@ -48,30 +58,51 @@ const state = {
     'market_class_local_flag',
     'market_goods_attribute',
     'market_check_way',
-    'teaching_status'
+    'teaching_status',
+    'vehicle_status',
+    'vehicle_age',
+    'learn_driver_progress',
+    'student_status'
   ],
   // 缓存全局需要通过 ajax 的字典数据
   ajaxCacheData: {
+    // 教练管理 所属门店
     findAreaAndStoreNamesCascade: {
       flag: false,
       url: APIS.coachManage.findAreaAndStoreNamesCascade,
+      data: [],
+      param: {}
+    },
+    // 教练管理 带教职位
+    getTeachingTypeListMes: {
+      flag: false,
+      url: APIS.coachManage.getTeachingTypeListMes,
+      data: [],
+      param: {}
+    },
+    // 教练管理 带教班别
+    getClassList: {
+      flag: false,
+      url: APIS.coachManage.getClassList,
+      data: [],
+      param: {}
+    },
+    // 车辆管理 使用性质
+    selectList: {
+      flag: false,
+      url: APIS.carManage.selectList,
       data: [],
       param: {}
     }
   }
 }
 function handleCacheSelectData (data) {
-  let list = []
-  Object.keys(data).forEach(item => {
-    list.push({value: item, text: data[item]})
-  })
-  list.unshift({value: '', text: '全部'})
-  return list
+  return [{value: '', text: '全部'}, ...Object.keys(data).map(
+    item => ({value: item, text: data[item]})
+  )]
 }
 function getChildren (data) {
-  return data.map(item => {
-    return {value: item.areaId, text: item.areaName}
-  })
+  return data.map(item => ({value: item.areaId, text: item.areaName}))
 }
 const getters = {
 }
@@ -90,12 +121,7 @@ const mutations = {
   },
   [types.SET_SEARCH_SELECT_DATA] (state, data) {
     if (data) {
-      let areaList = []
-      data.areaList.forEach((item) => {
-        areaList.push({value: item.areaId, text: item.areaName})
-      })
-      areaList.unshift({value: '', text: '全部'})
-      state.searchSelectData.area = areaList
+      state.searchSelectData.area = [{value: '', text: '全部'}, ...data.areaList.map(item => ({value: item.areaId, text: item.areaName}))]
     }
   },
   [types.SET_SEARCH_SELECT_CACHE_DATA] (state, data) {
@@ -103,6 +129,12 @@ const mutations = {
       state.searchSelectCacheName.forEach(item => {
         state.searchSelectData[item] = handleCacheSelectData(data[item])
       })
+    }
+  },
+  [types.SET_AJAX_CACHE_SELECT] (state, data) {
+    if (data) {
+      state.ajaxCacheData[data.key].data = data.data
+      state.ajaxCacheData[data.key].flag = true
     }
   }
 }
@@ -139,22 +171,68 @@ const actions = {
       })
     })
   },
-  [types.ACTION_FIND_AREA_STORE_NAMES] ({commit, state}) {
+  [types.ACTION_AJAX_CACHE_SELECT] ({commit, state}, data) {
     return new Promise((resolve, reject) => {
-      let findAreaAndStoreNamesCascade = {url: state.ajaxCacheData.findAreaAndStoreNamesCascade.url, method: 'POST'}
-      api.initAjax(findAreaAndStoreNamesCascade).then((rtData) => {
-        if (rtData.status) {
-          let list = rtData.data.map(item => {
-            return {value: item.areaId, text: item.areaName, children: getChildren(item.childrenStore)}
-          })
-          console.log(list)
-          resolve(rtData)
-        } else {
+      let dataStr = `,${data.join(',')},`
+      let findAreaAndStoreNamesCascade = 'findAreaAndStoreNamesCascade'
+      if (dataStr.indexOf(`,${findAreaAndStoreNamesCascade},`) >= 0 && !state.ajaxCacheData[findAreaAndStoreNamesCascade].flag) {
+        api.initAjax({url: state.ajaxCacheData[findAreaAndStoreNamesCascade].url, method: 'POST'}).then((rtData) => {
+          if (rtData.status) {
+            let list = rtData.data.map(item => ({value: item.areaId, text: item.areaName, children: getChildren(item.childrenStore)}))
+            commit(types.SET_AJAX_CACHE_SELECT, {key: findAreaAndStoreNamesCascade, data: [{value: '', text: '全部', children: []}, ...list]})
+            resolve(rtData)
+          } else {
+            reject(rtData.message)
+          }
+        }, (rtData) => {
           reject(rtData.message)
-        }
-      }, (rtData) => {
-        reject(rtData.message)
-      })
+        })
+      }
+      let getTeachingTypeListMes = 'getTeachingTypeListMes'
+      if (dataStr.indexOf(`,${getTeachingTypeListMes},`) >= 0 && !state.ajaxCacheData[getTeachingTypeListMes].flag) {
+        api.initAjax({url: state.ajaxCacheData[getTeachingTypeListMes].url, method: 'POST'}).then((rtData) => {
+          if (rtData.status) {
+            let list = rtData.data.map(item => ({value: item.id, text: item.dutyName}))
+            commit(types.SET_AJAX_CACHE_SELECT, {key: getTeachingTypeListMes, data: [{value: '', text: '全部'}, ...list]})
+            resolve(rtData)
+          } else {
+            reject(rtData.message)
+          }
+        }, (rtData) => {
+          reject(rtData.message)
+        })
+      }
+      let getClassList = 'getClassList'
+      if (dataStr.indexOf(`,${getClassList},`) >= 0 && !state.ajaxCacheData[getClassList].flag) {
+        api.initAjax({url: state.ajaxCacheData[getClassList].url, method: 'GET'}).then((rtData) => {
+          if (rtData.status) {
+            let list = rtData.data.map(item => ({value: item.id, text: item.name}))
+            commit(types.SET_AJAX_CACHE_SELECT, {key: getClassList, data: [{value: '', text: '全部'}, ...list]})
+            resolve(rtData)
+          } else {
+            reject(rtData.message)
+          }
+        }, (rtData) => {
+          reject(rtData.message)
+        })
+      }
+      let selectList = 'selectList'
+      if (dataStr.indexOf(`,${selectList},`) >= 0 && !state.ajaxCacheData[selectList].flag) {
+        api.initAjax({url: state.ajaxCacheData[selectList].url, method: 'GET'}).then((rtData) => {
+          if (rtData.status) {
+            let list = []
+            if (rtData.data.options) {
+              list = rtData.data.options.map(item => ({value: item.value, text: item.label}))
+            }
+            commit(types.SET_AJAX_CACHE_SELECT, {key: selectList, data: [{value: '', text: '全部'}, ...list]})
+            resolve(rtData)
+          } else {
+            reject(rtData.message)
+          }
+        }, (rtData) => {
+          reject(rtData.message)
+        })
+      }
     })
   }
 }

@@ -14,25 +14,25 @@
               <div class="list-base-information">
                 <div class="list-item-left">教练名称：</div>
                 <div class="list-item-right">
-                  <input v-model="inputData.goodsName" placeholder="请输入...">
+                  <input v-model="inputData.name" placeholder="请输入...">
                 </div>
               </div>
-              <div class="list-base-information" @tap="describeGoods">
+              <div class="list-base-information" @tap="storeId">
                 <div class="list-item-left">所属门店：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont" v-text="inputData.describeGoodsName"></div>
+                  <div class="select-arrow iconfont" v-text="inputData.storeIdName"></div>
                 </div>
               </div>
-              <div class="list-base-information" @tap="marketCheckWay">
+              <div class="list-base-information" @tap="teachingDutyId">
                 <div class="list-item-left">带教职务：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont" v-text="inputData.checkWayName"></div>
+                  <div class="select-arrow iconfont" v-text="inputData.teachingDutyIdName"></div>
                 </div>
               </div>
-              <div class="list-base-information" @tap="refund">
-                <div class="list-item-left">带教状态：</div>
+              <div class="list-base-information" @tap="classId">
+                <div class="list-item-left">带教班别：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont" v-text="inputData.refundName"></div>
+                  <div class="select-arrow iconfont" v-text="inputData.classIdName"></div>
                 </div>
               </div>
             </div>
@@ -77,17 +77,18 @@
     data () {
       return {
         list: this.$store.state.workList.getCoachList,
-        inputData1: {
-          test: '1'
-        },
         inputData: {
-          goodsName: '',
-          describeGoodsName: '',
-          describeGoods: '',
-          refund: '',
-          refundName: '',
-          checkWay: '',
-          checkWayName: ''
+          name: '',
+          areaId: '',
+          areaIdName: '',
+          teachingStatus: '',
+          teachingStatusName: '',
+          storeIdName: '',
+          storeId: '',
+          teachingDutyIdName: '',
+          teachingDutyId: '',
+          classId: '',
+          classIdName: ''
         },
         liCss: {
           top: '44px',
@@ -104,53 +105,51 @@
       },
       restFn () {
         this.inputData.name = ''
-        this.inputData.describeGoodsName = ''
-        this.inputData.describeGoods = ''
+        this.inputData.storeId = ''
+        this.inputData.storeIdName = ''
         this.inputData.market_check_wayName = ''
         this.inputData.market_check_way = ''
       },
-      describeGoods (flag) {
+      storeId (flag) {
+        this.selectFlag = flag
+        let self = this
+        let userPicker = new mui.PopPicker({layer: 2})
+        userPicker.setData(this.$store.state.base.ajaxCacheData.findAreaAndStoreNamesCascade.data)
+        userPicker.show(items => {
+          self.inputData.storeIdName = items[0].text + '/' + (items[1].text || '')
+          self.inputData.storeId = items[1].value || ''
+        })
+      },
+      teachingDutyId (flag) {
         this.selectFlag = flag
         let self = this
         let userPicker = new mui.PopPicker()
-        userPicker.setData(this.$store.state.base.searchSelectData.describeGoods)
+        userPicker.setData(this.$store.state.base.ajaxCacheData.getTeachingTypeListMes.data)
         userPicker.show(items => {
-          self.inputData.describeGoodsName = items[0].text
-          self.inputData.describeGoods = items[0].value
+          self.inputData.teachingDutyIdName = items[0].text
+          self.inputData.teachingDutyId = items[0].value
         })
       },
-      marketCheckWay (flag) {
+      classId (flag) {
         this.selectFlag = flag
         let self = this
         let userPicker = new mui.PopPicker()
-        userPicker.setData(this.$store.state.base.searchSelectData.market_check_way)
+        userPicker.setData(this.$store.state.base.ajaxCacheData.getClassList.data)
         userPicker.show(items => {
-          self.inputData.checkWayName = items[0].text
-          self.inputData.checkWay = items[0].value
+          self.inputData.classIdName = items[0].text
+          self.inputData.classId = items[0].value
         })
       },
-      refund (flag) {
-        this.selectFlag = flag
-        let self = this
-        let userPicker = new mui.PopPicker()
-        userPicker.setData(this.$store.state.base.searchSelectData.refund)
-        userPicker.show(items => {
-          self.inputData.refundName = items[0].text
-          self.inputData.refund = items[0].value
-        })
-      },
-      test () {
+      initInputData () {
         Object.keys(this.inputData).forEach(item => {
           this.inputData[item] = this.list.searchObject[item]
         })
       }
     },
     created () {
-      console.log(this.inputData1, '-------')
     },
     mounted () {
-      console.log(this.inputData1, '-------')
-//      this.test()
+      this.initInputData()
     }
   }
 </script>

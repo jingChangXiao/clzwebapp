@@ -1,6 +1,6 @@
 import {APIS} from '@/assets/js/config'
 const state = {
-  // 门店管理
+  // 流程中心
   processData: {
     data: [],
     searchObject: {

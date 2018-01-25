@@ -103,6 +103,7 @@
 <script>
   import refreshScroll from '@/assets/js/refresh-scroll'
   import refreshScrollCm from '@/components/public/scroll-refresh.vue'
+  import * as types from '@/store/mutation-types'
   export default{
     data () {
       return {
@@ -135,17 +136,39 @@
       goDetail (index) {
         this.$router.push('/carManageDetail/' + this.list.data[index].id)
       },
+      actionAjaxCacheSelect () {
+        this.$store.dispatch(
+          types.ACTION_AJAX_CACHE_SELECT,
+          ['selectList']
+        )
+      },
       selectArea (flag) {
         this.selectFlag = flag
+        let self = this
+        let userPicker = new mui.PopPicker()
+        userPicker.setData(this.$store.state.base.ajaxCacheData.selectList.data)
+        userPicker.show(items => {
+          self.list.searchObject.usePropertiesIdName = items[0].text
+          self.list.searchObject.usePropertiesId = items[0].value
+          self.list.searchObject.p = 1
+          refreshScroll.listReq(this.list)
+        })
       },
       selectState (flag) {
         this.selectFlag = flag
-      },
-      selectMore (flag) {
-        this.selectFlag = flag
+        let self = this
+        let userPicker = new mui.PopPicker()
+        userPicker.setData(this.$store.state.base.searchSelectData.vehicle_status)
+        userPicker.show(items => {
+          self.list.searchObject.useStatusName = items[0].text
+          self.list.searchObject.useStatus = items[0].value
+          self.list.searchObject.p = 1
+          refreshScroll.listReq(this.list)
+        })
       }
     },
     mounted () {
+      this.actionAjaxCacheSelect()
       this.list.searchObject.p = 1
       refreshScroll.listReq(this.list)
     }

@@ -12,14 +12,14 @@
           <div class="mui-col-sm-4 mui-col-xs-4 label-div-select" :class="selectFlag === 'selectArea' ? 'active' : ''"
                @tap="selectArea('selectArea')">
             <span class="label-div-select-item">
-              <span>学车进度</span>
+              <span v-text="list.searchObject.learnDriverProgressName || '学车进度'"></span>
               <span class="mui-icon mui-icon-arrowdown" style="font-size:12px;"></span>
             </span>
           </div>
           <div class="mui-col-sm-4 mui-col-xs-4 label-div-select" :class="selectFlag === 'selectState' ? 'active' : ''"
                @tap="selectState('selectState')">
             <span class="label-div-select-item">
-              <span>门店</span>
+              <span v-text="list.searchObject.storeIdName || '门店'"></span>
               <span class="mui-icon mui-icon-arrowdown" style="font-size:12px;"></span>
             </span>
           </div>
@@ -123,7 +123,15 @@
         loadOrgCache: this.$store.state.base.loadOrgCache
       }
     },
-    computed: {},
+    computed: {
+      getStoreMap () {
+        if (this.$store.state.base.loadOrgCache.data.areaStoreMap[this.$store.state.userInfo.userInfo.data.areaId]) {
+          return [{text: '全部', value: ''}, ...this.$store.state.base.loadOrgCache.data.areaStoreMap[this.$store.state.userInfo.userInfo.data.areaId].map(
+            item => ({text: item.storeName, value: item.storeId})
+          )]
+        }
+      }
+    },
     components: {
       refreshScrollCm
     },
@@ -149,12 +157,27 @@
       },
       selectArea (flag) {
         this.selectFlag = flag
+        let self = this
+        let userPicker = new mui.PopPicker()
+        userPicker.setData(this.$store.state.base.searchSelectData.learn_driver_progress)
+        userPicker.show(items => {
+          self.list.searchObject.learnDriverProgressName = items[0].text
+          self.list.searchObject.learnDriverProgress = items[0].value
+          self.list.searchObject.p = 1
+          refreshScroll.listReq(this.list)
+        })
       },
       selectState (flag) {
         this.selectFlag = flag
-      },
-      selectMore (flag) {
-        this.selectFlag = flag
+        let self = this
+        let userPicker = new mui.PopPicker()
+        userPicker.setData(this.getStoreMap)
+        userPicker.show(items => {
+          self.list.searchObject.storeIdName = items[0].text
+          self.list.searchObject.storeId = items[0].value
+          self.list.searchObject.p = 1
+          refreshScroll.listReq(this.list)
+        })
       },
       getMapName (value) {
         if (this.loadOrgCache.data.orgMap) {

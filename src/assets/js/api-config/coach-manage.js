@@ -20,6 +20,20 @@ let coachManage = {
    * @api   /system/sysOrg/findAreaAndStoreNamesCascade
    * @method POST
    **/
-  findAreaAndStoreNamesCascade: service.service + '/system/sysOrg/findAreaAndStoreNamesCascade'
+  findAreaAndStoreNamesCascade: service.service + '/system/sysOrg/findAreaAndStoreNamesCascade',
+  /**
+   * @author Leo
+   * @name 获取带教职务
+   * @api  /teaching/eduTeachingDuty/getTeachingTypeListMes
+   * @method POST
+   **/
+  getTeachingTypeListMes: service.service + '/teaching/eduTeachingDuty/getTeachingTypeListMes',
+  /**
+   * @author Leo
+   * @name 获取带教班别
+   * @api /marketing/marketClass/getClassList
+   * @method POST
+   **/
+  getClassList: service.service + '/marketing/marketClass/getClassList'
 }
 export {coachManage}

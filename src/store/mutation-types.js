@@ -16,4 +16,5 @@ export const ACTION_GET_LOAD_ORG_CACHE = 'ACTION_GET_LOAD_ORG_CACHE' // 组织�
 export const ACTION_GET_USER_DETAIL = 'ACTION_GET_USER_DETAIL' // 获取详细用户信息
 
 // 缓存全局的一些数据
-export const ACTION_FIND_AREA_STORE_NAMES = 'ACTION_FIND_AREA_STORE_NAMES' // 关联门店信息
+export const ACTION_AJAX_CACHE_SELECT = 'ACTION_AJAX_CACHE_SELECT' // 关联门店信息
+export const SET_AJAX_CACHE_SELECT = 'SET_AJAX_CACHE_SELECT' // 需要通过ajax获取的一些需要缓存的数据

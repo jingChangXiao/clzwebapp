@@ -67,10 +67,10 @@
 
   .content-list-item {
     margin-top: 12px;
-    box-shadow: 0 4px 12px 0 rgba(39,52,56,0.08);
+    box-shadow: 0 4px 12px 0 rgba(39, 52, 56, 0.08);
     border-radius: 9.02px;
     padding: 15px 20px 15px 18px;
-    background-color:white;
+    background-color: white;
   }
 
   .mui-pull-left-flag {
@@ -101,10 +101,11 @@
   }
 </style>
 <script>
-//  import {api} from '@/assets/js/api'
-//  import {APIS} from '@/assets/js/config'
+  //  import {api} from '@/assets/js/api'
+  //  import {APIS} from '@/assets/js/config'
   import refreshScroll from '@/assets/js/refresh-scroll'
   import refreshScrollCm from '@/components/public/scroll-refresh.vue'
+  import * as types from '@/store/mutation-types'
   export default{
     data () {
       return {
@@ -138,8 +139,11 @@
       goDetail (index) {
         this.$router.push('/coachManageDetail/' + this.list.data[index].id)
       },
-      getFindAreaAndStoreNamesCascade () {
-        this.$store.dispatch('ACTION_FIND_AREA_STORE_NAMES')
+      actionAjaxCacheSelect () {
+        this.$store.dispatch(
+          types.ACTION_AJAX_CACHE_SELECT,
+          ['findAreaAndStoreNamesCascade', 'getTeachingTypeListMes', 'getClassList']
+        )
       },
       selectArea (flag) {
         this.selectFlag = flag
@@ -167,7 +171,7 @@
       }
     },
     mounted () {
-      this.getFindAreaAndStoreNamesCascade()
+      this.actionAjaxCacheSelect()
       this.list.searchObject.p = 1
       refreshScroll.listReq(this.list)
     }

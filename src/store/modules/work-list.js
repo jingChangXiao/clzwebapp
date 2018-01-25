@@ -23,10 +23,17 @@ const state = {
     searchObject: {
       p: 1,
       s: 10,
+      name: '',
       areaId: '',
       areaIdName: '',
       teachingStatus: '',
-      teachingStatusName: ''
+      teachingStatusName: '',
+      storeIdName: '',
+      storeId: '',
+      teachingDutyIdName: '',
+      teachingDutyId: '',
+      classId: '',
+      classIdName: ''
     },
     url: APIS.coachManage.getCoachList,
     isEmpty: false,
@@ -41,7 +48,17 @@ const state = {
       p: 1,
       s: 10,
       areaId: '',
-      areaIdName: ''
+      areaIdName: '',
+      usePropertiesId: '',
+      usePropertiesIdName: '',
+      useStatus: '',
+      useStatusName: '',
+      plateNumber: '',
+      userName: '',
+      isFile: '',
+      isFileName: '',
+      coty: '',
+      cotyNmae: ''
     },
     url: APIS.carManage.carInfoList,
     isEmpty: false,
@@ -55,8 +72,11 @@ const state = {
     searchObject: {
       p: 1,
       s: 10,
-      areaId: '',
-      areaIdName: ''
+      learnDriverProgressName: '',
+      learnDriverProgress: '',
+      storeId: '',
+      storeIdName: '',
+      userName: ''
     },
     url: APIS.findCertServiceInfoPageList.findCertServiceInfoPageList,
     isEmpty: false,

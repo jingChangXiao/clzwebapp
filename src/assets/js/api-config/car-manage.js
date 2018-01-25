@@ -19,6 +19,13 @@ let carManage = {
    * @api  /teaching/eduCoach/getEduCoachDetail/
    * @method POST
    **/
-  carInfoDetail: service.service + '/car/carInfo/detail'
+  carInfoDetail: service.service + '/car/carInfo/detail',
+  /**
+   * @author Leo
+   * @name 使用性质
+   * @api /car/useProperties/selectList
+   * @method GET
+   **/
+  selectList: service.service + '/car/useProperties/selectList'
 }
 export {carManage}
