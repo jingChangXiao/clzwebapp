@@ -76,7 +76,13 @@ const state = {
       learnDriverProgress: '',
       storeId: '',
       storeIdName: '',
-      userName: ''
+      userName: '',
+      areaId: '',
+      areaIdName: '',
+      modelCarId: '',
+      modelCarIdName: '',
+      studentStatus: '',
+      studentStatusName: ''
     },
     url: APIS.findCertServiceInfoPageList.findCertServiceInfoPageList,
     isEmpty: false,

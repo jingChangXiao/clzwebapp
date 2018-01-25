@@ -113,6 +113,7 @@
 <script>
   import refreshScroll from '@/assets/js/refresh-scroll'
   import refreshScrollCm from '@/components/public/scroll-refresh.vue'
+  import * as types from '@/store/mutation-types'
   export default{
     data () {
       return {
@@ -155,6 +156,12 @@
       goDetail (index) {
         this.$router.push('/classManageDetail/' + this.list.data[index].id)
       },
+      actionAjaxCacheSelect () {
+        this.$store.dispatch(
+          types.ACTION_AJAX_CACHE_SELECT,
+          ['getCarTypeListMes']
+        )
+      },
       selectArea (flag) {
         this.selectFlag = flag
         let self = this
@@ -190,6 +197,7 @@
     mounted () {
       this.list.searchObject.p = 1
       refreshScroll.listReq(this.list)
+      this.actionAjaxCacheSelect()
     }
   }
 </script>

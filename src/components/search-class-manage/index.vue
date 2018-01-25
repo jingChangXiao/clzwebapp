@@ -102,8 +102,7 @@
 <script>
   import refreshScroll from '@/assets/js/refresh-scroll'
   import refreshScrollCm from '@/components/public/scroll-refresh.vue'
-  import {api} from '@/assets/js/api'
-  import {APIS} from '@/assets/js/config'
+  import * as types from '@/store/mutation-types'
   export default{
     data () {
       return {
@@ -137,28 +136,17 @@
       goDetail (index) {
         this.$router.push('/searchClassManageDetail/' + this.list.data[index].id)
       },
-      getCarTypeListMes () {
-        let postData = {url: APIS.searchClassManage.getCarTypeListMes, method: 'POST'}
-        api.initAjax(postData).then((rtData) => {
-          if (rtData.status) {
-            let list = []
-            rtData.data.forEach(item => {
-              list.push({text: item.carVal, value: item.carId})
-            })
-            list.unshift({text: '全部', value: ''})
-            this.getCarTypeListMesList = list
-          } else {
-            mui.alert(rtData.message)
-          }
-        }, (rtData) => {
-          mui.alert(rtData.message)
-        })
+      actionAjaxCacheSelect () {
+        this.$store.dispatch(
+          types.ACTION_AJAX_CACHE_SELECT,
+          ['getCarTypeListMes']
+        )
       },
       selectArea (flag) {
         this.selectFlag = flag
         let self = this
         let userPicker = new mui.PopPicker()
-        userPicker.setData(this.getCarTypeListMesList)
+        userPicker.setData(this.$store.state.base.ajaxCacheData.getCarTypeListMes.data)
         userPicker.show(items => {
           self.list.searchObject.driveTypeName = items[0].text
           self.list.searchObject.driveType = items[0].value
@@ -182,7 +170,7 @@
     mounted () {
       this.list.searchObject.p = 1
       refreshScroll.listReq(this.list)
-      this.getCarTypeListMes()
+      this.actionAjaxCacheSelect()
     }
   }
 </script>

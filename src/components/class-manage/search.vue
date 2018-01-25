@@ -17,22 +17,22 @@
                   <input v-model="inputData.userName" placeholder="请输入...">
                 </div>
               </div>
-              <div class="list-base-information" @tap="storeId">
-                <div class="list-item-left">所属门店：</div>
+              <div class="list-base-information" @tap="studentStatus">
+                <div class="list-item-left">学员状态：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont" v-text="inputData.storeIdName"></div>
+                  <div class="select-arrow iconfont" v-text="inputData.studentStatusName"></div>
                 </div>
               </div>
-              <div class="list-base-information" @tap="teachingDutyId">
-                <div class="list-item-left">带教职务：</div>
+              <div class="list-base-information" @tap="areaId">
+                <div class="list-item-left">所在片区：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont" v-text="inputData.teachingDutyIdName"></div>
+                  <div class="select-arrow iconfont" v-text="inputData.areaIdName"></div>
                 </div>
               </div>
-              <div class="list-base-information" @tap="classId">
-                <div class="list-item-left">带教班别：</div>
+              <div class="list-base-information" @tap="modelCarId">
+                <div class="list-item-left">所学车型：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont" v-text="inputData.classIdName"></div>
+                  <div class="select-arrow iconfont" v-text="inputData.modelCarIdName"></div>
                 </div>
               </div>
             </div>
@@ -78,7 +78,13 @@
       return {
         list: this.$store.state.workList.classList,
         inputData: {
-          userName: ''
+          userName: '',
+          studentStatus: '',
+          studentStatusName: '',
+          areaId: '',
+          areaIdName: '',
+          modelCarId: '',
+          modelCarIdName: ''
         },
         liCss: {
           top: '44px',
@@ -95,35 +101,39 @@
       },
       restFn () {
         this.inputData.userName = ''
+        this.inputData.studentStatus = ''
+        this.inputData.studentStatusName = ''
+        this.inputData.areaId = ''
+        this.inputData.areaIdName = ''
+        this.inputData.modelCarId = ''
+        this.inputData.modelCarIdName = ''
       },
-      storeId (flag) {
-        this.selectFlag = flag
+      studentStatus () {
         let self = this
-        let userPicker = new mui.PopPicker({layer: 2})
-        userPicker.setData(this.$store.state.base.ajaxCacheData.findAreaAndStoreNamesCascade.data)
+        let userPicker = new mui.PopPicker()
+        userPicker.setData(this.$store.state.base.searchSelectData.student_status)
         userPicker.show(items => {
-          self.inputData.storeIdName = items[0].text + '/' + (items[1].text || '')
-          self.inputData.storeId = items[1].value || ''
+          self.inputData.studentStatusName = items[0].text
+          self.inputData.studentStatus = items[0].value
         })
       },
-      teachingDutyId (flag) {
+      areaId (flag) {
         this.selectFlag = flag
         let self = this
         let userPicker = new mui.PopPicker()
-        userPicker.setData(this.$store.state.base.ajaxCacheData.getTeachingTypeListMes.data)
+        userPicker.setData(this.$store.state.base.searchSelectData.area)
         userPicker.show(items => {
-          self.inputData.teachingDutyIdName = items[0].text
-          self.inputData.teachingDutyId = items[0].value
+          self.inputData.areaIdName = items[0].text
+          self.inputData.areaId = items[0].value
         })
       },
-      classId (flag) {
-        this.selectFlag = flag
+      modelCarId () {
         let self = this
         let userPicker = new mui.PopPicker()
-        userPicker.setData(this.$store.state.base.ajaxCacheData.getClassList.data)
+        userPicker.setData(this.$store.state.base.ajaxCacheData.getCarTypeListMes.data)
         userPicker.show(items => {
-          self.inputData.classIdName = items[0].text
-          self.inputData.classId = items[0].value
+          self.inputData.modelCarIdName = items[0].text
+          self.inputData.modelCarId = items[0].value
         })
       },
       initInputData () {

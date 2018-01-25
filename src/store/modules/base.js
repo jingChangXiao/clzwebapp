@@ -93,6 +93,13 @@ const state = {
       url: APIS.carManage.selectList,
       data: [],
       param: {}
+    },
+    // 班别管理 车辆管理 车型
+    getCarTypeListMes: {
+      flag: false,
+      url: APIS.searchClassManage.getCarTypeListMes,
+      data: [],
+      param: {}
     }
   }
 }
@@ -225,6 +232,23 @@ const actions = {
               list = rtData.data.options.map(item => ({value: item.value, text: item.label}))
             }
             commit(types.SET_AJAX_CACHE_SELECT, {key: selectList, data: [{value: '', text: '全部'}, ...list]})
+            resolve(rtData)
+          } else {
+            reject(rtData.message)
+          }
+        }, (rtData) => {
+          reject(rtData.message)
+        })
+      }
+      let getCarTypeListMes = 'getCarTypeListMes'
+      if (dataStr.indexOf(`,${getCarTypeListMes},`) >= 0 && !state.ajaxCacheData[getCarTypeListMes].flag) {
+        api.initAjax({url: state.ajaxCacheData[getCarTypeListMes].url, method: 'POST'}).then((rtData) => {
+          if (rtData.status) {
+            let list = []
+            if (rtData.data) {
+              list = rtData.data.map(item => ({value: item.carId, text: item.carVal}))
+            }
+            commit(types.SET_AJAX_CACHE_SELECT, {key: getCarTypeListMes, data: [{value: '', text: '全部'}, ...list]})
             resolve(rtData)
           } else {
             reject(rtData.message)
