@@ -31,7 +31,9 @@
                 <div v-show="showFlag === 0">
                   <div class="list-base-information" v-for="item in tableItemsBase">
                     <div class="list-item-left" v-text="item.label"></div>
-                    <div class="list-item-right" v-text="detail.data[item.name]"></div>
+                    <div class="list-item-right">
+                      <div v-text="detail.data[item.name]"></div>
+                    </div>
                   </div>
                   <div class="list-base-information">
                     <div class="list-item-left">行政区域</div>

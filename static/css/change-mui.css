@@ -28,3 +28,27 @@
 .mui-popup-button:last-child{
   color: #FF7323;
 }
+
+/*修改pick 样式*/
+.mui-poppicker-header{
+  background-color: white;
+}
+.mui-picker{
+  background-color: white;
+}
+.mui-poppicker-btn-ok{
+  border: none !important;
+  background: white !important;
+  color: #FF7623;
+}
+.mui-poppicker-btn-cancel{
+  border: none !important;
+  background: white !important;
+}
+.mui-pciker-list .highlight{
+  background-color:  #F7F0ED;
+  color: #FF7623 !important;
+}
+.mui-pciker-rule-ft{
+  display: none;
+}
