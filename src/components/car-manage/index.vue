@@ -5,7 +5,7 @@
 */
 <template>
   <div>
-    <content-title :titleData="{title: '车辆管理'}"></content-title>
+    <content-title :titleData="{title: '车辆管理1'}"></content-title>
     <div class="mui-content">
       <div>
         <div class="mui-row">
