@@ -67,5 +67,8 @@ myPlugin.install = (Vue) => {
   Vue.prototype.$myMethod = function (methodOptions) {
     // 逻辑...
   }
+  Vue.prototype.filterEmpty = function (arg, txt = '') {
+    return (arg === '' || arg === null || arg === undefined) ? txt : arg
+  }
 }
 export {myPlugin}

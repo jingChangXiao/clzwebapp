@@ -40,12 +40,13 @@
               </span>
               <div class="mui-media-body" style="padding-left: 82px;">
                 <span style="display: flex;">
-                  <span style="color:#3A444A;font-size:16px;" v-text="item.name"></span>
+                  <span style="color:#3A444A;font-size:16px;">{{isEmpty(item.name)}}</span>
                 </span>
                 <div class='mui-ellipsis' style="font-size: 12px;margin-top: 4px;color: #7F7F7F;padding-right:10px;">
                   发顺丰发送范德萨发发顺丰发送范德萨发发顺丰发送范德萨发发顺丰发送范德萨发发顺丰发送范德萨发
                 </div>
-                <div style="font-size: 14px;color: #FF7323;" v-text="'电话：' + item.telephone">
+                <div style="font-size: 14px;color: #FF7323;">
+                  {{'电话：' + isEmpty(item.telephone)}}
                 </div>
               </div>
             </div>
@@ -113,6 +114,9 @@
       contentTitle
     },
     methods: {
+      isEmpty (arg) {
+        return (arg === '' || arg === null || arg === undefined) ? '暂无' : arg
+      },
       // 分页刷新列表组件ready事件
       pullRefreshReady (scroll) {
         // 设置列表对应的的滚动对象
