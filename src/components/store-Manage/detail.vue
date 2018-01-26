@@ -13,8 +13,8 @@
             <div class="store-media">
               <div style="height:40vw;background-image:url(./static/img/muwu.jpg)"></div>
               <div class="store-name">
-                <div class="store-name-left" v-text="detail.data.name"></div>
-                <div class="store-name-right">门店代码: <span v-text="detail.data.storeCode"></span></div>
+                <div class="store-name-left" v-text="filterEmpty(detail.data.name)"></div>
+                <div class="store-name-right">门店代码: <span v-text="filterEmpty(detail.data.storeCode)"></span></div>
               </div>
             </div>
             <div style="margin-top: 20px;" class="list-base-information-chunk">
@@ -32,7 +32,7 @@
                   <div class="list-base-information" v-for="item in tableItemsBase">
                     <div class="list-item-left" v-text="item.label"></div>
                     <div class="list-item-right">
-                      <div v-text="detail.data[item.name]"></div>
+                      <div v-text="filterEmpty(detail.data[item.name])"></div>
                     </div>
                   </div>
                   <div class="list-base-information">
@@ -43,12 +43,12 @@
                 <div v-show="showFlag === 1">
                   <div class="list-base-information" v-for="item in tableItemsMore">
                     <div class="list-item-left" v-text="item.label"></div>
-                    <div class="list-item-right" v-text="detail.data[item.name]"></div>
+                    <div class="list-item-right" v-text="filterEmpty(detail.data[item.name])"></div>
                   </div>
                   <div class="list-base-information">
                     <div class="list-item-left">上班时间</div>
                     <div class="list-item-right"
-                         v-text="detail.data.workTimeStart + ' - ' + detail.data.workTimeEnd"></div>
+                         v-text="filterEmpty(detail.data.workTimeStart) + ' - ' + filterEmpty(detail.data.workTimeEnd)"></div>
                   </div>
                 </div>
               </div>
