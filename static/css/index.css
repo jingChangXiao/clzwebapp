@@ -65,7 +65,7 @@ body{
 }
 
 .div-flex .btn-action:last-child {
-  ont-size: 16px;
+  font-size: 16px;
   color: #FF7323;
 }
 
@@ -115,6 +115,45 @@ body{
   color:#666;
   background-color: #f7f8fa;
   font-size: 14px;
+}
+
+/* 查询更多输入行样式 */
+.search-more-information {
+  justify-content: left;
+}
+.search-more-information .list-item-left {
+  width: 26%;
+}
+.search-more-information .list-item-right {
+  width: 73%;
+  text-align: left;
+}
+.search-more-information .list-item-right input {
+  border: none;
+  font-size: 14px;
+  color: #333;
+  line-height: 30px;
+}
+.search-more-information .list-item-right input::placeholder {
+  color: #7f7e7e;
+  font-size: 13px;
+}
+.search-more-information .list-item-right input::-moz-placeholder {
+  color: #7f7e7e;
+  font-size: 13px;
+}
+.search-more-information .list-item-right input::-webkit-input-placeholder {
+  color: #7f7e7e;
+  font-size: 13px;
+}
+.search-more-information .list-item-right input:-ms-input-placeholder {
+  color: #7f7e7e;
+  font-size: 13px;
+}
+
+.placeHolder {
+  font-size: 14px;
+  color: #7d7c7c;
 }
 
 /* 表格样式 */

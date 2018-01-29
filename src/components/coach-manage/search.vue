@@ -11,28 +11,34 @@
         <div class="mui-scroll">
           <div class="detail-content">
             <div class="list-base-information-chunk">
-              <div class="list-base-information">
+              <div class="list-base-information search-more-information">
                 <div class="list-item-left">教练名称：</div>
                 <div class="list-item-right">
-                  <input v-model="inputData.name" placeholder="请输入...">
+                  <input v-model="inputData.name" placeholder="请输入..." />
                 </div>
               </div>
               <div class="list-base-information" @tap="storeId">
                 <div class="list-item-left">所属门店：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont" v-text="inputData.storeIdName"></div>
+                  <div class="select-arrow iconfont">
+                    <span :class="{placeHolder: !inputData.storeIdName}" v-text="filterEmpty(inputData.storeIdName, '请选择')"></span>
+                  </div>
                 </div>
               </div>
               <div class="list-base-information" @tap="teachingDutyId">
                 <div class="list-item-left">带教职务：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont" v-text="inputData.teachingDutyIdName"></div>
+                  <div class="select-arrow iconfont">
+                    <span :class="{placeHolder: !inputData.teachingDutyIdName}" v-text="filterEmpty(inputData.teachingDutyIdName, '请选择')"></span>
+                  </div>
                 </div>
               </div>
               <div class="list-base-information" @tap="classId">
                 <div class="list-item-left">带教班别：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont" v-text="inputData.classIdName"></div>
+                  <div class="select-arrow iconfont">
+                    <span :class="{placeHolder: !inputData.classIdName}" v-text="filterEmpty(inputData.classIdName, '请选择')"></span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -51,6 +57,15 @@
   .select-arrow::after {
     content: '\e6c0';
     padding-left: 5px;
+  }
+
+  .select-arrow.iconfont {
+    display: flex;
+  }
+
+  .placeHolder {
+    font-size: 14px;
+    color: #7d7c7c;
   }
 
   .demo-flat-button {
@@ -107,8 +122,10 @@
         this.inputData.name = ''
         this.inputData.storeId = ''
         this.inputData.storeIdName = ''
-        this.inputData.market_check_wayName = ''
-        this.inputData.market_check_way = ''
+        this.inputData.teachingDutyIdName = ''
+        this.inputData.teachingDutyId = ''
+        this.inputData.classIdName = ''
+        this.inputData.classId = ''
       },
       storeId (flag) {
         this.selectFlag = flag

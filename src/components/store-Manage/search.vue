@@ -11,13 +11,13 @@
         <div class="mui-scroll">
           <div class="detail-content">
             <div class="list-base-information-chunk">
-              <div class="list-base-information">
+              <div class="list-base-information search-more-information">
                 <div class="list-item-left">门店名称：</div>
                 <div class="list-item-right">
                   <input v-model="inputData.name" placeholder="请输入...">
                 </div>
               </div>
-              <div class="list-base-information">
+              <div class="list-base-information search-more-information">
                 <div class="list-item-left">门店代码：</div>
                 <div class="list-item-right">
                   <input v-model="inputData.code" placeholder="请输入...">
@@ -48,36 +48,7 @@
     margin: auto;
     margin-top: 30px;
   }
-  .list-base-information-chunk {
-    .list-base-information {
-      justify-content: center;
-      .list-item-left {
-        width: 27%;
-      }
-      .list-item-right {
-        width: 70%;
-        text-align: left;
-        input {
-          border: none;
-          font-size: 13px;
-          color: #545252;
-          line-height: 30px;
-        }
-        input::-moz-placeholder {
-          color: #a3a3a3;
-        }
-        input::-webkit-input-placeholder {
-          color: #a3a3a3;
-        }
-        input:-ms-input-placeholder {
-          color: #a3a3a3;
-        }
-        input::placeholder {
-          color: #a3a3a3;
-        }
-      }
-    }
-  }
+
   .toRight {
     background-image: -webkit-linear-gradient(to right, #ff7626, #ffab68);
     background-image: linear-gradient(to right, #ff7626, #ffab68);

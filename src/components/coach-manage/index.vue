@@ -101,8 +101,6 @@
   }
 </style>
 <script>
-  //  import {api} from '@/assets/js/api'
-  //  import {APIS} from '@/assets/js/config'
   import refreshScroll from '@/assets/js/refresh-scroll'
   import refreshScrollCm from '@/components/public/scroll-refresh.vue'
   import * as types from '@/store/mutation-types'

@@ -11,7 +11,7 @@
         <div class="mui-scroll">
           <div class="detail-content">
             <div class="list-base-information-chunk">
-              <div class="list-base-information">
+              <div class="list-base-information search-more-information">
                 <div class="list-item-left">商品名称：</div>
                 <div class="list-item-right">
                   <input v-model="inputData.goodsName" placeholder="请输入...">
@@ -20,19 +20,25 @@
               <div class="list-base-information" @tap="describeGoods">
                 <div class="list-item-left">描述性商品：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont"><span :class="{placeHolder: !inputData.describeGoodsName}" v-text="filterEmpty(inputData.describeGoodsName, '请选择')"></span></div>
+                  <div class="select-arrow iconfont">
+                    <span :class="{placeHolder: !inputData.describeGoodsName}" v-text="filterEmpty(inputData.describeGoodsName, '请选择')"></span>
+                  </div>
                 </div>
               </div>
               <div class="list-base-information" @tap="marketCheckWay">
                 <div class="list-item-left">核销模式：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont"><span :class="{placeHolder: !inputData.checkWayName}" v-text="filterEmpty(inputData.checkWayName, '请选择')"></span></div>
+                  <div class="select-arrow iconfont">
+                    <span :class="{placeHolder: !inputData.checkWayName}" v-text="filterEmpty(inputData.checkWayName, '请选择')"></span>
+                  </div>
                 </div>
               </div>
               <div class="list-base-information" @tap="refund">
                 <div class="list-item-left">退费规则：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont"><span :class="{placeHolder: !inputData.refundName}" v-text="filterEmpty(inputData.refundName, '请选择')"></span></div>
+                  <div class="select-arrow iconfont">
+                    <span :class="{placeHolder: !inputData.refundName}" v-text="filterEmpty(inputData.refundName, '请选择')"></span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -57,44 +63,6 @@
     display: flex;
   }
 
-  .list-base-information:first-child {
-    justify-content: left;
-    .list-item-left {
-      width: 25%;
-    }
-    .list-item-right {
-      width: 73%;
-      text-align: left;
-      input {
-        border: none;
-        font-size: 14px;
-        color: #333;
-        line-height: 30px;
-      }
-      input::placeholder {
-        color: #7f7e7e;
-        font-size: 13px;
-      }
-      input::-moz-placeholder {
-        color: #7f7e7e;
-        font-size: 13px;
-      }
-      input::-webkit-input-placeholder {
-        color: #7f7e7e;
-        font-size: 13px;
-      }
-      input:-ms-input-placeholder {
-        color: #7f7e7e;
-        font-size: 13px;
-      }
-
-    }
-  }
-
-  .placeHolder {
-    font-size: 14px;
-    color: #7d7c7c;
-  }
 
   .demo-flat-button {
     height: 45px;

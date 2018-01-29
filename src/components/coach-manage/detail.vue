@@ -172,6 +172,10 @@
     background-color: white;
   }
 
+  .list-base-information {
+    align-items: center;
+  }
+
   .mui-pull-left-flag {
     display: inline-block;
     height: 40px;
@@ -233,31 +237,16 @@
     },
     computed: {
       listEduTeachingClass () {
-        let str = ''
-        if (this.detail.data.listEduTeachingClass) {
-          this.detail.data.listEduTeachingClass.forEach(item => {
-            str += item.className + ','
-          })
-        }
-        return str
+        let listEduTeachingClass = this.detail.data.listEduTeachingClass
+        return listEduTeachingClass ? this.concatStr(listEduTeachingClass, 'className') : ''
       },
       listEduTeachingArea () {
-        let str = ''
-        if (this.detail.data.listEduTeachingArea) {
-          this.detail.data.listEduTeachingArea.forEach(item => {
-            str += item.areaName + ','
-          })
-        }
-        return str
+        let listEduTeachingArea = this.detail.data.listEduTeachingArea
+        return listEduTeachingArea ? this.concatStr(listEduTeachingArea, 'areaName') : ''
       },
       listEduAssociatedStores () {
-        let str = ''
-        if (this.detail.data.listEduAssociatedStores) {
-          this.detail.data.listEduAssociatedStores.forEach(item => {
-            str += item.storeName + ','
-          })
-        }
-        return str
+        let listEduAssociatedStores = this.detail.data.listEduAssociatedStores
+        return listEduAssociatedStores ? this.concatStr(listEduAssociatedStores, 'storeName') : ''
       },
       listEduAssociatedStoresMain () {
         let str = ''
@@ -286,6 +275,14 @@
         }, (rtData) => {
           mui.alert(rtData.message)
         })
+      },
+      // 拼接字符串
+      concatStr (arr, key) {
+        let result = ''
+        arr.forEach((item) => {
+          result += item[key] + ','
+        })
+        return result.replace(/[,]$/, '')
       }
     },
     created () {

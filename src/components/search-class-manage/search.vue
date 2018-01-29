@@ -11,7 +11,7 @@
         <div class="mui-scroll">
           <div class="detail-content">
             <div class="list-base-information-chunk">
-              <div class="list-base-information">
+              <div class="list-base-information search-more-information">
                 <div class="list-item-left">商品名称：</div>
                 <div class="list-item-right">
                   <input v-model="inputData.name" placeholder="请输入..." />
@@ -62,45 +62,6 @@
 
   .select-arrow.iconfont {
     display: flex;
-  }
-
-  .list-base-information:first-child {
-    justify-content: left;
-    .list-item-left {
-      width: 25%;
-    }
-    .list-item-right {
-      width: 73%;
-      text-align: left;
-      input {
-        border: none;
-        font-size: 14px;
-        color: #333;
-        line-height: 30px;
-      }
-      input::placeholder {
-        color: #7f7e7e;
-        font-size: 13px;
-      }
-      input::-moz-placeholder {
-        color: #7f7e7e;
-        font-size: 13px;
-      }
-      input::-webkit-input-placeholder {
-        color: #7f7e7e;
-        font-size: 13px;
-      }
-      input:-ms-input-placeholder {
-        color: #7f7e7e;
-        font-size: 13px;
-      }
-
-    }
-  }
-
-  .placeHolder {
-    font-size: 14px;
-    color: #7d7c7c;
   }
 
   .toRight {
