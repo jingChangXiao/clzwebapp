@@ -20,19 +20,19 @@
               <div class="list-base-information" @tap="describeGoods">
                 <div class="list-item-left">描述性商品：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont" v-text="inputData.describeGoodsName"></div>
+                  <div class="select-arrow iconfont"><span :class="{placeHolder: !inputData.describeGoodsName}" v-text="filterEmpty(inputData.describeGoodsName, '请选择')"></span></div>
                 </div>
               </div>
               <div class="list-base-information" @tap="marketCheckWay">
                 <div class="list-item-left">核销模式：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont" v-text="inputData.checkWayName"></div>
+                  <div class="select-arrow iconfont"><span :class="{placeHolder: !inputData.checkWayName}" v-text="filterEmpty(inputData.checkWayName, '请选择')"></span></div>
                 </div>
               </div>
               <div class="list-base-information" @tap="refund">
                 <div class="list-item-left">退费规则：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont" v-text="inputData.refundName"></div>
+                  <div class="select-arrow iconfont"><span :class="{placeHolder: !inputData.refundName}" v-text="filterEmpty(inputData.refundName, '请选择')"></span></div>
                 </div>
               </div>
             </div>
@@ -52,34 +52,50 @@
     content: '\e6c0';
     padding-left: 5px;
   }
+
+  .select-arrow.iconfont {
+    display: flex;
+  }
+
   .list-base-information:first-child {
     justify-content: left;
     .list-item-left {
-      width: 27%;
+      width: 25%;
     }
     .list-item-right {
-      width: 70%;
+      width: 73%;
       text-align: left;
       input {
         border: none;
-        font-size: 13px;
-        color: #545252;
+        font-size: 14px;
+        color: #333;
         line-height: 30px;
       }
+      input::placeholder {
+        color: #7f7e7e;
+        font-size: 13px;
+      }
       input::-moz-placeholder {
-        color: #a3a3a3;
+        color: #7f7e7e;
+        font-size: 13px;
       }
       input::-webkit-input-placeholder {
-        color: #a3a3a3;
+        color: #7f7e7e;
+        font-size: 13px;
       }
       input:-ms-input-placeholder {
-        color: #a3a3a3;
+        color: #7f7e7e;
+        font-size: 13px;
       }
-      input::placeholder {
-        color: #a3a3a3;
-      }
+
     }
   }
+
+  .placeHolder {
+    font-size: 14px;
+    color: #7d7c7c;
+  }
+
   .demo-flat-button {
     height: 45px;
     line-height: 45px;
