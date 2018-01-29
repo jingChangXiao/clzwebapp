@@ -59,6 +59,10 @@ myPlugin.install = (Vue) => {
                           .replace(/hh/g, this.formatFnItem(date.getHours())).replace(/mm/g, this.formatFnItem(date.getMinutes())).replace('ss', this.formatFnItem(date.getMilliseconds()))
         }
         return rtStr
+      },
+      // 空字符转换
+      filterEmpty (arg, txt = '') {
+        return (arg === '' || arg === null || arg === undefined) ? txt : arg
       }
     }
   })
@@ -66,9 +70,6 @@ myPlugin.install = (Vue) => {
   // 4. 添加实例方法
   Vue.prototype.$myMethod = function (methodOptions) {
     // 逻辑...
-  }
-  Vue.prototype.filterEmpty = function (arg, txt = '') {
-    return (arg === '' || arg === null || arg === undefined) ? txt : arg
   }
 }
 export {myPlugin}
