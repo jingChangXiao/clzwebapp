@@ -127,11 +127,13 @@
         mui.back()
       },
       restFn () {
-        this.inputData.name = ''
+        this.inputData.goodsName = ''
         this.inputData.describeGoodsName = ''
         this.inputData.describeGoods = ''
-        this.inputData.market_check_wayName = ''
-        this.inputData.market_check_way = ''
+        this.inputData.checkWayName = ''
+        this.inputData.checkWay = ''
+        this.inputData.refundName = ''
+        this.inputData.refund = ''
       },
       describeGoods (flag) {
         this.selectFlag = flag

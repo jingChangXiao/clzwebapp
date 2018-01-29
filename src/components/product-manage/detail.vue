@@ -12,13 +12,13 @@
           <div class="detail-content">
 
             <div class="product-name">
-              <div class="product-name-left" v-text="detail.data.goodsName"></div>
-              <div class="product-name-right" v-text="'¥ ' + detail.data.price"></div>
+              <div class="product-name-left" v-text="filterEmpty(detail.data.goodsName)"></div>
+              <div class="product-name-right" v-text="'¥ ' + filterEmpty(detail.data.price)"></div>
             </div>
             <div class="list-base-information-chunk">
               <div class="list-base-information" v-for="item in tableItemsBase">
                 <div class="list-item-left" v-text="item.label"></div>
-                <div class="list-item-right" v-text="detail.data[item.name]"></div>
+                <div class="list-item-right" v-text="filterEmpty(detail.data[item.name])"></div>
               </div>
               <div class="list-base-information">
                 <div class="list-item-left">商品属性</div>
@@ -35,7 +35,7 @@
             <div class="list-base-information-chunk">
               <div class="list-base-information" v-for="item in tableItemsOther">
                 <div class="list-item-left" v-text="item.label"></div>
-                <div class="list-item-right" v-text="detail.data[item.name]"></div>
+                <div class="list-item-right" v-text="filterEmpty(detail.data[item.name])"></div>
               </div>
               <div class="list-base-information">
                 <div class="list-item-left">退费规则</div>
