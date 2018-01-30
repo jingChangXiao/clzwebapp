@@ -49,6 +49,13 @@
     margin-top: 30px;
   }
 
+  .list-base-information-chunk {
+    .list-base-information {
+      justify-content: center;
+
+    }
+  }
+
   .toRight {
     background-image: -webkit-linear-gradient(to right, #ff7626, #ffab68);
     background-image: linear-gradient(to right, #ff7626, #ffab68);
