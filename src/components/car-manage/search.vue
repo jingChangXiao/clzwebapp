@@ -11,34 +11,40 @@
         <div class="mui-scroll">
           <div class="detail-content">
             <div class="list-base-information-chunk">
-              <div class="list-base-information">
+              <div class="list-base-information search-more-information">
                 <div class="list-item-left">车牌号：</div>
                 <div class="list-item-right">
-                  <input v-model="inputData.plateNumber" placeholder="请输入...">
+                  <input v-model="inputData.plateNumber" placeholder="请输入..." />
                 </div>
               </div>
-              <div class="list-base-information">
+              <div class="list-base-information search-more-information">
                 <div class="list-item-left">使用人员：</div>
                 <div class="list-item-right">
-                  <input v-model="inputData.userName" placeholder="请输入...">
+                  <input v-model="inputData.userName" placeholder="请输入..." />
                 </div>
               </div>
               <div class="list-base-information" @tap="selectArea">
                 <div class="list-item-left">所在片区：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont" v-text="inputData.areaIdName"></div>
+                  <div class="select-arrow iconfont">
+                    <span :class="{placeHolder: !inputData.areaIdName}" v-text="filterEmpty(inputData.areaIdName, '请选择')"></span>
+                  </div>
                 </div>
               </div>
               <div class="list-base-information" @tap="isFile">
                 <div class="list-item-left">是否备案：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont" v-text="inputData.isFileName"></div>
+                  <div class="select-arrow iconfont">
+                    <span :class="{placeHolder: !inputData.isFileName}" v-text="filterEmpty(inputData.isFileName, '请选择')"></span>
+                  </div>
                 </div>
               </div>
               <div class="list-base-information" @tap="coty">
                 <div class="list-item-left">车龄：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont" v-text="inputData.cotyName"></div>
+                  <div class="select-arrow iconfont">
+                    <span :class="{placeHolder: !inputData.cotyName}" v-text="filterEmpty(inputData.cotyName, '请选择')"></span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -57,6 +63,10 @@
   .select-arrow::after {
     content: '\e6c0';
     padding-left: 5px;
+  }
+
+  .select-arrow.iconfont {
+    display: flex;
   }
 
   .demo-flat-button {
@@ -78,7 +88,6 @@
   }
 </style>
 <script>
-  //  import refreshScroll from '@/assets/js/refresh-scroll'
   export default {
     data () {
       return {
@@ -88,7 +97,10 @@
           userName: '',
           areaId: '',
           areaIdName: '',
-          isFile: ''
+          isFile: '',
+          isFileName: '',
+          coty: '',
+          cotyName: ''
         },
         liCss: {
           top: '44px',

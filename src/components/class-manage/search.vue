@@ -11,37 +11,41 @@
         <div class="mui-scroll">
           <div class="detail-content">
             <div class="list-base-information-chunk">
-              <div class="list-base-information">
+              <div class="list-base-information search-more-information">
                 <div class="list-item-left">学员名称：</div>
                 <div class="list-item-right">
-                  <input v-model="inputData.userName" placeholder="请输入...">
+                  <input v-model="inputData.userName" placeholder="请输入..." />
                 </div>
               </div>
               <div class="list-base-information" @tap="studentStatus">
                 <div class="list-item-left">学员状态：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont" v-text="inputData.studentStatusName"></div>
+                  <div class="select-arrow iconfont">
+                    <span :class="{placeHolder: !inputData.studentStatusName}" v-text="filterEmpty(inputData.studentStatusName, '请选择')"></span>
+                  </div>
                 </div>
               </div>
               <div class="list-base-information" @tap="areaId">
                 <div class="list-item-left">所在片区：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont" v-text="inputData.areaIdName"></div>
+                  <div class="select-arrow iconfont">
+                    <span :class="{placeHolder: !inputData.areaIdName}" v-text="filterEmpty(inputData.areaIdName, '请选择')"></span>
+                  </div>
                 </div>
               </div>
               <div class="list-base-information" @tap="modelCarId">
                 <div class="list-item-left">所学车型：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont" v-text="inputData.modelCarIdName"></div>
+                  <div class="select-arrow iconfont">
+                    <span :class="{placeHolder: !inputData.modelCarIdName}" v-text="filterEmpty(inputData.modelCarIdName, '请选择')"></span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div>
             <div class="demo-flat-button toRight" @tap="search">查询</div>
-            <!--<mu-flat-button label="登录" class="demo-flat-button" color="#FFF" @click="login"/>-->
           </div>
-
         </div>
       </div>
     </div>
@@ -51,6 +55,10 @@
   .select-arrow::after {
     content: '\e6c0';
     padding-left: 5px;
+  }
+
+  .select-arrow.iconfont {
+    display: flex;
   }
 
   .demo-flat-button {

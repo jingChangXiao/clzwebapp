@@ -13,20 +13,20 @@
             <div class="list-base-information-chunk">
               <div class="mui-media-body" style="padding:15px 20px;border-bottom: 1px dashed #ccc">
                 <span style="display: flex;">
-                  <span style="color:#3A444A;font-size:16px;font-weight: 600" v-text="detail.data.plateNumber"></span>
-                  <span class="item-teachingTypeName" v-text="detail.data.usePropertiesName"></span>
-                  <span class="item-teachingCarName" v-text="detail.data.carStyle"></span>
+                  <span style="color:#3A444A;font-size:16px;font-weight: 600" v-text="filterEmpty(detail.data.plateNumber)"></span>
+                  <span class="item-teachingTypeName" v-text="filterEmpty(detail.data.usePropertiesName)"></span>
+                  <span class="item-teachingCarName" v-text="filterEmpty(detail.data.carStyle)"></span>
                 </span>
                 <div class='mui-ellipsis' style="font-size: 12px;margin-top: 8px;color: #7F7F7F;">
                   <div>
-                    <span v-text="'原车牌号：' + detail.data.oldPlateNumber"></span>
+                    <span v-text="'原车牌号：' + filterEmpty(detail.data.oldPlateNumber)"></span>
                   </div>
                 </div>
               </div>
 
               <div class="list-base-information" v-for="item in tableItemsBase">
                 <div class="list-item-left" v-text="item.label"></div>
-                <div class="list-item-right" v-text="detail.data[item.name]"></div>
+                <div class="list-item-right" v-text="filterEmpty(detail.data[item.name])"></div>
               </div>
               <div class="list-base-information">
                 <div class="list-item-left">车牌颜色</div>
@@ -43,7 +43,7 @@
             <div class="list-base-information-chunk">
               <div class="list-base-information" v-for="item in tableItemsUse">
                 <div class="list-item-left" v-text="item.label"></div>
-                <div class="list-item-right" v-text="detail.data[item.name]"></div>
+                <div class="list-item-right" v-text="filterEmpty(detail.data[item.name])"></div>
               </div>
               <div class="list-base-information">
                 <div class="list-item-left">使用状态</div>
@@ -64,7 +64,7 @@
             <div class="list-base-information-chunk">
               <div class="list-base-information" v-for="item in tableItemsOther">
                 <div class="list-item-left" v-text="item.label"></div>
-                <div class="list-item-right" v-text="detail.data[item.name]"></div>
+                <div class="list-item-right" v-text="filterEmpty(detail.data[item.name])"></div>
               </div>
               <div class="list-base-information">
                 <div class="list-item-left">出厂日期</div>
@@ -84,19 +84,19 @@
               </div>
               <div class="list-base-information">
                 <div class="list-item-left">排量/功率</div>
-                <div class="list-item-right" v-text="detail.data.displace + '/' + detail.data.power"></div>
+                <div class="list-item-right" v-text="filterEmpty(detail.data.displace) + '/' + filterEmpty(detail.data.power)"></div>
               </div>
               <div class="list-base-information">
                 <div class="list-item-left">轮距(前后)</div>
-                <div class="list-item-right" v-text="detail.data.treadBefore + '/' + detail.data.treadAfter"></div>
+                <div class="list-item-right" v-text="filterEmpty(detail.data.treadBefore) + '/' + filterEmpty(detail.data.treadAfter)"></div>
               </div>
               <div class="list-base-information">
                 <div class="list-item-left">轮胎数/规格</div>
-                <div class="list-item-right" v-text="detail.data.tireNumber + '/' + detail.data.tireSpec"></div>
+                <div class="list-item-right" v-text="filterEmpty(detail.data.tireNumber) + '/' + filterEmpty(detail.data.tireSpec)"></div>
               </div>
               <div class="list-base-information">
                 <div class="list-item-left">外轮廓长/宽/高</div>
-                <div class="list-item-right" v-text="detail.data.outlineLong + '/' + detail.data.outlineWide + '/' + detail.data.outlineHigh"></div>
+                <div class="list-item-right" v-text="filterEmpty(detail.data.outlineLong) + '/' + filterEmpty(detail.data.outlineWide) + '/' + filterEmpty(detail.data.outlineHigh)"></div>
               </div>
             </div>
           </div>

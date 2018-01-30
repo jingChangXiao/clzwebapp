@@ -20,20 +20,23 @@
               <div class="list-base-information" @tap="highFlag">
                 <div class="list-item-left">外地班属性：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont"><span :class="{placeHolder: !inputData.highFlagName}" v-text="filterEmpty(inputData.highFlagName, '请选择')"></span></div>
+                  <div class="select-arrow iconfont">
+                    <span :class="{placeHolder: !inputData.highFlagName}" v-text="filterEmpty(inputData.highFlagName, '请选择')"></span>
+                  </div>
                 </div>
               </div>
               <div class="list-base-information" @tap="localFlag">
                 <div class="list-item-left">是否高端：</div>
                 <div class="list-item-right">
-                  <div class="select-arrow iconfont"><span :class="{placeHolder: !inputData.localFlagName}" v-text="filterEmpty(inputData.localFlagName, '请选择')"></span></div>
+                  <div class="select-arrow iconfont">
+                    <span :class="{placeHolder: !inputData.localFlagName}" v-text="filterEmpty(inputData.localFlagName, '请选择')"></span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div>
             <div class="demo-flat-button toRight" @tap="search">查询</div>
-            <!--<mu-flat-button label="登录" class="demo-flat-button" color="#FFF" @click="login"/>-->
           </div>
 
         </div>
@@ -70,7 +73,6 @@
   }
 </style>
 <script>
-  //  import refreshScroll from '@/assets/js/refresh-scroll'
   export default {
     data () {
       return {
