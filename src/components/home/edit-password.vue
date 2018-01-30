@@ -97,16 +97,17 @@
     .demo-flat-button {
       color: white;
       height: 45px;
-      font-size: 14px;
+      font-size: 15px;
       letter-spacing: 3px;
       justify-content: center;
       -webkit-justify-content: center;
       display: flex;
       align-items: center;
       -webkit-align-items: center;
-      background-image: linear-gradient(-55deg, #FFAB68 0%, #FF7626 98%);
-      box-shadow: 0 17px 62px 0 rgba(255,142,42,0.17);
-      border-radius: 100px;
+      background-image: linear-gradient(to right, #ff7626, #ffab68);
+      -webkit-box-shadow: 0 17px 62px 0 rgba(255, 142, 42, 0.2);
+      box-shadow: 0 17px 62px 0 rgba(255, 142, 42, 0.2);
+      border-radius: 23px;
     }
   }
 </style>
