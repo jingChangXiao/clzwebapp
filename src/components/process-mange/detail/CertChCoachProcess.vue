@@ -152,7 +152,7 @@
         })
       }
     },
-    mounted: () => {
+    mounted () {
       this.getDetail()
       console.log(this.base, '-------')
     }

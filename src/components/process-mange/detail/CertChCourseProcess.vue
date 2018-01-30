@@ -147,7 +147,7 @@
         })
       }
     },
-    mounted: () => {
+    mounted () {
       this.getDetail()
     }
   }
