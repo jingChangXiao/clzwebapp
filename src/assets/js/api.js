@@ -161,7 +161,7 @@ function galleryImg (callback, option = {}) {
     resultCode: 1,
     data: {}
   }
-  let type = option.type || 1
+  let type = option.type || 1// 默认只选一张图片
   // 设置参数
   let packageObj = type === 1 ? {
     filter: 'image'
@@ -176,9 +176,9 @@ function galleryImg (callback, option = {}) {
   }
   // 从相册中选择图片
   app.gallery.pick(function (path) {
-    // path: 选择一张时是路径，多张时为数组
+    // path: 选择一张时是路径，多张时为包裹files数组的对象
     result.resultCode = 1
-    result.data = path
+    result.data = packageObj.maximum ? path.files : path
     callback && callback(result)
   }, function (e) {
     // 取消选择
@@ -257,21 +257,20 @@ const Uploader = class {
           self.clear()
         } else {
           consoleLog.log('上传失败：' + status)
+          mui.toast('上传失败')
         }
       }
     )
     for (let t = 0; t < datas.length; t++) {
       let d = datas[t]
       task.addData(d.name, d.value)
-      console.log(d.name, d.value)
     }
     for (let i = 0; i < files.length; i++) {
       let f = files[i]
       task.addFile(f.path, {key: f.name})
-      console.log(f.path, f.name)
     }
     task.start()
-    console.log('task:' + JSON.stringify(task))
+    console.log(task)
     this.task = task
   }
   appendFile (fileObj) {
