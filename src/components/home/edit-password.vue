@@ -26,6 +26,7 @@
           </div>
           <div class="login-btn">
             <div class="demo-flat-button" @tap="save">确定</div>
+            <div class="demo-flat-button" @tap="$router.push('/nativeTest')" style="margin-top: 20px;">原生功能测试</div>
           </div>
         </div>
       </div>
@@ -125,6 +126,7 @@
       }
     },
     computed: {},
+    mounted () {},
     methods: {
       save () {
         let check = this.checkPassword()
