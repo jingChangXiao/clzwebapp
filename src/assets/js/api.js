@@ -14,6 +14,15 @@ let consoleLog = {
     this.logFlag && console.log(arguments)
   }
 }
+// 原生接口是否准备就绪
+let isPlusReady = false
+let app = {}
+
+function plusReady () {
+  isPlusReady = true
+  app = window.plus
+}
+document.addEventListener('plusready', plusReady, false)
 
 /**
  * 2.代理请求  支持传入回调参数，也返回了promise对象
@@ -83,7 +92,233 @@ function initAjax (option, loginFlag) {
     })
   })
 }
+
+/**
+ *  @param xiaoJingChang
+ *  @param 2018/1/31
+ *  @param option对象有4个属性
+ *  resultType 接收的图片信息只需要路径还是对象 默认只需路径
+ *  save 是否保存图片 默认不需要
+ *  success 图片保存成功的回调函数
+ *  error 图片保存失败的回调函数
+ *  @param 传入回调函数，接收result对象，msgCode为1时正常返回数据，否则返回错误信息
+ */
+function camera (callBack, option = {}) {
+  if (!isPlusReady) return mui.alert('相机未准备就绪')
+  try {
+    let result = {
+      resultCode: 1,
+      data: {}
+    }
+    let resultType = option.resultType || 'path'
+    let save = option.save || false
+    let cmr = app.camera.getCamera()
+    cmr.captureImage(function (path) {
+      // 是否保存图片
+      save && app.gallery.save(path, function () {
+        consoleLog.log('图片保存成功')
+        option.success && option.success()
+      }, function () {
+        consoleLog.log('图片保存失败')
+        option.error && option.error()
+      })
+      if (resultType === 'path') {
+        result.data = path
+        callBack && callBack(result)
+      } else {
+        app.io.resolveLocalFileSystemURL(path, function (entry) {
+          entry.filePath = path
+          result.data = entry
+          callBack && callBack(result)
+        }, function (e) {
+          result.resultCode = 0
+          result.data = e
+          callBack && callBack(result)
+          mui.alert('读取拍照文件错误：' + e.message)
+        })
+      }
+    }, function (e) {
+      // 退出拍照
+      consoleLog.log('退出拍照')
+    }, {})
+  } catch (e) {
+    mui.alert('调用相机失败')
+  }
+}
+
+/**
+ *  @param xiaoJingChang
+ *  @param 2018/2/1
+ *  @param 传入回调函数（必传）和参数对象(非必传)option，type分为1和2，1时只选取一张，2时可选取多张，
+ *  maximum 可设置选择图片最大数量，
+ *  maxHandle 超过最多选择图片数量事件
+ *  @param 回调函数接收result对象，msgCode为1时正常返回数据，否则返回错误信息
+ */
+function galleryImg (callback, option = {}) {
+  if (!isPlusReady) return mui.alert('系统未准备就绪')
+  if (!callback || typeof callback !== 'function') return
+  let result = {
+    resultCode: 1,
+    data: {}
+  }
+  let type = option.type || 1
+  // 设置参数
+  let packageObj = type === 1 ? {
+    filter: 'image'
+  } : {
+    filter: 'image',
+    multiple: true,
+    system: false
+  }
+  if (type !== 1 && option.maximum) {
+    packageObj.maximum = option.maximum
+    packageObj.onmaxed = option.maxHandle || function () {}
+  }
+  // 从相册中选择图片
+  app.gallery.pick(function (path) {
+    // path: 选择一张时是路径，多张时为数组
+    result.resultCode = 1
+    result.data = path
+    callback && callback(result)
+  }, function (e) {
+    // 取消选择
+    consoleLog.log('取消选取', e)
+    result.resultCode = 0
+    result.data = e
+    callback && callback(result)
+  }, packageObj)
+}
+
+/**
+ * @param xiaoJingChang
+ * @param 2018/2/1
+ * @param tel为打电话，sms是发短信，email是发邮箱，只需传入电话号码和邮箱地址就可以，会校验入参
+ * messageFun 为这三个方法的公共方法
+ * */
+let formEl
+function messageFun (data, msgType) {
+  if (!isPlusReady) return mui.alert('系统未准备就绪')
+  formEl = formEl || document.createElement('form')
+  formEl.style.display = 'none'
+  formEl.setAttribute('id', 'cheliziDefinedMessage')
+  let telEl = `<li style="display: none;"><a id="cheliziDefinedMessage${msgType}" style="text-decoration:none;" href="${msgType}:${data}">拨打电话</a></li>`
+  formEl.innerHTML = telEl
+  document.querySelector('body').appendChild(formEl)
+  let a = document.querySelector('#cheliziDefinedMessage' + msgType)
+  a && a.click()
+}
+// 打电话
+function tel (tel) {
+  if (!/^(\d)+$/.test(tel)) return mui.toast('输入有误')
+  messageFun(tel, 'tel')
+}
+// 发短信
+function sms (tel) {
+  if (!/^(\d)+$/.test(tel)) return mui.toast('输入有误')
+  messageFun(tel, 'sms')
+}
+// 发邮件
+function email (email) {
+  if (!/^([0-9A-Za-z\-_]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g.test(email)) return mui.toast('输入有误')
+  messageFun(email, 'mailto')
+}
+
+/**
+ *  @param xiaoJingChang
+ *  @param 2018/2/1
+ *  @param Uploader为构造函数, 调用方式 let uploader = new api.Uploader()
+ *  添加文件时 调用appendFile方法，接受file对象（必须）
+ *  添加数据时 调用appendData方法，接受｛name：＊＊, value：＊＊｝（非必需）
+ *  添加文件活着数据后，调用upload方法，传入上传路径（必须），回调函数（非必需）
+ */
+const Uploader = class {
+  constructor () {
+    this.files = []
+    this.datas = []
+    this.task = ''
+    this.index = 0
+  }
+  upload (serverUrl, callback) {
+    if (!isPlusReady) return mui.alert('系统未准备就绪')
+    if (!serverUrl) return
+    let files = this.files
+    let datas = this.datas
+    if (!files.length) {
+      mui.alert('没有添加上传文件！')
+      return
+    }
+    let self = this
+    let task = app.uploader.createUpload(serverUrl, {method: 'POST'},
+      function (res, status) {
+        // 上传完成
+        if (status === 200) {
+          callback && callback(res, status)
+          mui.toast('上传成功')
+          self.clear()
+        } else {
+          consoleLog.log('上传失败：' + status)
+        }
+      }
+    )
+    for (let t = 0; t < datas.length; t++) {
+      let d = datas[t]
+      task.addData(d.name, d.value)
+      console.log(d.name, d.value)
+    }
+    for (let i = 0; i < files.length; i++) {
+      let f = files[i]
+      task.addFile(f.path, {key: f.name})
+      console.log(f.path, f.name)
+    }
+    task.start()
+    console.log('task:' + JSON.stringify(task))
+    this.task = task
+  }
+  appendFile (fileObj) {
+    if (!fileObj || typeof fileObj !== 'object') return
+    this.index++
+    this.files.push({name: fileObj.name, path: fileObj.path})
+  }
+  deleteFile (index = undefined) {
+    this.files.splice(index, 1)
+  }
+  appendData (obj) {
+    if (!obj || typeof obj !== 'object') return
+    this.index++
+    this.datas.push(obj)
+  }
+  deleteData (index = undefined) {
+    this.datas.splice(index, 1)
+  }
+  // 暂停上传任务
+  pause () {
+    this.task.pause()
+  }
+  // 恢复暂停的上传任务
+  resume () {
+    this.task.resume()
+  }
+  // 取消上传任务
+  abort () {
+    this.task.abort()
+    this.clear()
+  }
+  clear () {
+    this.index = 0
+    this.datas = []
+    this.files = []
+    app.uploader.clear(this.task.state)
+    this.task = ''
+  }
+}
+
 let api = {
-  initAjax: initAjax
+  initAjax: initAjax,
+  camera: camera,
+  galleryImg: galleryImg,
+  tel: tel,
+  sms: sms,
+  email: email,
+  Uploader: Uploader
 }
 export {api}
