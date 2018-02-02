@@ -5,17 +5,33 @@
 */
 <template>
   <div>
-    <content-title :titleData="{title: '版本记录'}"></content-title>
+    <content-title :titleData="{title: '当前版本'}"></content-title>
     <div class="mui-content div-user-center">
       <div class="mui-scroll-wrapper" style="top:45px;">
-        <div class="mui-scroll" id="versionLog">
-          <div class='version_div'>
-            <h1>V1.0.0 - 2018.02.05</h1><br>
-            "XX正式发布，主要功能清单如下:
-            <h3>1.	消息中心;</h3>
-            <h3>2.	工作中心;</h3>
-            <h3>3.	流程中心;</h3>
-            <h3>4.	个人中心;</h3>
+        <div class="mui-scroll" style="padding: 10px;">
+          <div class="app-title-img">
+            <div>
+              <img src="../../../static/img/logo.png" alt="哩哩云驾校" />
+              <div>哩哩云驾校</div>
+            </div>
+          </div>
+          <div class="list-base-information-chunk">
+            <div class="list-base-information">
+              <div class="list-item-left">版本号</div>
+              <div class="list-item-right">
+                <span>V 1.1</span>
+              </div>
+            </div>
+            <div class="list-base-information activeT">
+              <div class="list-item-left">检查更新</div>
+              <div class="mui-navigate-right">
+              </div>
+            </div>
+            <div class="list-base-information activeT">
+              <div class="list-item-left">版本日志</div>
+              <div class="mui-navigate-right">
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -23,35 +39,40 @@
   </div>
 </template>
 <style lang="less" rel="stylesheet/less" scoped>
-  /* list css */
-  #versionLog li div {
-    font-size: 15px;
-    color: #4d4d4d;
-  }
-  #versionLog div.value {
-    color: #00b4ff;
-  }
-  #versionLog li:last-child {
-    background-image: none;
-  }
-  #versionLog .version_div {
-    padding: 10px 20px;
+  .app-title-img {
+    height: 249px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: white;
+    border-bottom: 1px solid #eee;
+    div {
+      width: 100%;
+      text-align: center;
+      img {
+        width: 32%;
+      }
+      div {
+        font-family: PingFangSC-Regular;
+        text-align: center;
+        font-size: 16px;
+        color: #080808;
+        margin-top: 3px;
+        letter-spacing: 1px;
+      }
+    }
+  }
+  .list-base-information {
+    padding: 5px 15px;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #333333;
+  }
+  .mui-navigate-right::after {
     color: #888;
   }
-  #versionLog .version_div h1 {
-    color: #000000;
-    font-weight: 800;
-    font-size: 20px;
-  }
-  #versionLog .version_div h2 {
-    font-size: 16px;
-    padding-left: 10px;
-  }
-  #versionLog .version_div h3 {
-    font-size: 14px;
-    padding-left: 20px;
-    line-height: 1.4em;
+  .activeT:active {
+    background-color: #e2e2e2;
   }
 </style>
 <script>
