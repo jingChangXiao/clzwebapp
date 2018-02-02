@@ -297,7 +297,7 @@ const Uploader = class {
     this.datas.splice(index, 1)
   }
   // 添加上传监听事件，需在开始调用之前添加
-  onStateChange (callback) {
+  addStateChange (callback) {
     if (typeof callback !== 'function') return
     this.event = callback
   }
