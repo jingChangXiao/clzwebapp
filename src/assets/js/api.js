@@ -236,6 +236,7 @@ const Uploader = class {
     this.files = []
     this.datas = []
     this.task = ''
+    this.event = ''
     this.index = 0
   }
   upload (serverUrl, callback) {
@@ -256,7 +257,8 @@ const Uploader = class {
           mui.toast('上传成功')
           self.clear()
         } else {
-          consoleLog.log('上传失败：' + status)
+          consoleLog.log('上传失败')
+          console.debug(res, status)
           mui.toast('上传失败')
         }
       }
@@ -269,8 +271,11 @@ const Uploader = class {
       let f = files[i]
       task.addFile(f.path, {key: f.name})
     }
+    this.event && task.addEventListener('statechanged', function onStateChanged (event, status) {
+      this.event(event, status)
+    }, false)
     task.start()
-    console.log(task)
+    console.log('task: ', task)
     this.task = task
   }
   appendFile (fileObj) {
@@ -279,6 +284,7 @@ const Uploader = class {
     this.files.push({name: fileObj.name, path: fileObj.path})
   }
   deleteFile (index = undefined) {
+    if (index === undefined) return
     this.files.splice(index, 1)
   }
   appendData (obj) {
@@ -287,7 +293,13 @@ const Uploader = class {
     this.datas.push(obj)
   }
   deleteData (index = undefined) {
+    if (index === undefined) return
     this.datas.splice(index, 1)
+  }
+  // 添加上传监听事件，需在开始调用之前添加
+  onStateChange (callback) {
+    if (typeof callback !== 'function') return
+    this.event = callback
   }
   // 暂停上传任务
   pause () {
@@ -302,10 +314,15 @@ const Uploader = class {
     this.task.abort()
     this.clear()
   }
+  // 开始所有上传任务
+  startAll () {
+    app.uploader.startAll()
+  }
   clear () {
     this.index = 0
     this.datas = []
     this.files = []
+    this.event = ''
     app.uploader.clear(this.task.state)
     this.task = ''
   }
