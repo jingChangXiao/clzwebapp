@@ -64,8 +64,7 @@ function initAjax (option, loginFlag) {
     }
     consoleLog.log('请求参数--->', vuePostData)
     Vue.http(vuePostData).then(function (retData) {
-      let retDataObj = {}
-      retDataObj = retData.data || retData.bodyText
+      let retDataObj = retData.data || retData.bodyText
       if (typeof retDataObj === 'string') {
         try {
           retDataObj = JSON.parse(retDataObj)
@@ -229,7 +228,7 @@ function email (email) {
  *  @param Uploader为构造函数, 调用方式 let uploader = new api.Uploader()
  *  添加文件时 调用appendFile方法，接受file对象（必须）
  *  添加数据时 调用appendData方法，接受｛name：＊＊, value：＊＊｝（非必需）
- *  添加文件活着数据后，调用upload方法，传入上传路径（必须），回调函数（非必需）
+ *  添加文件或者数据后，调用upload方法，传入上传路径（必须），回调函数（非必需）
  */
 const Uploader = class {
   constructor () {
@@ -328,6 +327,176 @@ const Uploader = class {
   }
 }
 
+/**
+ *  @param xiaoJingChang
+ *  @param 2018/2/3
+ *  @param Share, 调用方式 let share = new api.Share()
+ *  添加文件时 调用wxShare或者QQShare方法，接受option对象（必须）及成功和失败的回调函数
+ *  option对象更具不同情况添加参数，详情参考http://www.html5plus.org/doc/zh_cn/share.html
+ */
+let Share = class {
+  constructor () {
+    this.shares = {}
+    this.init()
+  }
+  init () {
+    // 获取分享列表
+    app.share.getServices(function (s) {
+      let shares = {}
+      for (let i in s) {
+        let t = s[i]
+        shares[t.id] = t
+      }
+      this.shares = shares
+    }, function (e) {
+      consoleLog.log(e)
+      consoleLog.log('获取分享服务列表失败：' + e.message)
+      mui.alert('获取分享服务列表失败')
+    })
+  }
+  /**
+   * 微信分享场景
+   * @param option 分享的数据
+   * @param scene ，仅微信分享平台有效
+   * 可取值： "WXSceneSession"分享到微信的“我的好友”； "WXSceneTimeline"分享到微信的“朋友圈”中； "WXSceneFavorite"分享到微信的“我的收藏”中。 默认值为"WXSceneSession"。
+   */
+  wxShare (option, successCallback, errorCallback) {
+    if (!isPlusReady) mui.alert('系统未准备就绪')
+    let wxShare = this.shares.weixin
+    if (!wxShare) return mui.alert('找不到微信')
+    this.activeShare(option, wxShare, successCallback, errorCallback)
+  }
+  QQShare (option, successCallback, errorCallback) {
+    if (!isPlusReady) mui.alert('系统未准备就绪')
+    let qqShare = this.shares.qq
+    if (!qqShare) return mui.alert('找不到QQ')
+    this.activeShare(option, qqShare, successCallback, errorCallback)
+  }
+  activeShare (option, share, successCallback, errorCallback) {
+    let msg = {}
+    'pictures' in option && (msg.pictures = Array.isArray(option.pictures) ? option.pictures : [option.pictures])
+    'content' in option && (msg.content = option.content)
+    'thumbs' in option && (msg.thumbs = Array.isArray(option.thumbs) ? option.thumbs : [option.thumbs])
+    'title' in option && (msg.title = option.title)
+    'scene' in option && (msg.extra = {}) && (msg.extra.scene = option.scene)
+    'href' in option && (msg.href = option.href)
+    'geo' in option && (msg.geo = option.geo)
+    // 发送分享
+    if (share.authenticated) {
+      this.sendMessage(msg, share, successCallback, errorCallback)
+    } else {
+      share.authorize(function () {
+        this.sendMessage(msg, share, successCallback, errorCallback)
+      }, function (e) {
+        consoleLog.log('认证授权失败：' + e.code + ' - ' + e.message)
+        consoleLog.log(e)
+        mui.alert('认证授权失败')
+      })
+    }
+  }
+  sendMessage (msg, share, successCallback, errorCallback) {
+    share.send(msg, () => {
+      successCallback && successCallback(msg, share)
+    }, (e) => {
+      errorCallback && errorCallback(e, msg, share)
+    })
+  }
+}
+/**
+ *  @param xiaoJingChang
+ *  @param 2018/2/5
+ *  @param Share, 调用方式 let payment = new api.Payment()
+ *  支付时调用pay方法，接受option对象（必须）及成功和失败的回调函数
+ *  option对象包含id，url，total三个属性，下方有详细说明
+ */
+let Payment = class {
+  constructor () {
+    this.channels = {}
+    this.init()
+  }
+  init () {
+    // 获取支付通道
+    app.payment.getChannels(function (channels) {
+      let pays = {}
+      for (let i in channels) {
+        let channel = channels[i]
+        // 过滤掉不支持的支付通道：暂不支持360相关支付
+        if (channel.id === 'qhpay' || channel.id === 'qihoo') {
+          continue
+        }
+        pays[channel.id] = channel
+        checkServices(channel)
+      }
+      this.channels = pays
+    }, function (e) {
+      consoleLog.log('获取支付通道失败：' + e.message)
+      consoleLog.log(e)
+    })
+    // 检测系统支付支持程度
+    function checkServices (c) {
+      if (!c.serviceReady) {
+        var txt = null
+        switch (c.id) {
+          case 'alipay':
+            txt = '检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，是否立即安装？'
+            break
+          default:
+            txt = '系统未安装“' + c.description + '”服务，无法完成支付，是否立即安装？'
+            break
+        }
+        app.nativeUI.confirm(txt, function (e) {
+          if (e.index === 0) {
+            c.installService()
+          }
+        }, c.description)
+      }
+    }
+  }
+  /**
+   * total 支付金额
+   * url格式 'http://demo.dcloud.net.cn/payment/?payid='
+   * id: alipay为支付宝，wxpay是微信支付
+   **/
+  pay (option, success, error) {
+    if (!isPlusReady) return mui.alert('系统未准备就绪')
+    let id = option.id || ''
+    let url = option.url || ''
+    let total = option.total || 0
+    if (!id || !url) return mui.alert('支付参数不完整')
+    if (id === 'alipay' || id === 'wxpay') {
+      url += id
+    } else {
+      mui.alert('当前环境不支持此支付通道！')
+      return
+    }
+    let appid = app.runtime.appid
+    if (navigator.userAgent.indexOf('StreamApp') >= 0) {
+      appid = 'Stream'
+    }
+    url += '&appid=' + appid + '&total=' + total
+    // 请求支付订单
+    this.paySend(url, id, success, error)
+  }
+  paySend (url, id, success, error) {
+    // 请求支付订单
+    initAjax({
+      url: url,
+      method: 'get'
+    }).then((res) => {
+      app.payment.request(this.channels[id], res.data, function (result) {
+        success && success(result)
+      }, function (e) {
+        consoleLog.log('支付失败：[' + e.code + ']：' + e.message)
+        consoleLog.log(e)
+        error && error(e)
+      })
+    }, (e) => {
+      consoleLog.log('请求失败：[' + e.code + ']：' + e.message)
+      consoleLog.log(e)
+      error && error(e)
+    })
+  }
+}
 let api = {
   initAjax: initAjax,
   camera: camera,
@@ -335,6 +504,8 @@ let api = {
   tel: tel,
   sms: sms,
   email: email,
-  Uploader: Uploader
+  Uploader: Uploader,
+  Share: Share,
+  Payment: Payment
 }
 export {api}
