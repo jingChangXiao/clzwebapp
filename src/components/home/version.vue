@@ -19,7 +19,7 @@
             <div class="list-base-information">
               <div class="list-item-left">版本号</div>
               <div class="list-item-right">
-                <span>V 1.1</span>
+                <span>V&nbsp;1.0</span>
               </div>
             </div>
             <div class="list-base-information activeT">
@@ -46,6 +46,9 @@
     justify-content: center;
     background-color: white;
     border-bottom: 1px solid #eee;
+    -webkit-border-radius: 8px 8px 0 0;
+    -moz-border-radius: 8px 8px 0 0;
+    border-radius: 8px 8px 0 0;
     div {
       width: 100%;
       text-align: center;
