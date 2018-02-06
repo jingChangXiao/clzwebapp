@@ -27,7 +27,7 @@
               <div class="mui-navigate-right">
               </div>
             </div>
-            <div class="list-base-information activeT">
+            <div class="list-base-information activeT" @tap="activeItem">
               <div class="list-item-left">版本日志</div>
               <div class="mui-navigate-right">
               </div>
@@ -85,6 +85,10 @@
       }
     },
     computed: {},
-    methods: {}
+    methods: {
+      activeItem () {
+        this.$router.push('/versionInformation')
+      }
+    }
   }
 </script>
