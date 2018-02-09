@@ -505,32 +505,34 @@ let Payment = class {
  *  @param 2018/2/5
  *  @param S
  */
-let barcode1 = class {
-  constructor () {
+let Barcode = class {
+  constructor (id, options) {
     this.scan = {}
+    this.id = id
+    this.options = options
   }
-   () {
-
-  }
-}
-let Barcode = {
-  barcode (id, options) {
+  start (startOption) {
     return new Promise((resolve, reject) => {
+      let id = this.id
+      let options = this.options
       if (typeof id !== 'string') return
+      let QR = app.barcode.QR
+      let EAN8 = app.barcode.EAN8
+      let EAN13 = app.barcode.EAN13
       id = id.replace(/^#/, '')
-      let filters = options.filters || [app.barcode.QR, app.barcode.EAN8, app.barcode.EAN13]
+      let filters = options.filters || [QR, EAN8, EAN13]
       let barcodeStyles = options.barcodeStyles || {}
       let scan = new app.barcode.Barcode(id, filters, barcodeStyles)
       // 二维码扫描成功
       scan.onmarked = function (type, result, file) {
         switch (type) {
-          case app.barcode.QR :
+          case QR :
             type = 'QR'
             break
-          case app.barcode.EAN13 :
+          case EAN13 :
             type = 'EAN13'
             break
-          case app.barcode.EAN8 :
+          case EAN8 :
             type = 'EAN8'
             break
           default :
@@ -544,7 +546,22 @@ let Barcode = {
       scan.onerror = function (e) {
         reject(e)
       }
+      let obj = {}
+      if (startOption) {
+        obj = startOption
+      }
+      scan.start(obj)
+      this.scan = scan
     })
+  }
+  startScan () {
+    this.scan.start()
+  }
+  cancelScan () {
+    this.scan.cancel()
+  }
+  setFlash () {
+    this.scan.setFlash()
   }
 }
 let api = {
