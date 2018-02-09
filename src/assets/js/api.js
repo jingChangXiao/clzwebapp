@@ -22,7 +22,11 @@ function plusReady () {
   isPlusReady = true
   app = window.plus
 }
-document.addEventListener('plusready', plusReady, false)
+if (window.plus) {
+  plusReady()
+} else {
+  document.addEventListener('plusready', plusReady, false)
+}
 
 /**
  * 2.代理请求  支持传入回调参数，也返回了promise对象
@@ -349,8 +353,7 @@ let Share = class {
       }
       this.shares = shares
     }, function (e) {
-      consoleLog.log(e)
-      consoleLog.log('获取分享服务列表失败：' + e.message)
+      consoleLog.log('获取分享服务列表失败：' + e)
       mui.alert('获取分享服务列表失败')
     })
   }
@@ -497,6 +500,53 @@ let Payment = class {
     })
   }
 }
+/**
+ *  @param xiaoJingChang
+ *  @param 2018/2/5
+ *  @param S
+ */
+let barcode1 = class {
+  constructor () {
+    this.scan = {}
+  }
+   () {
+
+  }
+}
+let Barcode = {
+  barcode (id, options) {
+    return new Promise((resolve, reject) => {
+      if (typeof id !== 'string') return
+      id = id.replace(/^#/, '')
+      let filters = options.filters || [app.barcode.QR, app.barcode.EAN8, app.barcode.EAN13]
+      let barcodeStyles = options.barcodeStyles || {}
+      let scan = new app.barcode.Barcode(id, filters, barcodeStyles)
+      // 二维码扫描成功
+      scan.onmarked = function (type, result, file) {
+        switch (type) {
+          case app.barcode.QR :
+            type = 'QR'
+            break
+          case app.barcode.EAN13 :
+            type = 'EAN13'
+            break
+          case app.barcode.EAN8 :
+            type = 'EAN8'
+            break
+          default :
+            type = '其它' + type
+            break
+        }
+        result = result.replace(/\n/g, '')
+        resolve(type, result, file)
+      }
+      // 二维码扫描失败
+      scan.onerror = function (e) {
+        reject(e)
+      }
+    })
+  }
+}
 let api = {
   initAjax: initAjax,
   camera: camera,
@@ -506,6 +556,7 @@ let api = {
   email: email,
   Uploader: Uploader,
   Share: Share,
-  Payment: Payment
+  Payment: Payment,
+  Barcode: Barcode
 }
 export {api}
