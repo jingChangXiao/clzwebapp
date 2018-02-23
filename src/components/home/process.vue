@@ -50,9 +50,9 @@
     display: inline-block;
     height: 100%;
     width: 7px;
-    position:absolute;
-    left:0px;
-    top:0px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
     border-radius: 9px 0px 0px 9px;
   }
 
@@ -85,6 +85,7 @@
     border-radius: 5px;
     margin-left: 15px;
   }
+
   .item-teachingTypeName0 {
     background-image: linear-gradient(-450deg, #FFAB68 0%, #FF7626 100%);
     box-shadow: 0 4px 8px 0 rgba(255, 118, 38, 0.08);
@@ -94,6 +95,7 @@
     border-radius: 5px;
     margin-left: 15px;
   }
+
   .item-teachingTypeName1 {
     background-image: linear-gradient(-450deg, #86CE78 0%, #86CE78 100%);
     box-shadow: 0 4px 8px 0 rgba(255, 118, 38, 0.08);
@@ -103,6 +105,7 @@
     border-radius: 5px;
     margin-left: 15px;
   }
+
   .item-teachingTypeName2 {
     background-image: linear-gradient(-450deg, #F7776A 0%, #EC2D1A 100%);
     box-shadow: 0 4px 8px 0 rgba(255, 118, 38, 0.08);
@@ -112,6 +115,7 @@
     border-radius: 5px;
     margin-left: 15px;
   }
+
   .item-teachingTypeName3 {
     background-image: linear-gradient(-450deg, #C5C5C5 0%, #686868 100%);
     box-shadow: 0 4px 8px 0 rgba(255, 118, 38, 0.08);
@@ -169,7 +173,7 @@
 <script>
   import refreshScroll from '@/assets/js/refresh-scroll'
   import refreshScrollCm from '@/components/public/scroll-refresh.vue'
-  export default{
+  export default {
     data () {
       return {
         routeData: {

@@ -25,7 +25,32 @@ function plusReady () {
 document.addEventListener('plusready', plusReady, false)
 
 /**
- * 2.代理请求  支持传入回调参数，也返回了promise对象
+ * 2.代理请求
+ * @name 代理ajax请求
+ * @author Leo
+ * @describe 代理所有的ajax请求，统一入口
+ * @param option: 入参
+ * {
+ *  url: 地址
+ *  param: 参数
+ *  method: 请求类型
+ *  success: 成功回调
+ *  error: 失败回调
+ * }
+ * @return data: 出参
+ * {
+ *  status: true // 请求状态 true/处理成功 ，false/处理失败
+ *  data: {test: '1'} // 返回结果内容
+ * }
+ * @example 调用示例: api.initAjax(
+ *  {
+ *    url: 'xxx.xxx',
+ *    param: {name: '1'},
+ *    method: 'POST',
+ *    success: function (data) {console.log(data)}
+ *    error: function (data) {console.log(data)}
+ *  }
+ * )
  */
 function initAjax (option, loginFlag) {
   return new Promise((resolve, reject) => {
