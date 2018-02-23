@@ -122,16 +122,34 @@ function initAjax (option, loginFlag) {
 }
 
 /**
- *  @param xiaoJingChang
- *  @param 2018/1/31
- *  @param option对象有4个属性
- *  resultType 接收的图片信息只需要路径还是对象 默认只需路径
- *  save 是否保存图片 默认不需要
- *  success 图片保存成功的回调函数
- *  error 图片保存失败的回调函数
- *  @param 传入回调函数，接收result对象，msgCode为1时正常返回数据，否则返回错误信息
+ * 3.调用像机
+ * @name 调用摄像机
+ * @author Xjc
+ * @describe 调用摄像机进行拍照
+ * @param option: 入参
+ * {
+ *  resultType: 照片数据返回类型 //path时返回路径 否则返回图片对象
+ *  save: 拍照后是否保存照片到手机
+ *  success: 保存照片的成功回调
+ *  error: 保存照片的失败回调
+ * }
+ * @param callBack: 回调函数
+ * @return result: 出参
+ * {
+ *  resultCode: 1 // 执行状态：1/处理成功 ，0/处理失败
+ *  data: 'Library/Pandora/apps/HBuilder/doc/a.png' // 返回图片路径或者文件对象
+ * }
+ * @example 调用示例: api.camera(
+ *  {
+ *    resultType: 'pic',
+ *    save: true,
+ *    success: function (data) {console.log(data)}
+ *    error: function (data) {console.log(data)}
+ *  },
+ *  (result) => {console.log(data)}
+ * )
  */
-function camera (callBack, option = {}) {
+function camera (option = {}, callBack) {
   if (!isPlusReady) return mui.alert('相机未准备就绪')
   try {
     let result = {
@@ -175,54 +193,109 @@ function camera (callBack, option = {}) {
 }
 
 /**
- *  @param xiaoJingChang
- *  @param 2018/2/1
- *  @param 传入回调函数（必传）和参数对象(非必传)option，type分为1和2，1时只选取一张，2时可选取多张，
- *  maximum 可设置选择图片最大数量，
- *  maxHandle 超过最多选择图片数量事件
- *  @param 回调函数接收result对象，msgCode为1时正常返回数据，否则返回错误信息
+ * 4.调用手机相册
+ * @name 调用手机相册
+ * @author Xjc
+ * @describe 调用手机相册获取手机照片
+ * @param option: 入参
+ * {
+ *  type: 选择照片数量
+ *  system: 是否使用系统自带相册选择控件 //true/使用系统控件, false／使用h5+控件
+ *  maximum: 选择图片最大数量
+ *  maxHandle：超过最多选择图片数量触发事件
+ * }
+ * @param callBack: 回调函数
+ * @return result: 出参
+ * {
+ *  resultCode: 1 // 执行状态：1/处理成功 ，0/处理失败
+ *  data: 'Library/Pandora/apps/HBuilder/doc/a.png' // 返回图片路径或者包裹files数组的对象
+ * }
+ * @example 调用示例: api.gallery(
+ *  {
+ *    type: 2, //1：只选取一张，其他参数：多选
+ *    system: true,
+ *    maximum: 5
+ *    maxHandle: function () {}
+ *  },
+ *  (result) => {console.log(result)}
+ * )
  */
-function galleryImg (callback, option = {}) {
+function gallery (option = {}, callBack) {
   if (!isPlusReady) return mui.alert('系统未准备就绪')
-  if (!callback || typeof callback !== 'function') return
+  if (!callBack || typeof callBack !== 'function') return
   let result = {
     resultCode: 1,
     data: {}
   }
-  let type = option.type || 1// 默认只选一张图片
+  // 默认只选一张图片
+  let type = option.type || 1
   // 设置参数
   let packageObj = type === 1 ? {
     filter: 'image'
   } : {
     filter: 'image',
-    multiple: true,
-    system: false
+    multiple: true
   }
+  packageObj.system = option.system || false
   if (type !== 1 && option.maximum) {
     packageObj.maximum = option.maximum
-    packageObj.onmaxed = option.maxHandle || function () {}
+    option.maxHandle && (packageObj.onmaxed = option.maxHandle)
   }
   // 从相册中选择图片
   app.gallery.pick(function (path) {
-    // path: 选择一张时是路径，多张时为包裹files数组的对象
     result.resultCode = 1
+    // path: 选择一张时是路径，多张时为包裹files数组的对象
     result.data = packageObj.maximum ? path.files : path
-    callback && callback(result)
+    callBack && callBack(result)
   }, function (e) {
     // 取消选择
     consoleLog.log('取消选取', e)
     result.resultCode = 0
     result.data = e
-    callback && callback(result)
+    callBack && callBack(result)
   }, packageObj)
 }
 
 /**
- * @param xiaoJingChang
- * @param 2018/2/1
- * @param tel为打电话，sms是发短信，email是发邮箱，只需传入电话号码和邮箱地址就可以，会校验入参
- * messageFun 为这三个方法的公共方法
- * */
+ * 5.拨打电话
+ * @name 拨打电话
+ * @author Xjc
+ * @describe 拨打电话
+ * @param tel: 电话号码
+ * @return 无返回值
+ * @example 调用示例: api.tel(13677778888)
+ */
+function tel (tel) {
+  if (!/^(\d)+$/.test(tel)) return mui.toast('输入有误')
+  messageFun(tel, 'tel')
+}
+/**
+ * 6.发短信
+ * @name 发短信
+ * @author Xjc
+ * @describe 发短信
+ * @param tel: 电话号码
+ * @return 无返回值
+ * @example 调用示例: api.sms(13677778888)
+ */
+function sms (tel) {
+  if (!/^(\d)+$/.test(tel)) return mui.toast('输入有误')
+  messageFun(tel, 'sms')
+}
+/**
+ * 7.发邮件
+ * @name 发邮件
+ * @author Xjc
+ * @describe 发邮件
+ * @param email: 电话号码
+ * @return 无返回值
+ * @example 调用示例: api.email('xjc@163.com')
+ */
+function email (email) {
+  if (!/^([0-9A-Za-z\-_]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g.test(email)) return mui.toast('输入有误')
+  messageFun(email, 'mailto')
+}
+
 let formEl
 function messageFun (data, msgType) {
   if (!isPlusReady) return mui.alert('系统未准备就绪')
@@ -235,39 +308,35 @@ function messageFun (data, msgType) {
   let a = document.querySelector('#cheliziDefinedMessage' + msgType)
   a && a.click()
 }
-// 打电话
-function tel (tel) {
-  if (!/^(\d)+$/.test(tel)) return mui.toast('输入有误')
-  messageFun(tel, 'tel')
-}
-// 发短信
-function sms (tel) {
-  if (!/^(\d)+$/.test(tel)) return mui.toast('输入有误')
-  messageFun(tel, 'sms')
-}
-// 发邮件
-function email (email) {
-  if (!/^([0-9A-Za-z\-_]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g.test(email)) return mui.toast('输入有误')
-  messageFun(email, 'mailto')
-}
 
 /**
- *  @param xiaoJingChang
- *  @param 2018/2/1
- *  @param Uploader为构造函数, 调用方式 let uploader = new api.Uploader()
- *  添加文件时 调用appendFile方法，接受file对象（必须）
- *  添加数据时 调用appendData方法，接受｛name：＊＊, value：＊＊｝（非必需）
- *  添加文件或者数据后，调用upload方法，传入上传路径（必须），回调函数（非必需）
+ * 8.上传文件
+ * @name 上传文件及数据
+ * @author Xjc
+ * @describe 上传各类文件及数据
+ * @param serverUrl：上传的地址
+ * callBack：上传结束的回调函数
+ * watchEvent：上传的监听事件
+ * @return res: 上传结束后台返回的数据
+ * status: 上传结束返回的状态码
+ * @example 调用示例: let upload = new api.Uploader()
+ * upload.addFiles([{
+ *  name: 文件名
+ *  path：文件路径
+ * }])
+ * upload.addDatas([{
+ *  name：数据名
+ *  value：数据值
+ * }])
+ * upload.upload('http://xxxxx.uoload', (res, status) => {console.log(res, status)}, (stateEvent, status) => {stateEvent, status})
  */
 const Uploader = class {
   constructor () {
     this.files = []
     this.datas = []
     this.task = ''
-    this.event = ''
-    this.index = 0
   }
-  upload (serverUrl, callback) {
+  upload (serverUrl, callBack, watchEvent) {
     if (!isPlusReady) return mui.alert('系统未准备就绪')
     if (!serverUrl) return
     let files = this.files
@@ -281,12 +350,13 @@ const Uploader = class {
       function (res, status) {
         // 上传完成
         if (status === 200) {
-          callback && callback(res, status)
+          callBack && callBack(res, status)
           mui.toast('上传成功')
           self.clear()
         } else {
           consoleLog.log('上传失败')
           console.debug(res, status)
+          callBack && callBack(res, status)
           mui.toast('上传失败')
         }
       }
@@ -299,35 +369,43 @@ const Uploader = class {
       let f = files[i]
       task.addFile(f.path, {key: f.name})
     }
-    this.event && task.addEventListener('statechanged', function onStateChanged (event, status) {
-      this.event(event, status)
+    watchEvent && task.addEventListener('statechanged', function onStateChanged (stateEvent, status) {
+      watchEvent(stateEvent, status)
     }, false)
     task.start()
-    console.log('task: ', task)
+    consoleLog.log('task: ', task)
     this.task = task
   }
-  appendFile (fileObj) {
+  addFiles (fileObj) {
     if (!fileObj || typeof fileObj !== 'object') return
-    this.index++
-    this.files.push({name: fileObj.name, path: fileObj.path})
+    if (Array.isArray(fileObj)) {
+      let l = fileObj.length
+      for (let i = 0; i < l; i++) {
+        let item = fileObj[i]
+        this.files.push({name: item.name, path: item.path})
+      }
+    } else {
+      this.files.push({name: fileObj.name, path: fileObj.path})
+    }
   }
   deleteFile (index = undefined) {
     if (index === undefined) return
     this.files.splice(index, 1)
   }
-  appendData (obj) {
+  addDatas (obj) {
     if (!obj || typeof obj !== 'object') return
-    this.index++
-    this.datas.push(obj)
+    if (Array.isArray(obj)) {
+      let l = obj.length
+      for (let i = 0; i < l; i++) {
+        this.datas.push(obj[i])
+      }
+    } else {
+      this.datas.push(obj)
+    }
   }
   deleteData (index = undefined) {
     if (index === undefined) return
     this.datas.splice(index, 1)
-  }
-  // 添加上传监听事件，需在开始调用之前添加
-  addStateChange (callback) {
-    if (typeof callback !== 'function') return
-    this.event = callback
   }
   // 暂停上传任务
   pause () {
@@ -347,21 +425,53 @@ const Uploader = class {
     app.uploader.startAll()
   }
   clear () {
-    this.index = 0
     this.datas = []
     this.files = []
-    this.event = ''
     app.uploader.clear(this.task.state)
     this.task = ''
   }
 }
 
 /**
- *  @param xiaoJingChang
- *  @param 2018/2/3
- *  @param Share, 调用方式 let share = new api.Share()
- *  添加文件时 调用wxShare或者QQShare方法，接受option对象（必须）及成功和失败的回调函数
- *  option对象更具不同情况添加参数，详情参考http://www.html5plus.org/doc/zh_cn/share.html
+ * 9.微信QQ分享
+ * @name 微信QQ分享
+ * @author Xjc
+ * @describe 微信QQ分享文件及链接
+ * @param option：入参
+ * {
+ *   content: 分享消息的文字内容
+ *   pictures: 分享消息的图片路径（单个字符串或者字符串数组），仅支持本地路径
+ *   thumbs: 分享消息的缩略图路径，支持本地路径及网络路径(图片有大小限制，推荐图片小于20Kb)
+ *   href: 分享独立的链接，仅支持网络地址（以http://或https://开头）
+ *   title: 分享消息的标题，仅微信分享独立链接消息时支持
+ *   geo: 分享消息中包含的用户地理信息数据
+ *     {
+ *     latitude: (Number 类型 )用户位置的纬度坐标信息
+ *     longitude: (Number 类型 )用户位置的经度坐标信息
+ *     }
+ *   scene: 分享消息扩展参数(String 类型 )微信分享场景，仅微信分享平台有效 //"WXSceneSession"分享到“我的好友”；"WXSceneTimeline"分享到“朋友圈”；"WXSceneFavorite"分享到“我的收藏”
+ *  }
+ * @return 出参
+ * msg：分享的信息
+ * share：分享服务对象
+ * e: 分享失败的返回值
+ * @example 调用示例: let share = new api.Share()
+ * share.wxShare(
+ *  {
+ *  content: '明天放假啦'
+ *  pictures：['../image/a.png', '../image/b.png']
+ *  thumbs：['../image/c.png', '../image/d.png']
+ *  href：'https://www.baidu.com'
+ *  title：'今日头条'
+ *  geo: {
+ *   latitude: 114.06667
+ *   longitude: 22.61667
+ *  }
+ *  scene：'WXSceneSession'
+ *  },
+ *  (msg. share) => {console.log(msg, share)},
+ *  (e, msg, share) => {console.log(e, msg, share)}
+ * )
  */
 let Share = class {
   constructor () {
@@ -378,29 +488,58 @@ let Share = class {
       }
       this.shares = shares
     }, function (e) {
-      consoleLog.log('获取分享服务列表失败：' + e)
+      consoleLog.log('获取分享服务列表失败：', e)
       mui.alert('获取分享服务列表失败')
     })
   }
-  /**
-   * 微信分享场景
-   * @param option 分享的数据
-   * @param scene ，仅微信分享平台有效
-   * 可取值： "WXSceneSession"分享到微信的“我的好友”； "WXSceneTimeline"分享到微信的“朋友圈”中； "WXSceneFavorite"分享到微信的“我的收藏”中。 默认值为"WXSceneSession"。
-   */
+  // 微信分享
   wxShare (option, successCallback, errorCallback) {
     if (!isPlusReady) mui.alert('系统未准备就绪')
     let wxShare = this.shares.weixin
     if (!wxShare) return mui.alert('找不到微信')
     this.activeShare(option, wxShare, successCallback, errorCallback)
   }
+  // QQ分享
   QQShare (option, successCallback, errorCallback) {
     if (!isPlusReady) mui.alert('系统未准备就绪')
     let qqShare = this.shares.qq
     if (!qqShare) return mui.alert('找不到QQ')
     this.activeShare(option, qqShare, successCallback, errorCallback)
   }
+  // 使用系统组件发送分享
+  sendWithSystem (option, successCallback, errorCallback) {
+    if (!isPlusReady) mui.alert('系统未准备就绪')
+    let msg = this.getOption(option)
+    app.share.sendWithSystem(msg, () => {
+      successCallback && successCallback()
+    }, (e) => {
+      errorCallback && errorCallback(e)
+    })
+  }
   activeShare (option, share, successCallback, errorCallback) {
+    let msg = this.getOption(option)
+    // 发送分享
+    if (share.authenticated) {
+      sendMessage()
+    } else {
+      share.authorize(function () {
+        sendMessage()
+      }, function (e) {
+        consoleLog.log('认证授权失败：' + e.code + ' - ' + e.message)
+        consoleLog.log(e)
+        mui.alert('认证授权失败')
+      })
+    }
+    // 发送分享信息
+    function sendMessage () {
+      share.send(msg, () => {
+        successCallback && successCallback(msg, share)
+      }, (e) => {
+        errorCallback && errorCallback(e, msg, share)
+      })
+    }
+  }
+  getOption (option) {
     let msg = {}
     'pictures' in option && (msg.pictures = Array.isArray(option.pictures) ? option.pictures : [option.pictures])
     'content' in option && (msg.content = option.content)
@@ -409,33 +548,38 @@ let Share = class {
     'scene' in option && (msg.extra = {}) && (msg.extra.scene = option.scene)
     'href' in option && (msg.href = option.href)
     'geo' in option && (msg.geo = option.geo)
-    // 发送分享
-    if (share.authenticated) {
-      this.sendMessage(msg, share, successCallback, errorCallback)
-    } else {
-      share.authorize(function () {
-        this.sendMessage(msg, share, successCallback, errorCallback)
-      }, function (e) {
-        consoleLog.log('认证授权失败：' + e.code + ' - ' + e.message)
-        consoleLog.log(e)
-        mui.alert('认证授权失败')
-      })
-    }
-  }
-  sendMessage (msg, share, successCallback, errorCallback) {
-    share.send(msg, () => {
-      successCallback && successCallback(msg, share)
-    }, (e) => {
-      errorCallback && errorCallback(e, msg, share)
-    })
+    return msg
   }
 }
+
 /**
- *  @param xiaoJingChang
- *  @param 2018/2/5
- *  @param Share, 调用方式 let payment = new api.Payment()
- *  支付时调用pay方法，接受option对象（必须）及成功和失败的回调函数
- *  option对象包含id，url，total三个属性，下方有详细说明
+ * 10.手机支付
+ * @name 手机支付
+ * @author Xjc
+ * @describe 手机支付控件，支持微信和支付宝
+ * @param option：入参
+ * {
+ *  id：支付id //支付宝:alipay，微信:wxpay
+ *  url：支付链接
+ *  total：支付金额
+ * }
+ * @return result:出参
+ * {
+ *  channel: 支付通道对象
+ *  tradeno: 交易编号信息
+ *  description: 交易描述信息
+ *  url: 查找支付交易信息地址
+ *  signature: 支付操作指纹信息
+ *  rawdata: 支付平台返回的原始数据
+ * }
+ * @example 调用示例: let payment = new api.Payment()
+ * payment.pay({
+ *  id: 'alipay'
+ *  url: 'http://xxx.net.cn/payment/?payid='
+ *  total: 10
+ * },
+ * (result) => {console.log(result)},
+ * (e) => {console.log(e)})
  */
 let Payment = class {
   constructor () {
@@ -480,11 +624,6 @@ let Payment = class {
       }
     }
   }
-  /**
-   * total 支付金额
-   * url格式 'http://demo.dcloud.net.cn/payment/?payid='
-   * id: alipay为支付宝，wxpay是微信支付
-   **/
   pay (option, success, error) {
     if (!isPlusReady) return mui.alert('系统未准备就绪')
     let id = option.id || ''
@@ -515,20 +654,54 @@ let Payment = class {
         success && success(result)
       }, function (e) {
         consoleLog.log('支付失败：[' + e.code + ']：' + e.message)
-        consoleLog.log(e)
         error && error(e)
       })
     }, (e) => {
       consoleLog.log('请求失败：[' + e.code + ']：' + e.message)
-      consoleLog.log(e)
       error && error(e)
     })
   }
 }
+
 /**
- *  @param xiaoJingChang
- *  @param 2018/2/5
- *  @param S
+ * 11.识别二维码
+ * @name 识别二维码
+ * @author Xjc
+ * @describe 调用手机摄像机扫描识别二维码
+ * @param option：入参
+ * {
+ *  filters：要识别的条码类型过滤器，为条码类型常量数组
+ *  barcodeStyles：条码扫描控件样式
+ *    {
+ *    frameColor: 扫描框颜色
+ *    scanbarColor: 扫描条颜色
+ *    background: 条码识别控件背景颜色
+ *    }
+ * }
+ * id：条码识别控件在Webview窗口的DOM节点的id值
+ * startOption：{
+  *  conserve: (Boolean 类型 )是否保存成功扫描到的条码数据时的截图
+  *  filename: (String 类型 )保存成功扫描到的条码数据时的图片路径
+  *  vibrate: (Boolean 类型 )成功扫描到条码数据时是否需要震动提醒
+  *  sound: (String 类型 )成功扫描到条码数据时播放的提示音类型 //"none" - 不播放提示音； "default" - 播放默认提示音（5+引擎内置）
+  *  }
+ * @return 出参
+ *  type: 识别到的条码类型
+ *  code: 识别到的条码数据
+ *  file: 识别到的条码图片文件路径
+ * @example 调用示例:
+ * let bar = new api.Barcode('codeEl', {
+ *    filters: ['QR', 'EAN8', 'EAN13']
+ *    barcodeStyles: {
+ *        frameColor: blue
+ *        scanbarColor: blue
+ *        background: black
+ *     }
+ *   }
+ * )
+ * bar.start()
+ * bar.cancelScan()
+ * bar.close()
  */
 let Barcode = class {
   constructor (id, options) {
@@ -551,8 +724,8 @@ let Barcode = class {
       // 设置条码样式
       let barcodeStyles = options.barcodeStyles || {}
       let scan = new barcode.Barcode(id, filters, barcodeStyles)
-      // 二维码扫描成功
-      scan.onmarked = function (type, result, file) {
+      // 二维码识别成功
+      scan.onmarked = function (type, code, file) {
         switch (type) {
           case QR :
             type = 'QR'
@@ -567,8 +740,8 @@ let Barcode = class {
             type = '其它' + type
             break
         }
-        result = result.replace(/\n/g, '')
-        resolve(type, result, file)
+        code = code.replace(/\n/g, '')
+        resolve(type, code, file)
       }
       // 二维码扫描失败
       scan.onerror = function (e) {
@@ -598,7 +771,7 @@ let Barcode = class {
 let api = {
   initAjax: initAjax,
   camera: camera,
-  galleryImg: galleryImg,
+  gallery: gallery,
   tel: tel,
   sms: sms,
   email: email,
