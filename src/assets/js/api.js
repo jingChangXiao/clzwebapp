@@ -509,20 +509,23 @@ let Barcode = class {
   constructor (id, options) {
     this.scan = {}
     this.id = id
-    this.options = options
+    this.options = options || {}
   }
   start (startOption) {
     return new Promise((resolve, reject) => {
       let id = this.id
       let options = this.options
       if (typeof id !== 'string') return
-      let QR = app.barcode.QR
-      let EAN8 = app.barcode.EAN8
-      let EAN13 = app.barcode.EAN13
+      let barcode = app.barcode
+      let QR = barcode.QR
+      let EAN8 = barcode.EAN8
+      let EAN13 = barcode.EAN13
       id = id.replace(/^#/, '')
+      // 设置条码类型过滤器
       let filters = options.filters || [QR, EAN8, EAN13]
+      // 设置条码样式
       let barcodeStyles = options.barcodeStyles || {}
-      let scan = new app.barcode.Barcode(id, filters, barcodeStyles)
+      let scan = new barcode.Barcode(id, filters, barcodeStyles)
       // 二维码扫描成功
       scan.onmarked = function (type, result, file) {
         switch (type) {
@@ -554,14 +557,17 @@ let Barcode = class {
       this.scan = scan
     })
   }
-  startScan () {
-    this.scan.start()
-  }
+  // 暂停条码识别
   cancelScan () {
     this.scan.cancel()
   }
-  setFlash () {
-    this.scan.setFlash()
+  // 关闭条码识别控件
+  close () {
+    this.scan.close()
+  }
+  // 是否开启闪光灯
+  setFlash (boolean) {
+    this.scan.setFlash(!!boolean)
   }
 }
 let api = {
