@@ -62,6 +62,8 @@ import CarTransferProcess from '../components/process-mange/detail/CarTransferPr
 import CarParkingChange from '../components/process-mange/detail/CarParkingChange.vue'
 // 停车点变更
 import ParkingChangeProcess from '../components/process-mange/detail/ParkingChangeProcess.vue'
+
+import versionInformation from '../components/home/version-information.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -244,6 +246,10 @@ export default new Router({
     {
       path: '/CertRefundApply/:id/:processInstanceId/:taskId',
       component: CertRefundApply
+    },
+    {
+      path: '/versionInformation',
+      component: versionInformation
     },
     // 错误路径重定向到首页
     {
