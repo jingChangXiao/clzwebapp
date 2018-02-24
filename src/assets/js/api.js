@@ -149,7 +149,7 @@ function initAjax (option, loginFlag) {
  *  (result) => {console.log(data)}
  * )
  */
-function camera (option = {}, callBack) {
+function camera (callBack, option = {}) {
   if (!isPlusReady) return mui.alert('相机未准备就绪')
   try {
     let result = {
@@ -157,7 +157,7 @@ function camera (option = {}, callBack) {
       data: {}
     }
     let resultType = option.resultType || 'path'
-    let save = option.save || false
+    let save = !!option.save
     let cmr = app.camera.getCamera()
     cmr.captureImage(function (path) {
       // 是否保存图片
@@ -168,6 +168,7 @@ function camera (option = {}, callBack) {
         consoleLog.log('图片保存失败')
         option.error && option.error()
       })
+      // 判断返回图片数据类型
       if (resultType === 'path') {
         result.data = path
         callBack && callBack(result)
@@ -199,10 +200,10 @@ function camera (option = {}, callBack) {
  * @describe 调用手机相册获取手机照片
  * @param option: 入参
  * {
- *  type: 选择照片数量
+ *  multiple: 是否多选
  *  system: 是否使用系统自带相册选择控件 //true/使用系统控件, false／使用h5+控件
  *  maximum: 选择图片最大数量
- *  maxHandle：超过最多选择图片数量触发事件
+ *  onmaxed：超过最多选择图片数量触发事件
  * }
  * @param callBack: 回调函数
  * @return result: 出参
@@ -212,34 +213,31 @@ function camera (option = {}, callBack) {
  * }
  * @example 调用示例: api.gallery(
  *  {
- *    type: 2, //1：只选取一张，其他参数：多选
+ *    multiple: true, //false：只选取一张，true：多选
  *    system: true,
  *    maximum: 5
- *    maxHandle: function () {}
+ *    onmaxed: function () {}
  *  },
  *  (result) => {console.log(result)}
  * )
  */
-function gallery (option = {}, callBack) {
+function gallery (callBack, option = {}) {
   if (!isPlusReady) return mui.alert('系统未准备就绪')
   if (!callBack || typeof callBack !== 'function') return
   let result = {
     resultCode: 1,
     data: {}
   }
-  // 默认只选一张图片
-  let type = option.type || 1
   // 设置参数
-  let packageObj = type === 1 ? {
-    filter: 'image'
-  } : {
+  let packageObj = {
     filter: 'image',
-    multiple: true
+    multiple: !!option.multiple,
+    system: !!option.system
   }
-  packageObj.system = option.system || false
-  if (type !== 1 && option.maximum) {
-    packageObj.maximum = option.maximum
-    option.maxHandle && (packageObj.onmaxed = option.maxHandle)
+  if (packageObj.multiple) {
+    // 默认最多可选数量为3
+    packageObj.maximum = option.maximum || 3
+    option.onmaxed && (packageObj.onmaxed = option.onmaxed)
   }
   // 从相册中选择图片
   app.gallery.pick(function (path) {
@@ -296,16 +294,13 @@ function email (email) {
   messageFun(email, 'mailto')
 }
 
-let formEl
 function messageFun (data, msgType) {
-  if (!isPlusReady) return mui.alert('系统未准备就绪')
-  formEl = formEl || document.createElement('form')
+  let formEl = messageFun.formEl || document.createElement('form')
   formEl.style.display = 'none'
-  formEl.setAttribute('id', 'cheliziDefinedMessage')
-  let telEl = `<li style="display: none;"><a id="cheliziDefinedMessage${msgType}" style="text-decoration:none;" href="${msgType}:${data}">拨打电话</a></li>`
-  formEl.innerHTML = telEl
+  formEl.innerHTML = `<li><a id="defineMessageSend${msgType}" style="text-decoration:none;" href="${msgType}:${data}">拨打电话</a></li>`
   document.querySelector('body').appendChild(formEl)
-  let a = document.querySelector('#cheliziDefinedMessage' + msgType)
+  messageFun.formEl = formEl
+  let a = document.querySelector('#defineMessageSend' + msgType)
   a && a.click()
 }
 
@@ -710,6 +705,7 @@ let Barcode = class {
     this.options = options || {}
   }
   start (startOption) {
+    if (!isPlusReady) return mui.alert('系统未准备就绪')
     return new Promise((resolve, reject) => {
       let id = this.id
       let options = this.options
@@ -757,17 +753,21 @@ let Barcode = class {
   }
   // 暂停条码识别
   cancelScan () {
+    if (!isPlusReady) return
     this.scan.cancel()
   }
   // 关闭条码识别控件
   close () {
+    if (!isPlusReady) return
     this.scan.close()
   }
   // 是否开启闪光灯
   setFlash (boolean) {
+    if (!isPlusReady) return
     this.scan.setFlash(!!boolean)
   }
 }
+
 let api = {
   initAjax: initAjax,
   camera: camera,
