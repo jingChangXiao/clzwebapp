@@ -461,7 +461,7 @@ const Uploader = class {
  * share：分享服务对象
  * e: 分享失败的返回值
  * @example 调用示例: let share = new api.Share()
- * share.wxShare(
+ * share.weixin(
  *  {
  *  content: '明天放假啦'
  *  pictures：['../image/a.png', '../image/b.png']
