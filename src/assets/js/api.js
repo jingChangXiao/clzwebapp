@@ -133,7 +133,6 @@ function initAjax (option, loginFlag) {
  *  success: 保存照片的成功回调
  *  error: 保存照片的失败回调
  * }
- * @param callBack: 回调函数
  * @return result: 出参
  * {
  *  resultCode: 1 // 执行状态：1/处理成功 ，0/处理失败
@@ -141,17 +140,15 @@ function initAjax (option, loginFlag) {
  * }
  * @example 调用示例: api.camera(
  *  {
- *    resultType: 'pic',
+ *    resultType: 'pictureObj',
  *    save: true,
  *    success: function (data) {console.log(data)}
  *    error: function (data) {console.log(data)}
- *  },
- *  (result) => {console.log(data)}
- * )
+ *  }).(result) => {console.log(result)}, (result) => {console.log(result)})
  */
-function camera (callBack, option = {}) {
+function camera (option = {}) {
   if (!isPlusReady) return mui.alert('相机未准备就绪')
-  try {
+  return new Promise((resolve, reject) => {
     let result = {
       resultCode: 1,
       data: {}
@@ -163,34 +160,35 @@ function camera (callBack, option = {}) {
       // 是否保存图片
       save && app.gallery.save(path, function () {
         consoleLog.log('图片保存成功')
-        option.success && option.success()
-      }, function () {
+        option.success && option.success(path)
+      }, function (e) {
         consoleLog.log('图片保存失败')
-        option.error && option.error()
+        option.error && option.error(e)
       })
       // 判断返回图片数据类型
       if (resultType === 'path') {
         result.data = path
-        callBack && callBack(result)
+        resolve(result)
       } else {
         app.io.resolveLocalFileSystemURL(path, function (entry) {
+          // 将之前获取到的图片路径也保存进来，以备不时之需
           entry.filePath = path
           result.data = entry
-          callBack && callBack(result)
+          resolve(result)
         }, function (e) {
           result.resultCode = 0
           result.data = e
-          callBack && callBack(result)
+          reject(result)
           mui.alert('读取拍照文件错误：' + e.message)
         })
       }
     }, function (e) {
       // 退出拍照
-      consoleLog.log('退出拍照')
+      result.resultCode = 0
+      result.data = e
+      reject(result)
     }, {})
-  } catch (e) {
-    mui.alert('调用相机失败')
-  }
+  })
 }
 
 /**
@@ -205,53 +203,65 @@ function camera (callBack, option = {}) {
  *  maximum: 选择图片最大数量
  *  onmaxed：超过最多选择图片数量触发事件
  * }
- * @param callBack: 回调函数
  * @return result: 出参
  * {
  *  resultCode: 1 // 执行状态：1/处理成功 ，0/处理失败
  *  data: 'Library/Pandora/apps/HBuilder/doc/a.png' // 返回图片路径或者包裹files数组的对象
  * }
  * @example 调用示例: api.gallery(
- *  {
+ * {
  *    multiple: true, //false：只选取一张，true：多选
  *    system: true,
  *    maximum: 5
  *    onmaxed: function () {}
- *  },
- *  (result) => {console.log(result)}
- * )
+ *  }
+ *  ).(result) => {console.log(result)}, (result) => {console.log(result)})
  */
-function gallery (callBack, option = {}) {
+function gallery (option = {}) {
   if (!isPlusReady) return mui.alert('系统未准备就绪')
-  if (!callBack || typeof callBack !== 'function') return
-  let result = {
-    resultCode: 1,
-    data: {}
-  }
-  // 设置参数
-  let packageObj = {
-    filter: 'image',
-    multiple: !!option.multiple,
-    system: !!option.system
-  }
-  if (packageObj.multiple) {
-    // 默认最多可选数量为3
-    packageObj.maximum = option.maximum || 3
-    option.onmaxed && (packageObj.onmaxed = option.onmaxed)
-  }
-  // 从相册中选择图片
-  app.gallery.pick(function (path) {
-    result.resultCode = 1
-    // path: 选择一张时是路径，多张时为包裹files数组的对象
-    result.data = packageObj.maximum ? path.files : path
-    callBack && callBack(result)
-  }, function (e) {
-    // 取消选择
-    consoleLog.log('取消选取', e)
-    result.resultCode = 0
-    result.data = e
-    callBack && callBack(result)
-  }, packageObj)
+  return new Promise((resolve, reject) => {
+    let result = {
+      resultCode: 1,
+      data: {}
+    }
+    // 设置参数
+    let packageObj = {
+      filter: 'image',
+      multiple: !!option.multiple,
+      system: !!option.system
+    }
+    if (packageObj.multiple) {
+      // 默认最多可选数量为3
+      packageObj.maximum = option.maximum || 3
+      option.onmaxed && (packageObj.onmaxed = option.onmaxed)
+    }
+    // 从相册中选择图片
+    app.gallery.pick(function (path) {
+      console.log('path', path)
+      result.resultCode = 1
+      // path: 选择一张时是路径，多张时为包裹files数组的对象
+      if (packageObj.multiple) {
+        result.data = []
+        for (let i in path.files) {
+          let obj = {}
+          let f = path.files[i]
+          obj.path = f
+          obj.name = f.split('/').pop()
+          result.data.push(obj)
+        }
+      } else {
+        result.data = {
+          path: path,
+          name: path.split('/').pop()
+        }
+      }
+      resolve(result)
+    }, function (e) {
+      result.resultCode = 0
+      result.data = e
+      reject(result)
+    }, packageObj)
+  })
 }
 
 /**
@@ -310,7 +320,6 @@ function messageFun (data, msgType) {
  * @author Xjc
  * @describe 上传各类文件及数据
  * @param serverUrl：上传的地址
- * callBack：上传结束的回调函数
  * watchEvent：上传的监听事件
  * @return res: 上传结束后台返回的数据
  * status: 上传结束返回的状态码
@@ -323,7 +332,7 @@ function messageFun (data, msgType) {
  *  name：数据名
  *  value：数据值
  * }])
- * upload.upload('http://xxxxx.uoload', (res, status) => {console.log(res, status)}, (stateEvent, status) => {stateEvent, status})
+ * upload.upload('http://xxxxx.uoload').then((res, status) => {console.log(res, status)}, (stateEvent, status) => {stateEvent, status})
  */
 const Uploader = class {
   constructor () {
@@ -331,45 +340,46 @@ const Uploader = class {
     this.datas = []
     this.task = ''
   }
-  upload (serverUrl, callBack, watchEvent) {
+  upload (serverUrl, watchEvent) {
     if (!isPlusReady) return mui.alert('系统未准备就绪')
     if (!serverUrl) return
-    let files = this.files
-    let datas = this.datas
-    if (!files.length) {
-      mui.alert('没有添加上传文件！')
-      return
-    }
-    let self = this
-    let task = app.uploader.createUpload(serverUrl, {method: 'POST'},
-      function (res, status) {
-        // 上传完成
-        if (status === 200) {
-          callBack && callBack(res, status)
-          mui.toast('上传成功')
-          self.clear()
-        } else {
-          consoleLog.log('上传失败')
-          console.debug(res, status)
-          callBack && callBack(res, status)
-          mui.toast('上传失败')
-        }
+    return new Promise((resolve, reject) => {
+      let files = this.files
+      let datas = this.datas
+      if (!files.length) {
+        mui.alert('没有添加上传文件！')
+        return
       }
-    )
-    for (let t = 0; t < datas.length; t++) {
-      let d = datas[t]
-      task.addData(d.name, d.value)
-    }
-    for (let i = 0; i < files.length; i++) {
-      let f = files[i]
-      task.addFile(f.path, {key: f.name})
-    }
-    watchEvent && task.addEventListener('statechanged', function onStateChanged (stateEvent, status) {
-      watchEvent(stateEvent, status)
-    }, false)
-    task.start()
-    consoleLog.log('task: ', task)
-    this.task = task
+      let self = this
+      let task = app.uploader.createUpload(serverUrl, {method: 'POST'},
+        function (res, status) {
+          // 上传完成
+          if (status === 200) {
+            resolve(res, status)
+            mui.toast('上传成功')
+            self.clear()
+          } else {
+            consoleLog.log('上传失败')
+            console.debug(res, status)
+            reject(res, status)
+            mui.toast('上传失败')
+          }
+        }
+      )
+      for (let t = 0; t < datas.length; t++) {
+        let d = datas[t]
+        task.addData(d.name, d.value)
+      }
+      for (let i = 0; i < files.length; i++) {
+        let f = files[i]
+        task.addFile(f.path, {key: f.name})
+      }
+      watchEvent && task.addEventListener('statechanged', function onStateChanged (stateEvent, status) {
+        watchEvent(stateEvent, status)
+      }, false)
+      task.start()
+      this.task = task
+    })
   }
   addFiles (fileObj) {
     if (!fileObj || typeof fileObj !== 'object') return
@@ -463,10 +473,8 @@ const Uploader = class {
  *   longitude: 22.61667
  *  }
  *  scene：'WXSceneSession'
- *  },
- *  (msg. share) => {console.log(msg, share)},
- *  (e, msg, share) => {console.log(e, msg, share)}
- * )
+ *  }
+ * ).then((msg. share) => {console.log(msg, share)}, (e, msg, share) => {console.log(e, msg, share)})
  */
 let Share = class {
   constructor () {
@@ -475,7 +483,7 @@ let Share = class {
   }
   init () {
     // 获取分享列表
-    app.share.getServices(function (s) {
+    app.share.getServices((s) => {
       let shares = {}
       for (let i in s) {
         let t = s[i]
@@ -488,49 +496,65 @@ let Share = class {
     })
   }
   // 微信分享
-  wxShare (option, successCallback, errorCallback) {
-    if (!isPlusReady) mui.alert('系统未准备就绪')
-    let wxShare = this.shares.weixin
-    if (!wxShare) return mui.alert('找不到微信')
-    this.activeShare(option, wxShare, successCallback, errorCallback)
-  }
-  // QQ分享
-  QQShare (option, successCallback, errorCallback) {
-    if (!isPlusReady) mui.alert('系统未准备就绪')
-    let qqShare = this.shares.qq
-    if (!qqShare) return mui.alert('找不到QQ')
-    this.activeShare(option, qqShare, successCallback, errorCallback)
-  }
-  // 使用系统组件发送分享
-  sendWithSystem (option, successCallback, errorCallback) {
-    if (!isPlusReady) mui.alert('系统未准备就绪')
-    let msg = this.getOption(option)
-    app.share.sendWithSystem(msg, () => {
-      successCallback && successCallback()
-    }, (e) => {
-      errorCallback && errorCallback(e)
+  weixin (option = {}) {
+    return new Promise((resolve, reject) => {
+      this.activeShare('weixin', option, resolve, reject)
     })
   }
-  activeShare (option, share, successCallback, errorCallback) {
+  // QQ分享
+  qq (option) {
+    return new Promise((resolve, reject) => {
+      this.activeShare('qq', option, resolve, reject)
+    })
+  }
+  // 新浪微博
+  sinaweibo (option) {
+    return new Promise((resolve, reject) => {
+      this.activeShare('sinaweibo', option, resolve, reject)
+    })
+  }
+  // 腾讯微博
+  tencentweibo (option) {
+    return new Promise((resolve, reject) => {
+      this.activeShare('tencentweibo', option, resolve, reject)
+    })
+  }
+  // 使用系统组件发送分享
+  sendWithSystem (option) {
+    if (!isPlusReady) mui.alert('系统未准备就绪')
+    return new Promise((resolve, reject) => {
+      let msg = this.getOption(option)
+      app.share.sendWithSystem(msg, () => {
+        resolve(msg)
+      }, (e) => {
+        reject(e)
+      })
+    })
+  }
+  activeShare (key, option, resolve, reject) {
+    if (!isPlusReady) mui.alert('系统未准备就绪')
+    let share = this.shares[key]
+    if (!share) return mui.alert('找不到' + key)
+    this.sendMessage(option, share, resolve, reject)
+  }
+  sendMessage (option, share, resolve, reject) {
     let msg = this.getOption(option)
     // 发送分享
     if (share.authenticated) {
-      sendMessage()
+      fn()
     } else {
-      share.authorize(function () {
-        sendMessage()
-      }, function (e) {
+      share.authorize(fn, function (e) {
         consoleLog.log('认证授权失败：' + e.code + ' - ' + e.message)
         consoleLog.log(e)
         mui.alert('认证授权失败')
       })
     }
     // 发送分享信息
-    function sendMessage () {
+    function fn () {
       share.send(msg, () => {
-        successCallback && successCallback(msg, share)
+        resolve(msg, share)
       }, (e) => {
-        errorCallback && errorCallback(e, msg, share)
+        reject(e, msg, share)
       })
     }
   }
@@ -572,9 +596,7 @@ let Share = class {
  *  id: 'alipay'
  *  url: 'http://xxx.net.cn/payment/?payid='
  *  total: 10
- * },
- * (result) => {console.log(result)},
- * (e) => {console.log(e)})
+ * }).then((result) => {console.log(result)}, (e) => {console.log(e)})
  */
 let Payment = class {
   constructor () {
@@ -619,7 +641,7 @@ let Payment = class {
       }
     }
   }
-  pay (option, success, error) {
+  pay (option) {
     if (!isPlusReady) return mui.alert('系统未准备就绪')
     let id = option.id || ''
     let url = option.url || ''
@@ -637,23 +659,25 @@ let Payment = class {
     }
     url += '&appid=' + appid + '&total=' + total
     // 请求支付订单
-    this.paySend(url, id, success, error)
+    return new Promise((resolve, reject) => {
+      this.paySend(url, id, resolve, reject)
+    })
   }
-  paySend (url, id, success, error) {
+  paySend (url, id, resolve, reject) {
     // 请求支付订单
     initAjax({
       url: url,
       method: 'get'
     }).then((res) => {
       app.payment.request(this.channels[id], res.data, function (result) {
-        success && success(result)
+        resolve(result)
       }, function (e) {
         consoleLog.log('支付失败：[' + e.code + ']：' + e.message)
-        error && error(e)
+        reject(e)
       })
     }, (e) => {
       consoleLog.log('请求失败：[' + e.code + ']：' + e.message)
-      error && error(e)
+      reject(e)
     })
   }
 }
@@ -694,7 +718,7 @@ let Payment = class {
  *     }
  *   }
  * )
- * bar.start()
+ * bar.start().then((type, code, file) => {console.log(type, code, file)}, (e) => {console.log(e)})
  * bar.cancelScan()
  * bar.close()
  */
