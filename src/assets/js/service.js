@@ -1,7 +1,7 @@
 /**
  * @file 配置文件
  * @author Leo
- * @date 2017/05/23
+ * @date 2017/12/23
  */
 
 let serviceList = [
