@@ -147,8 +147,8 @@ function initAjax (option, loginFlag) {
  *  }).(result) => {console.log(result)}, (result) => {console.log(result)})
  */
 function camera (option = {}) {
-  if (!isPlusReady) return mui.alert('相机未准备就绪')
   return new Promise((resolve, reject) => {
+    if (!isPlusReady) return mui.alert('相机未准备就绪')
     let result = {
       resultCode: 1,
       data: {}
@@ -218,8 +218,8 @@ function camera (option = {}) {
  *  ).(result) => {console.log(result)}, (result) => {console.log(result)})
  */
 function gallery (option = {}) {
-  if (!isPlusReady) return mui.alert('系统未准备就绪')
   return new Promise((resolve, reject) => {
+    if (!isPlusReady) return mui.alert('系统未准备就绪！')
     let result = {
       resultCode: 1,
       data: {}
@@ -341,9 +341,9 @@ const Uploader = class {
     this.task = ''
   }
   upload (serverUrl, watchEvent) {
-    if (!isPlusReady) return mui.alert('系统未准备就绪')
-    if (!serverUrl) return
     return new Promise((resolve, reject) => {
+      if (!isPlusReady) return mui.alert('系统未准备就绪！')
+      if (!serverUrl) return
       let files = this.files
       let datas = this.datas
       if (!files.length) {
@@ -521,8 +521,8 @@ let Share = class {
   }
   // 使用系统组件发送分享
   sendWithSystem (option) {
-    if (!isPlusReady) mui.alert('系统未准备就绪')
     return new Promise((resolve, reject) => {
+      if (!isPlusReady) mui.alert('系统未准备就绪！')
       let msg = this.getOption(option)
       app.share.sendWithSystem(msg, () => {
         resolve(msg)
@@ -532,7 +532,7 @@ let Share = class {
     })
   }
   activeShare (key, option, resolve, reject) {
-    if (!isPlusReady) mui.alert('系统未准备就绪')
+    if (!isPlusReady) mui.alert('系统未准备就绪！')
     let share = this.shares[key]
     if (!share) return mui.alert('找不到' + key)
     this.sendMessage(option, share, resolve, reject)
@@ -642,24 +642,24 @@ let Payment = class {
     }
   }
   pay (option) {
-    if (!isPlusReady) return mui.alert('系统未准备就绪')
-    let id = option.id || ''
-    let url = option.url || ''
-    let total = option.total || 0
-    if (!id || !url) return mui.alert('支付参数不完整')
-    if (id === 'alipay' || id === 'wxpay') {
-      url += id
-    } else {
-      mui.alert('当前环境不支持此支付通道！')
-      return
-    }
-    let appid = app.runtime.appid
-    if (navigator.userAgent.indexOf('StreamApp') >= 0) {
-      appid = 'Stream'
-    }
-    url += '&appid=' + appid + '&total=' + total
-    // 请求支付订单
     return new Promise((resolve, reject) => {
+      if (!isPlusReady) return mui.alert('系统未准备就绪！')
+      let id = option.id || ''
+      let url = option.url || ''
+      let total = option.total || 0
+      if (!id || !url) return mui.alert('支付参数不完整')
+      if (id === 'alipay' || id === 'wxpay') {
+        url += id
+      } else {
+        mui.alert('当前环境不支持此支付通道！')
+        return
+      }
+      let appid = app.runtime.appid
+      if (navigator.userAgent.indexOf('StreamApp') >= 0) {
+        appid = 'Stream'
+      }
+      url += '&appid=' + appid + '&total=' + total
+      // 请求支付订单
       this.paySend(url, id, resolve, reject)
     })
   }
@@ -729,8 +729,8 @@ let Barcode = class {
     this.options = options || {}
   }
   start (startOption) {
-    if (!isPlusReady) return mui.alert('系统未准备就绪')
     return new Promise((resolve, reject) => {
+      if (!isPlusReady) return mui.alert('系统未准备就绪！')
       let id = this.id
       let options = this.options
       if (typeof id !== 'string') return
@@ -792,6 +792,63 @@ let Barcode = class {
   }
 }
 
+let Upgrading = class {
+  constructor () {
+    // 版本是否通过了校验
+    this.check = false
+    // 资源包是否已下载好
+    this.isLoaded = false
+  }
+  checkVersion (option) {
+    if (!isPlusReady) return mui.alert('系统未准备就绪！')
+    this.check = true
+  }
+  loadPackage (url, watchStatu) {
+    return new Promise((resolve, reject) => {
+      if (!this.check) return mui.toast('版本检测未通过！')
+      if (!url) return
+      app.nativeUI.showWaiting('下载中...')
+      console.log(url)
+      let dtask = app.downloader.createDownload(url, {
+        method: 'GET'
+      }, (d, status) => {
+        app.nativeUI.closeWaiting()
+        if (status === 200) {
+          console.log('Download wgtu success: ' + d.filename, d)
+          mui.toast('下载完成！')
+          this.isLoaded = true
+          resolve(d, status)
+        } else {
+          console.log('Download wgtu failed: ' + status)
+          reject(d, status)
+        }
+      })
+      dtask.addEventListener('statechanged', function (d, status) {
+        console.log('statechanged: ' + d.state)
+        watchStatu && watchStatu(d, status)
+      })
+      dtask.start()
+    })
+  }
+  install (packagePath) {
+    return new Promise((resolve, reject) => {
+      if (!this.check) return mui.toast('版本检测未通过！')
+      if (!this.isLoaded) return mui.toast('没有检测到资源文件！')
+      app.nativeUI.showWaiting('正在安装...')
+      app.runtime.install(packagePath, {}, function () {
+        app.nativeUI.closeWaiting()
+        mui.toast('安装完成！')
+        resolve(app.runtime.restart)
+      }, function (e) {
+        app.nativeUI.closeWaiting()
+        mui.alert('升级失败: ' + e.code)
+        reject(e)
+        // code为-1205是版本过低
+      })
+    })
+  }
+}
+
 let api = {
   initAjax: initAjax,
   camera: camera,
@@ -802,6 +859,7 @@ let api = {
   Uploader: Uploader,
   Share: Share,
   Payment: Payment,
-  Barcode: Barcode
+  Barcode: Barcode,
+  Upgrading: Upgrading
 }
 export {api}
