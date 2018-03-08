@@ -22,7 +22,7 @@
                 <span>V&nbsp;1.0</span>
               </div>
             </div>
-            <div class="list-base-information activeT">
+            <div class="list-base-information activeT" @click="updata">
               <div class="list-item-left">检查更新</div>
               <div class="mui-navigate-right">
               </div>
@@ -79,6 +79,7 @@
   }
 </style>
 <script>
+  import {api} from '@/assets/js/api'
   export default{
     data () {
       return {
@@ -88,6 +89,21 @@
     methods: {
       activeItem () {
         this.$router.push('/versionInformation')
+      },
+      updata () {
+        let upgrading = new api.Upgrading()
+        upgrading.checkVersion()
+        upgrading.loadPackage('http://192.168.94.142:8020/app/dist/H5FCFB00B.wgt').then((file) => {
+          if (file.filename) {
+            upgrading.install().then((restart) => {
+              window.plus.nativeUI.alert('资源更新成功！', function () {
+                window.plus.nativeUI.confirm('是否立刻重启?', function () {
+                  restart()
+                })
+              })
+            })
+          }
+        })
       }
     }
   }

@@ -84,8 +84,6 @@
   }
 </style>
 <script>
-  import {mapActions} from 'vuex'
-  import * as types from '@/store/mutation-types'
   export default{
     data () {
       return {
@@ -99,33 +97,11 @@
     },
     computed: {},
     methods: {
-      ...mapActions([
-        'ACTION_LOGIN',
-        'ACTION_GET_LOAD_DICT_CACHE',
-        'ACTION_GET_LOAD_ORG_CACHE'
-      ]),
       changeCheckFlag () {
         this.checkFlag = !this.checkFlag
       },
       login () {
-        this.$store.commit(types.SET_LOADING_FLAG, true)
-        this.ACTION_LOGIN(this.loginParam).then((data) => {
-          if (data && data.access_token) {
-            window.localStorage.setItem('__ACCESS_TOKEN', data.access_token)
-            Promise.all([this.ACTION_GET_LOAD_DICT_CACHE(), this.ACTION_GET_LOAD_ORG_CACHE()]).then((a, b, c) => {
-              this.$store.commit(types.SET_HOME_MENU_FLAG, '/home/message')
-              this.$router.push('/home/message')
-              this.$store.commit(types.SET_LOADING_FLAG, false)
-            }, () => {
-              this.$store.commit(types.SET_LOADING_FLAG, false)
-            })
-          } else {
-            this.$store.commit(types.SET_LOADING_FLAG, false)
-          }
-        }, (data) => {
-          this.$store.commit(types.SET_LOADING_FLAG, false)
-          console.log('失败', data)
-        })
+        this.$router.push('test')
       }
     },
     mounted () {

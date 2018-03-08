@@ -1,33 +1,29 @@
 <template>
   <div>
     <router-view/>
-    <loading v-show="loading.flag"></loading>
+    <loading v-show="$store.state.base.loading.flag"></loading>
   </div>
 </template>
 
 <script>
-  import {mapActions} from 'vuex'
   import loading from '@/components/public/loading.vue'
   export default {
     name: 'app',
     data () {
       return {
-        loading: this.$store.state.base.loading
       }
     },
-    methods: {
-      ...mapActions([
-        'ACTION_LOGIN',
-        'ACTION_GET_LOAD_DICT_CACHE',
-        'ACTION_GET_LOAD_ORG_CACHE'
-      ])
-    },
+    methods: {},
     components: {
       loading
     },
     mounted () {
-//      this.ACTION_GET_LOAD_DICT_CACHE()
-//      this.ACTION_GET_LOAD_ORG_CACHE()
+      this.$store.commit('setHeaders', {
+        token: 'auidotf784qfgtfgasgdfjsd'
+      })
+      this._http.login({}).then(() => {}, () => {
+        console.log('error')
+      })
     }
   }
 </script>

@@ -4,7 +4,7 @@
  * date 2018/01/20
  * */
 import contentTitle from '@/components/public/title.vue'
-var myPlugin = {}
+let myPlugin = {}
 myPlugin.config = {}
 
 myPlugin.install = (Vue) => {
