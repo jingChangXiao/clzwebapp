@@ -6,9 +6,6 @@ import router from './router/index'
 import store from './store/index'
 import http from '../src/assets/api'
 import {myPlugin} from './plugin'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-Vue.use(ElementUI)
 Vue.use(myPlugin)
 console.log(http)
 Vue.prototype._http = http

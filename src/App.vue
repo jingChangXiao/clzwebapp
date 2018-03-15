@@ -51,7 +51,6 @@
     -webkit-font-smoothing: antialiased;
   }
   @import "../static/css/index.css";
-  /*@import "../static/fonts/iconfont.css";*/
   .app-page-root {
     height: 100vh;
     overflow: hidden;
