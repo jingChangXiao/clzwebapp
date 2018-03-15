@@ -57,7 +57,10 @@
     [{id: 0, value: '班别1'}, {id: 22, value1: '片区22'}, {id: 8, value2: '科目22'}, {id: 8, value2: '呜'}, {id: 8, value3: 70, add: true}, {id: 8, add: true, value4: '80％'}],
     [{id: 0, value: '班别1'}, {id: 22, value1: '片区22'}, {id: 9, value2: '科目22'}, {id: 9, value2: '呜'}, {id: 9, value3: 80, add: true}, {id: 9, add: true, value4: '80％'}],
     [{id: 0, value: '班别1'}, {id: 22, value1: '片区22'}, {id: 10, value2: '科目22'}, {id: 10, value2: '呜'}, {id: 10, value3: 90, add: true}, {id: 10, add: true, value4: '80％'}],
-    [{id: 0, value: '班别1'}, {id: 33, value1: '片区22'}, {id: 11, value2: '科目22'}, {id: 11, value2: '呜'}, {id: 11, value3: 90, add: true}, {id: 11, add: true, value4: '80％'}]
+    [{id: 1, value: '班别2'}, {id: 33, value1: '片区22'}, {id: 11, value2: '科目11'}, {id: 11, value2: '呜'}, {id: 11, value3: 90, add: true}, {id: 11, add: true, value4: '80％'}],
+    [{id: 1, value: '班别2'}, {id: 33, value1: '片区22'}, {id: 12, value2: '科目11'}, {id: 12, value2: '呜'}, {id: 12, value3: 90, add: true}, {id: 12, add: true, value4: '80％'}],
+    [{id: 1, value: '班别2'}, {id: 33, value1: '片区22'}, {id: 13, value2: '科目22'}, {id: 13, value2: '呜'}, {id: 13, value3: 90, add: true}, {id: 13, add: true, value4: '80％'}],
+    [{id: 1, value: '班别2'}, {id: 33, value1: '片区22'}, {id: 14, value2: '科目22'}, {id: 14, value2: '呜'}, {id: 14, value3: 90, add: true}, {id: 14, add: true, value4: '80％'}]
   ]
   let cacheData = []
   let cacheId = []
@@ -106,7 +109,8 @@
           let t = dataO[index + handelNum]
           let t1 = dataO[index + handelNum + 1]
           if (!t1) return
-          if (t[0].id === t1[0].id && t[1].id !== t1[1].id) {
+          // if (t[0].id === t1[0].id && t[1].id !== t1[1].id) {
+          if (t[1].id !== t1[1].id) {
             let mark = index + handelNum
             // debugger
             let arr = []

@@ -29,34 +29,31 @@
 </script>
 
 <style lang="less">
+  @font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/materialicons/v36/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2) format('woff2');
+  }
+  .material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+  }
+  @import "../static/css/index.css";
+  /*@import "../static/fonts/iconfont.css";*/
   .app-page-root {
     height: 100vh;
     overflow: hidden;
-  }
-
-  .app-page-content {
-    overflow: auto;
-    height: 100%;
-    padding-bottom: 56px;
-  }
-
-  .app-paper-bottom {
-    background: red;
-    position: fixed;
-    bottom: 0px;
-    width: 100%;
-  }
-
-  .app-layout-title {
-    position: fixed;
-    top: 0px;
-    width: 100%;
-    z-index: 100;
-  }
-
-  .app-layout-content {
-    position: absolute;
-    top: 55px;
-    width: 100%;
   }
 </style>
