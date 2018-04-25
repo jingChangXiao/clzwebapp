@@ -1,0 +1,57 @@
+/*全局样式*/
+body{
+  background-color: #ffffff;
+  font-size: 15px;
+  color: #4e4e4e;
+}
+.app-page-root {
+  height: 100vh;
+  overflow:hidden;
+  box-sizing: border-box;
+  padding-top: 45px;
+}
+.body-content{
+  background-color: #ffffff;
+}
+.full-content {
+  width: 100%;
+  height: 100%;
+}
+.marginTop15 {
+  margin-top: 15px;
+}
+.marginTop20 {
+  margin-top: 20px;
+}
+.marginTop25 {
+  margin-top: 25px;
+}
+input::-webkit-input-placeholder {
+  color:#999999;
+}
+input:-moz-placeholder {
+  color:#999999;
+}
+input::-moz-placeholder {
+  color:#999999;
+}
+input:-ms-input-placeholder {
+  color:#999999;
+}
+.demo-flat-button {
+  height: 45px;
+  line-height: 45px;
+  color: white;
+  font-size: 16px;
+  margin-top: 25px;
+  border-radius: 22px;
+  text-align: center;
+  background-color: #41bdc7;
+}
+.demo-flat-button.active:active {
+  background-color: #41bdc7a6;
+}
+.disabled {
+  background-color: #dbdbdb;
+  color: #ffffff;
+}

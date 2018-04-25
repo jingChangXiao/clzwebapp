@@ -1,0 +1,26 @@
+/**
+* @file 文件说明
+* @author xjc
+* @date
+*/
+<template>
+  <div class="full-content">
+
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'class',
+    data () {
+      return {
+      }
+    },
+    created () {},
+    mounted () {},
+    methods: {}
+  }
+</script>
+
+<style lang="less" rel="stylesheet/less" scoped>
+</style>

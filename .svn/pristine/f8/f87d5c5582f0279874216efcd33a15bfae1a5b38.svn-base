@@ -1,0 +1,50 @@
+/**
+* @file 注册页
+* @author xjc
+* @date
+*/
+<template>
+  <div class="register">
+    <div class="div-login-position">
+      <div class="login-logo-top">
+        <img :src="loginLogo">
+      </div>
+      <div>
+        <div class="form-input-div">
+          <input class="form-input" placeholder="请输入手机号码" type="text" v-model="loginParam.username"/>
+        </div>
+        <div class="form-input-div marginTop20">
+          <input class="form-input" placeholder="请输入验证码" type="text" v-model="loginParam.code"/>
+        </div>
+        <div class="form-input-div marginTop20">
+          <input class="form-input" placeholder="请输入验证码" type="text" v-model="loginParam.code"/>
+        </div>
+        <div class="form-input-div marginTop20">
+          <input class="form-input" placeholder="请输入验证码" type="text" v-model="loginParam.code"/>
+        </div>
+      </div>
+      <div class="marginTop25"></div>
+      <div class="login-btn">
+        <div class="demo-flat-button toRight" @click="onLogin">登录</div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'register',
+    data () {
+      return {}
+    },
+    created () {
+    },
+    mounted () {
+    },
+    methods: {}
+  }
+</script>
+
+<style lang="less" rel="stylesheet/less" scoped>
+
+</style>

@@ -1,0 +1,16 @@
+<template>
+  <div class="coachAuth"></div>
+</template>
+
+<script>
+  export default {
+    name: 'coachAuth',
+    data () {
+      return {}
+    },
+    
+  }
+</script>
+
+<style>
+</style>

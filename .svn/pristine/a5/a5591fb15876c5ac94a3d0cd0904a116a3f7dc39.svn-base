@@ -1,0 +1,112 @@
+<template>
+  <div class="order">
+    <my-header :title="title" right_text="" @right_left="back" hideBack="true" class="noShadow"></my-header>
+    <ul class="tabs">
+      <li v-for="(item,index) in tabs" :class='{active:curTab == index}' @click="tabTransform"><span>{{item}}</span></li>
+    </ul>
+    <v-scroller
+      class="scroller"
+      ref="scroller"
+      :pullDown='scroller.pullDown'
+      :pullUp='scroller.pullUp'
+      @pullingDown='pullDown'
+      @pullingUp='pullUp'
+      @scroll="scroll">
+      <ul>
+        <li v-for="item in 50" isClick >{{item}}</li>
+      </ul>
+    </v-scroller>
+  </div>
+</template>
+
+<script>
+	import scroller from '@/components/public/scrollWrapper'
+export default {
+  name: 'order',
+  data () {
+    return {
+      title: '我的订单',
+      tabs: ['全部', '已完成', '待完成', '已取消'],
+      curTab: 0,
+      scroller: {
+        pullDown: {
+          threshold: 50,
+          stop: 30
+        },
+        pullUp: {
+          threshold: 50,
+          stop: 30
+        }
+      }
+    }
+  },
+  methods: {
+    tabTransform (index) {
+      this.curTab = index
+    },
+    back () {},
+    scroll (pos) {},
+    pullDown () {
+      setTimeout(() => {
+        this.$refs.scroller.finishPullDown()
+      }, 2000)
+    },
+    pullUp () {
+      setTimeout(() => {
+        this.$refs.scroller.finishPullUp()
+      }, 2000)
+    }
+  },
+  components: {
+    'v-scroller': scroller
+  }
+}
+</script>
+
+<style scoped lang="less">
+@import '../../../static/css/mixin'
+.order{
+  background-color: @mainBgColor;
+  position:relative;
+}
+.tabs{
+  margin-top:1px;
+  width: 100%;
+  height:0.6rem;
+  background-color: #fff;
+  .flex;
+  .flex-pack-justify;
+  li{
+    line-height: 0.6rem;
+    text-align: center;
+    font-size: 0.16rem;
+    color: #333;
+    .flex-1;
+    span{
+      padding: 0 5px;
+      display: inline-block;
+      height: 100%;
+      box-sizing: border-box;
+      border-bottom: 2px solid transparent;
+    }
+  }
+  li:hover{
+    span{
+      color: @mainColor;
+      border-color: @mainColor;
+    }
+  }
+  li.active{
+    span{
+      color: @mainColor;
+      border-color: @mainColor;
+    }
+  }
+}
+.scroller{
+  position: absolute;
+  width: 100%;
+  top: 1.05rem;
+  bottom: 0;
+}
+</style>

@@ -1,0 +1,80 @@
+/**
+* @file 文件说明
+* @author xjc
+* @date
+*/
+<template>
+  <div class="countDown" id="countDown" @click="begin">
+    {{time}}
+  </div>
+</template>
+
+<script>
+  let timeTask = ''
+  let cacheText = ''
+  export default {
+    name: 'countDown',
+    props: {
+      timeEnd: {
+        type: Number,
+        default: 60
+      },
+      text: {
+        type: String,
+        default: ''
+      }
+    },
+    data () {
+      return {
+        time: ''
+      }
+    },
+    created () {
+      this.time = this.text
+      cacheText = this.text
+    },
+    mounted () {},
+    beforeDestroy () {
+      this.clearTask()
+    },
+    methods: {
+      // 开始倒计时
+      begin () {
+        if (timeTask) return
+        this.$emit('handleTime', 'start')
+        let timeEnd = this.timeEnd
+        this.time = timeEnd + 's'
+        timeTask = setInterval(() => {
+          timeEnd--
+          console.log(timeEnd)
+          this.time = timeEnd + 's'
+          if (timeEnd === 0) {
+            this.clearTask()
+            this.time = this.text
+            this.$emit('handleTime', 'end')
+          }
+        }, 1000)
+      },
+      clearTask () {
+        if (timeTask !== '') {
+          clearInterval(timeTask)
+          timeTask = ''
+          if (this.time === undefined) {
+            document.querySelector('#countDown').innerText = cacheText
+          }
+        }
+      }
+    }
+  }
+</script>
+
+<style lang="less" rel="stylesheet/less" scoped>
+  .countDown {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    letter-spacing: 1px;
+  }
+</style>

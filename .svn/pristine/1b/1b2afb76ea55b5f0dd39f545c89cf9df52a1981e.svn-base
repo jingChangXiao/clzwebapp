@@ -1,0 +1,129 @@
+/**
+* @file 文件说明
+* @author xjc
+* @date
+*/
+<template>
+  <div class="home_index">
+    <content-header :title="title" right_text="消息" @right_click="rightClick" @right_left="" hideBack="true"></content-header>
+    <router-view class="homePage"></router-view>
+    <div class="footer-icons">
+      <div v-for="(item, index) in icons" @click="handleIcon(item, index)" :key="index" :class="{selectIcon: item.select}">
+        <i class="iconfont" :class="item.icon"></i>
+        <div class="icon-router">{{item.text}}</div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  import datapicker from '../../components/public/datapicker'
+  import scroll from '../../components/public/scroll'
+  let cacheIndex
+  export default {
+    name: 'home',
+    components: {datapicker, scroll},
+    data () {
+      return {
+        title: '首页',
+        icons: [
+          {
+            text: '首页',
+            icon: 'icon-home_f',
+            router: 'index',
+            select: true
+          },
+          {
+            text: '学员',
+            icon: 'icon-students',
+            router: 'students',
+            select: false
+          },
+          {
+            text: '排班',
+            icon: 'icon-class',
+            router: 'class',
+            select: false
+          },
+          {
+            text: '我的',
+            icon: 'icon-user_f',
+            router: 'self',
+            select: false
+          }
+        ]
+      }
+    },
+    created () {
+      cacheIndex = 0
+    },
+    mounted () {},
+    methods: {
+      rightClick () {
+        this.turnTo('login')
+      },
+      handleIcon (item, index) {
+        item.select = true
+        this.title = item.text
+        if (cacheIndex !== undefined) this.icons[cacheIndex].select = false
+        cacheIndex = index
+        this.turnTo({name: item.router})
+      }
+    }
+  }
+</script>
+
+<style lang="less" rel="stylesheet/less" scoped>
+  .home_index {
+    .homePage {
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      padding-bottom: 50px;
+      position: relative;
+      .swipe {
+        height: 200px;
+      }
+      .icon-menus {
+        width: 100%;
+        height: 100px;
+        background-color: #fff;
+      }
+      .scheduling {
+        flex: auto;
+      }
+    }
+    .footer-icons {
+      width: 100%;
+      height: 50px;
+      font-size: 12px;
+      color: #4e4e4e;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background-color: white;
+      box-shadow: 0 0 10px 0 rgba(138, 138, 138, 0.32);
+      display: flex;
+      flex-direction: row;
+      .selectIcon {
+        color: #f38748;
+      }
+      > div:active {
+        color: rgba(243, 135, 72, 0.79);
+      }
+      > div {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        padding: 0 15px;
+        i {
+          font-size: 25px;
+        }
+      }
+    }
+  }
+</style>

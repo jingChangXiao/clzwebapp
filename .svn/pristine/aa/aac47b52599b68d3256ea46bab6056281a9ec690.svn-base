@@ -1,0 +1,92 @@
+/**
+* @file 文件说明
+* @author xjc
+* @date
+*/
+<template>
+  <div>
+    <content-header title="首页" right_text="编辑" @right_click="rightClick" @right_left="" hideBack=""></content-header>
+    <div class="full-content homePage">
+      <div class="swipe">
+        <mt-swipe :auto="4000">
+          <mt-swipe-item>
+            <img src="/static/img/user_img_m.png" alt="">1
+          </mt-swipe-item>
+          <mt-swipe-item>2</mt-swipe-item>
+          <mt-swipe-item>
+            <img src="/static/img/user_img_w.png" alt="">3
+          </mt-swipe-item>
+        </mt-swipe>
+      </div>
+      <div class="icon-menus">
+        <scroll></scroll>
+      </div>
+      <div class="scheduling">
+        <datapicker></datapicker>
+      </div>
+      <div class="footer-icons"></div>
+    </div>
+  </div>
+</template>
+
+<script>
+  import datapicker from '../../components/public/datapicker'
+  import scroll from '../../components/public/scroll'
+  export default {
+    name: '',
+    components: {datapicker, scroll},
+    data () {
+      return {
+      }
+    },
+    created () {},
+    mounted () {
+      // let promise = async () => {
+      //   console.log(1)
+      //   await this._http.login({}).then(() => {
+      //     console.log(2)
+      //   }, () => {
+      //     console.log(2)
+      //   })
+      //   console.log(3)
+      // }
+      // promise().then(() => {
+      //   console.log(4)
+      // })
+    },
+    methods: {
+      rightClick () {
+        this.$router.push('test')
+      }
+    }
+  }
+</script>
+
+<style lang="less" rel="stylesheet/less" scoped>
+  .homePage {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding-bottom: 50px;
+    position: relative;
+    .swipe {
+      height: 200px;
+    }
+    .icon-menus {
+      width: 100%;
+      height: 100px;
+      background-color: #fff;
+    }
+    .scheduling {
+      flex: auto;
+    }
+    .footer-icons {
+      width: 100%;
+      height: 50px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background-color: #484848;
+    }
+  }
+</style>

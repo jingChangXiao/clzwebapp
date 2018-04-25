@@ -1,0 +1,9 @@
+import home from '@/pages/home/home'
+export default [
+  {
+    path: '/home',
+    name: 'home',
+    component: home,
+    children: []
+  }
+]

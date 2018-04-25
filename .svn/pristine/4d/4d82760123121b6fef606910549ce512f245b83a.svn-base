@@ -1,0 +1,195 @@
+{
+  "status": true,
+  "code": 200,
+  "total": 1,
+  "message": "操作成功",
+  "data": {
+    "dataTitle": [
+      {"id": "col_bglx", "name": "变更类型"},
+      {"id": "col_pq", "name": "片区"},
+      {"id": "col_zgcc", "name": "主观出错"},
+      {"id": "col_kgcc", "name": "客观出错"},
+      {"id": "col_xj", "name": "小计"}
+    ],
+    "data": [
+      [
+        {"id": "学员信息", "col_bglx": "学员信息", "style": {"color": "#ee8d38"}},
+        {"id": "2017120817085980e527b2f1634519bcd989542ee955d4", "col_pq": "2017120817085980e527b2f1634519bcd989542ee955d4"},
+        {"add": true, "col_zgcc": 10},
+        {"add": true, "col_kgcc": 2},
+        {"add": true, "col_xj": 12}
+      ],
+      [
+        {"id": "学员信息", "col_bglx": "学员信息"},
+        {"id": "2017120817085900f9c0b21162434997e356976cb37814", "col_pq": "2017120817085900f9c0b21162434997e356976cb37814"},
+        {"add": true, "col_zgcc": 8},
+        {"add": true, "col_kgcc": 1},
+        {"add": true, "col_xj": 9}
+      ],
+      [
+        {"id": "门店变更", "col_bglx": "门店变更"},
+        {"id": "2017120817085980e527b2f1634519bcd989542ee955d4", "col_pq": "2017120817085980e527b2f1634519bcd989542ee955d4"},
+        {"add": true, "col_zgcc": 0},
+        {"add": true, "col_kgcc": 6},
+        {"add": true, "col_xj": 6}
+      ],
+      [
+        {"id": "门店变更", "col_bglx": "门店变更"},
+        {"id": "2017120817085900f9c0b21162434997e356976cb37814", "col_pq": "2017120817085900f9c0b21162434997e356976cb37814"},
+        {"add": true, "col_zgcc": 0},
+        {"add": true, "col_kgcc": 5},
+        {"add": true, "col_xj": 5}
+      ],
+      [
+        {"id": "门店变更", "col_bglx": "门店变更"},
+        {"id": "2017120817085900f9c0b21162434997e356976cb37812", "col_pq": "2017120817085900f9c0b21162434997e356976cb37812"},
+        {"add": true, "col_zgcc": 1},
+        {"add": true, "col_kgcc": 3},
+        {"add": true, "col_xj": 3}
+      ],
+      [
+        {"id": "上课情况", "col_bglx": "上课情况"},
+        {"id": "2017120817085900f9c0b21162434997e356976cb37814", "col_pq": "2017120817085900f9c0b21162434997e356976cb37814"},
+        {"add": true, "col_zgcc": 2},
+        {"add": true, "col_kgcc": 5},
+        {"add": true, "col_xj": 7}
+      ],
+      [
+        {"id": "考试批复", "col_bglx": "考试批复"},
+        {"id": "2017120817085980e527b2f1634519bcd989542ee955d4", "col_pq": "2017120817085980e527b2f1634519bcd989542ee955d4"},
+        {"add": true, "col_zgcc": 2},
+        {"add": true, "col_kgcc": 1},
+        {"add": true, "col_xj": 3}
+      ],
+      [
+        {"id": "考试批复", "col_bglx": "考试批复"},
+        {"id": "2017120817085900f9c0b21162434997e356976cb37814", "col_pq": "2017120817085900f9c0b21162434997e356976cb37814"},
+        {"add": true, "col_zgcc": 7},
+        {"add": true, "col_kgcc": 5},
+        {"add": true, "col_xj": 12}
+      ],
+      [
+        {
+        "id": "考试成绩",
+        "col_bglx": "考试成绩"
+      },
+        {
+          "id": "2017120817085900f9c0b21162434997e356976cb37814",
+          "col_pq": "2017120817085900f9c0b21162434997e356976cb37814"
+        },
+        {
+          "add": true,
+          "col_zgcc": 5
+        },
+        {
+          "add": true,
+          "col_kgcc": 0
+        },
+        {
+          "add": true,
+          "col_xj": 5
+        }
+      ],
+      [
+        {
+        "id": "教练",
+        "col_bglx": "教练"
+      },
+        {
+          "id": "2017120817085980e527b2f1634519bcd989542ee955d4",
+          "col_pq": "2017120817085980e527b2f1634519bcd989542ee955d4"
+        },
+        {
+          "add": true,
+          "col_zgcc": 0
+        },
+        {
+          "add": true,
+          "col_kgcc": 5
+        },
+        {
+          "add": true,
+          "col_xj": 5
+        }
+      ],
+      [
+        {
+        "id": "教练",
+        "col_bglx": "教练"
+      },
+        {
+          "id": "2017120817085900f9c0b21162434997e356976cb37814",
+          "col_pq": "2017120817085900f9c0b21162434997e356976cb37814"
+        },
+        {
+          "add": true,
+          "col_zgcc": 0
+        },
+        {
+          "add": true,
+          "col_kgcc": 10
+        },
+        {
+          "add": true,
+          "col_xj": 10
+        }
+      ],
+      [
+        {
+        "id": "撤销办证",
+        "col_bglx": "撤销办证"
+        },
+        {
+          "id": "2017120817085980e527b2f1634519bcd989542ee955d4",
+          "col_pq": "2017120817085980e527b2f1634519bcd989542ee955d4"
+        },
+        {
+          "add": true,
+          "col_zgcc": 0
+        },
+        {
+          "add": true,
+          "col_kgcc": 1
+        },
+        {
+          "add": true,
+          "col_xj": 1
+        }
+      ],
+      [
+        {
+        "id": "撤销办证",
+        "col_bglx": "撤销办证"
+        },
+        {
+          "id": "2017120817085900f9c0b21162434997e356976cb37814",
+          "col_pq": "2017120817085900f9c0b21162434997e356976cb37814"
+        },
+        {
+          "add": true,
+          "col_zgcc": 0
+        },
+        {
+          "add": true,
+          "col_kgcc": 5
+        },
+        {
+          "add": true,
+          "col_xj": 5
+        }
+      ]
+    ],
+    "data1": [
+      {"col_bglx": "学员信息", "col_pq": "2017120817", "col_zgcc": 11, "col_kgcc": 22, "col_xj": 33},
+      {"col_bglx": "学员信息1", "col_pq": "2017120817", "col_zgcc": 11, "col_kgcc": 22, "col_xj": 33},
+      {"col_bglx": "学员信息2", "col_pq": "2017120817", "col_zgcc": 11, "col_kgcc": 22, "col_xj": 33},
+      {"col_bglx": "学员信息3", "col_pq": "2017120817", "col_zgcc": 11, "col_kgcc": 22, "col_xj": 33},
+      {"col_bglx": "学员信息4", "col_pq": "2017120817", "col_zgcc": 11, "col_kgcc": 22, "col_xj": 33},
+      {"col_bglx": "学员信息5", "col_pq": "2017120817", "col_zgcc": 11, "col_kgcc": 22, "col_xj": 33},
+      {"col_bglx": "学员信息6", "col_pq": "2017120817", "col_zgcc": 11, "col_kgcc": 22, "col_xj": 33},
+      {"col_bglx": "学员信息7", "col_pq": "2017120817", "col_zgcc": 11, "col_kgcc": 22, "col_xj": 33}
+    ]
+  },
+  "encode": true,
+  "exceptionClass": null
+}

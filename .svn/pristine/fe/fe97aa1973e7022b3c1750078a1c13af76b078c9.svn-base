@@ -1,0 +1,76 @@
+/**
+* @file 文件说明
+* @author xjc
+* @date
+*/
+<template>
+  <div class="resetPassword">
+    <content-header title="重置密码"></content-header>
+    <div class="div-login-position">
+      <div>
+        <div class="form-input-div">
+          <span>手机号</span><input class="form-input" placeholder="请输入手机号码" type="text" v-model="loginParam.username"/>
+        </div>
+        <div class="form-input-div marginTop20">
+          <span>验证码</span><input class="form-input check-code" placeholder="请输入验证码" type="text" v-model="loginParam.code"/><div>获取验证码</div>
+        </div>
+        <div class="form-input-div marginTop20">
+          <span style="width: 30%;">设置密码</span><input style="width: 69%;" class="form-input" placeholder="请输入密码" type="password" v-model="loginParam.password"/>
+        </div>
+        <div class="form-input-div marginTop20">
+          <span style="width: 30%;">重复密码</span><input style="width: 69%;" class="form-input" placeholder="再次输入密码" type="password" v-model="loginParam.repeatPassword"/>
+        </div>
+      </div>
+      <div class="login-btn">
+        <div class="demo-flat-button toRight" @click="onLogin">注册</div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'resetPassword',
+    data () {
+      return {
+        loginParam: {
+          username: '',
+          code: '',
+          password: '',
+          repeatPassword: ''
+        }
+      }
+    },
+    created () {
+    },
+    mounted () {
+    },
+    methods: {
+      onLogin () {}
+    }
+  }
+</script>
+
+<style lang="less" rel="stylesheet/less" scoped>
+  @import "../../../static/css/login.css";
+  .div-login-position {
+    padding-top: 15%;
+  }
+  .login-btn {
+    margin-top: 20%;
+    .demo-flat-button {
+      height: 45px;
+      line-height: 45px;
+      color: white;
+      font-size: 16px;
+      margin-top: 25px;
+      border-radius: 22px;
+      text-align: center;
+      /*box-shadow: 0 17px 62px 0 rgba(255,142,42,0.20);*/
+    }
+    .toRight {
+      background-image: -webkit-linear-gradient(to right, #ff7626, #ffab68);
+      background-image: linear-gradient(to right, #ff7626, #ffab68);
+    }
+  }
+</style>

@@ -1,0 +1,28 @@
+<template>
+  <div class="orderItem">
+    
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'orderItem',
+    props: {
+      data: {
+        type: Object,
+        default () {
+          return {}
+        }
+      }
+    }
+  }
+</script>
+
+<style scoped lang="less">
+.orderItem{
+  width: 100%;
+  margin-bottom: 0.1rem;
+  height: 1.11rem;
+  background-color: #fff;
+}
+</style>

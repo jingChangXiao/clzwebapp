@@ -1,0 +1,102 @@
+/**
+* @file 文件说明
+* @author xjc
+* @date
+*/
+<template>
+  <div class="selectCity">
+    <my-header title="选择城市"></my-header>
+    <div style="overflow:auto;height: 100%">
+      <div><a name="a">a</a></div>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+
+      <div><a name="b">b</a></div>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+
+      <div><a name="c">c</a></div>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+
+      <div><a name="d">d</a></div>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+
+      <div><a name="e">e</a></div>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+
+      <div><a name="f">f</a></div>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+
+      <div><a name="g">g</a></div>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+
+      <div><a name="i">i</a></div>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+      <my-cell title="是的"></my-cell>
+    </div>
+    <div class="bar" id="bar">
+      <div><a href="a">a</a></div>
+      <div><a href="b">b</a></div>
+      <div>c</div>
+      <div>d</div>
+      <div>e</div>
+      <div>f</div>
+      <div><a href="#g">g</a></div>
+      <div><a href="#i">i</a></div>
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'selectCity',
+    data () {
+      return {}
+    },
+    created () {},
+    mounted () {
+      let bar = document.querySelector('#bar')
+      bar.addEventListener('touchstart', function (event) {
+        console.log(event)
+      }, false)
+      bar.addEventListener('touchmove', function (event) {
+      }, false)
+      bar.addEventListener('touchend', function (event) {
+      }, false)
+    },
+    methods: {}
+  }
+</script>
+
+<style lang="less" rel="stylesheet/less" scoped>
+  .bar {
+    display: flex;
+    width: 15px;
+    height: 100%;
+    position: absolute;
+    right: 15px;
+    top: 40%;
+    flex-direction: column;
+  }
+</style>

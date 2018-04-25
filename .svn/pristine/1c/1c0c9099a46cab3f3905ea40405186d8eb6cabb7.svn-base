@@ -1,0 +1,11 @@
+const order = (resolve) => { require(['@/pages/order/order'], resolve) }
+
+const orderRoutes = [
+  {
+    name: 'order',
+    path: '/order',
+    component: order
+  }
+]
+
+export default orderRoutes

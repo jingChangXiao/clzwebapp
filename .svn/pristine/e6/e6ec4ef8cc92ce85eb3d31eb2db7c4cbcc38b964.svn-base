@@ -1,0 +1,37 @@
+/**
+* @file 注册页
+* @author xjc
+* @date
+*/
+<template>
+  <div class="login-index">
+    <my-header title="注册"></my-header>
+    <my-form></my-form>
+  </div>
+</template>
+<script>
+  import myForm from '../../components/login/form'
+  export default {
+    components: {myForm},
+    data () {
+      return {
+        loginLogo: '/static/img/user_img_m.png',
+        loginParam: {
+          username: '',
+          code: '',
+          password: '',
+          repeatPassword: ''
+        }
+      }
+    },
+    computed: {},
+    created () {},
+    mounted () {},
+    methods: {}
+  }
+</script>
+<style lang="less" rel="stylesheet/less" scoped>
+
+</style>
+
+

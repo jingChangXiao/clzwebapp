@@ -1,0 +1,30 @@
+.div-login-position {
+  margin: 0 50px;
+}
+.toRight {
+  background-image: -webkit-linear-gradient(to right, #ff7626, #ffab68);
+  background-image: linear-gradient(to right, #ff7626, #ffab68);
+}
+.div-login-position {
+  height: 100%;
+  margin: 0 50px;
+}
+.login-logo-top {
+  height: 33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.demo-flat-button {
+  height: 45px;
+  line-height: 45px;
+  color: white;
+  font-size: 16px;
+  margin-top: 25px;
+  border-radius: 22px;
+  text-align: center;
+  /*box-shadow: 0 17px 62px 0 rgba(255,142,42,0.20);*/
+}
+.login-logo-top img {
+  width: 45%;
+}
