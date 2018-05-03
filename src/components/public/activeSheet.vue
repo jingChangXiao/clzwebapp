@@ -14,7 +14,6 @@
             <div class="activeItem"
                  :key="index">{{item.name || ''}}</div>
             <i class="iconfont" :class="[{'icon-tick': item.selected}, {'icon-tick_outline': !item.selected}]"></i>
-            <!--<div class="border-bottom"></div>-->
           </div>
         </div>
         <div class="button" @click.stop.prevent="onButton">{{cancelText}}</div>

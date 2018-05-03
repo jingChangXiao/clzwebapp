@@ -2,7 +2,6 @@ document.addEventListener('deviceready', onDeviceready)
 window.JPush.init()
 window.JPush.setDebugMode(true)
 function onDeviceready () {
-  alert('aaaa')
   document.addEventListener('jpush.receiveRegistrationId', function (event) {
     alert('receiveRegistrationId' + JSON.stringify(event))
     try {

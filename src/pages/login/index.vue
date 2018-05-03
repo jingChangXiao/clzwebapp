@@ -66,7 +66,6 @@
     },
     mounted () {
       // console.log(this)
-      // this.$httpApis.login({})
       // this.$store.commit('setHeaders', {a: 1})
     },
     methods: {

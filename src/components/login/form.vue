@@ -45,7 +45,7 @@
     components: {countDown, graphicCode},
     data () {
       return {
-        loginLogo: '/static/img/logo@1.5x.png',
+        loginLogo: '../../../static/img/logo@1.5x.png',
         loginParam: {
           username: '',
           code: '',
