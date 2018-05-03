@@ -3,7 +3,7 @@
     <v-scroller class="scroller">
       <div class="userInfo">
         <div class="messageReminding">
-          <i class="iconfont icon-bell"></i>
+          <!--<i class="iconfont icon-bell"></i>-->
         </div>
         <div class="infoWrapper">
           <router-link to='/infoEdit' tag='div'>
