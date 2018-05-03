@@ -8,9 +8,7 @@
         <div class="infoWrapper">
           <router-link to='/infoEdit' tag='div'>
             <div class="cell avatar">
-              <div class="iconWrapper" style="display: inline-block;">
-                <img src="../../../static/img/user_img_m.png" />
-              </div><div class="cell right">
+              <div class="cell right">
                 <i class="iconfont icon-arrow_right"></i>
               </div>
             </div>
@@ -26,7 +24,7 @@
           </router-link>
         </div>
       </div>
-  
+
       <div class="functionList">
         <ul>
           <li v-for="item in userFuncList">
@@ -205,7 +203,7 @@
       }
     }
   }
-  
+
   .functionList {
     width: 100%;
     padding-left: 0.2rem;
@@ -249,5 +247,5 @@
       }
     }
   }
-  
+
 </style>
